@@ -1,7 +1,6 @@
 # Developer Guide
 
 **Complete guide for setting up, developing, and collaborating on Vipra Sethu**
-
 **Last Updated:** 2025-11-08
 
 ---
@@ -17,7 +16,10 @@
 7. [Collaboration Guide](#collaboration-guide)
 8. [Daily Workflow](#daily-workflow)
 9. [Working with Issues, Projects, and PRs](#working-with-issues-projects-and-prs)
-10. [Troubleshooting](#troubleshooting)
+10. [UI Component Guidelines](#ui-component-guidelines)
+11. [UI/UX Standards](#uiux-standards)
+12. [shadcn/ui Components](#shadcnui-components)
+13. [Troubleshooting](#troubleshooting)
 
 ---
 
@@ -27,16 +29,20 @@
 
 Install these tools before starting:
 
-**Node.js (v18 or later)**
+#### Node.js (v18 or later)**
+
 - JavaScript runtime that executes our code. Download from [nodejs.org](https://nodejs.org/)
 
-**pnpm (package manager)**
+#### pnpm (package manager)
+
 - Faster alternative to npm, saves disk space by sharing packages. Install with `npm install -g pnpm`
 
-**Git (version control)**
+#### Git (version control)
+
 - Tracks code changes and enables collaboration. Download from [git-scm.com](https://git-scm.com/)
 
-**VS Code (recommended editor)**
+#### VS Code / Windsurf / Cursor (recommended editor)
+
 - Code editor with great TypeScript support. Download from [code.visualstudio.com](https://code.visualstudio.com/)
 
 ### VS Code Extensions (Recommended)
@@ -221,20 +227,40 @@ rm -rf .next                         # Manually delete Next.js build cache
 
 ### Running Migrations
 
-Migrations must be run in order in your Supabase SQL Editor:
+**Prerequisites**: Enable required PostgreSQL extensions first:
+
+```sql
+CREATE EXTENSION IF NOT EXISTS pg_trgm;      -- Trigram similarity for fuzzy search
+CREATE EXTENSION IF NOT EXISTS postgis;      -- Geospatial queries
+```
+
+**Migrations must be run in order** in your Supabase SQL Editor:
 
 ```bash
 # 1. Open Supabase Dashboard → SQL Editor
-# 2. Run these files in order:
+# 2. Run these migration files in order:
 
-infra/supabase/01_schema.sql                    # Core tables (providers, admins, etc.)
-infra/supabase/02_policies.sql                  # Row Level Security policies
-infra/supabase/03_storage.sql                   # Photo storage bucket and policies
-infra/supabase/04_rpc_search.sql                # Search function with filters
-infra/supabase/05_admin_functions.sql           # Admin approval and audit functions
+infra/supabase/01_alter_providers_table.sql     # Adds columns to providers table
+infra/supabase/02_create_new_tables.sql         # Creates provider_photos, provider_rituals
+infra/supabase/03_update_rls_policies.sql       # Row Level Security policies
+infra/supabase/04_create_triggers.sql           # Auto-update timestamps, logging
+infra/supabase/05_update_rpc_functions.sql      # Search and admin functions
 infra/supabase/06_clean_taxonomy_tables.sql     # Category and sampradaya tables
 infra/supabase/07_clean_rpc_and_views.sql       # Updated search with taxonomy
+infra/supabase/08_fix_admins_policy.sql         # Admin table RLS fix
+
+# 3. Set up storage bucket (after migrations)
+infra/supabase/provider-photos-storage-policy.sql
 ```
+
+**Note**: The following files are **legacy/redundant** and should NOT be used:
+
+- `schema.sql` - Old initial schema (superseded by migrations)
+- `policies.sql` - Old RLS policies (superseded by `03_update_rls_policies.sql`)
+- `rpc_search_providers.sql` - Old search function (superseded by `05_update_rpc_functions.sql`)
+- `06_create_taxonomy_tables.sql` - Old version (use `06_clean_taxonomy_tables.sql` instead)
+
+**Full documentation**: See `infra/supabase/README.md` for detailed migration instructions and testing.
 
 ### Verifying Database Setup
 
@@ -413,13 +439,14 @@ test/add-unit-tests                 # Adding tests
 
 Follow this format for clear commit history:
 
-```
+```bash
 <type>: <short description>
 
 [optional body with more details]
 ```
 
 **Types:**
+
 - `feat` - New feature
 - `fix` - Bug fix
 - `refactor` - Code restructuring (no behavior change)
@@ -440,30 +467,34 @@ git commit -m "docs: add database migration guide to README"
 ### Pull Request Process
 
 1. **Create branch from main**
+
    ```bash
-   git checkout main
-   git pull
-   git checkout -b feat/your-feature
+   git checkout main # Switch to main branch
+   git pull          # Fetch and merge remote changes
+   git checkout -b feat/your-feature # Create and switch to new feature branch
    ```
 
 2. **Make changes and commit**
+
    ```bash
    # Make your changes
-   git add .
-   git commit -m "feat: add feature description"
+   git add . # Stage all changes
+   git commit -m "feat: add feature description" # Commit changes
    ```
 
 3. **Keep branch updated**
+
    ```bash
-   git checkout main
-   git pull
-   git checkout feat/your-feature
+   git checkout main # Switch to main branch
+   git pull          # Fetch and merge remote changes
+   git checkout feat/your-feature # Switch to feature branch
    git merge main              # Or: git rebase main
    ```
 
 4. **Push to GitHub**
+
    ```bash
-   git push -u origin feat/your-feature
+   git push -u origin feat/your-feature # Push feature branch to remote
    ```
 
 5. **Open Pull Request**
@@ -476,10 +507,11 @@ git commit -m "docs: add database migration guide to README"
    - Request reviewers
 
 6. **Address review feedback**
+
    ```bash
    # Make requested changes
-   git add .
-   git commit -m "fix: address review comments"
+   git add . # Stage all changes
+   git commit -m "fix: address review comments" # Commit changes
    git push                    # Updates PR automatically
    ```
 
@@ -524,7 +556,7 @@ their changes
 # 3. Edit file to keep correct version (remove markers)
 
 # 4. Mark as resolved
-git add path/to/resolved-file.ts
+git add path/to/resolved-file.ts # Stage resolved file
 
 # 5. Complete merge/rebase
 git commit                          # For merge
@@ -539,11 +571,11 @@ git rebase --continue               # For rebase
 
 ```bash
 # 1. Pull latest changes
-git checkout main
-git pull
+git checkout main # Switch to main branch
+git pull          # Fetch and merge remote changes
 
 # 2. Update dependencies (if package.json changed)
-pnpm install
+pnpm install # Install dependencies
 
 # 3. Start dev server
 pnpm dev
@@ -568,16 +600,16 @@ pnpm build                          # Verifies production build works
 git diff                            # See what you're about to commit
 
 # 5. Commit
-git add .
-git commit -m "feat: your change description"
+git add . # Stage all changes
+git commit -m "feat: your change description" # Commit changes
 ```
 
 ### End of Day
 
 ```bash
 # 1. Commit work in progress
-git add .
-git commit -m "wip: save progress on feature X"
+git add . # Stage all changes
+git commit -m "wip: save progress on feature X" # Commit changes
 
 # 2. Push to backup
 git push origin feat/your-feature   # Backs up work to GitHub
@@ -596,8 +628,8 @@ pnpm update                         # Updates packages to latest compatible vers
 git branch -d feat/merged-feature   # Delete merged branches
 
 # 3. Pull latest main
-git checkout main
-git pull
+git checkout main # Switch to main branch
+git pull          # Fetch and merge remote changes
 ```
 
 ---
@@ -656,13 +688,14 @@ git switch -c feat/provider-search          # Use descriptive name
 git push -u origin feat/provider-search     # Push and set tracking
 
 # For bug fixes
-git switch -c fix/login-timeout
-git push -u origin fix/login-timeout
+git switch -c fix/login-timeout             # Use descriptive name
+git push -u origin fix/login-timeout        # Push and set tracking
 ```
 
 ### Pull Request Best Practices
 
 **PR Description Template:**
+
 ```markdown
 ## What changed
 Brief description of what this PR does.
@@ -690,6 +723,7 @@ Closes #42    # Links to the Issue, closes it when merged
 ### GitHub Projects Board
 
 Our Kanban board has these columns:
+
 - **Inbox** - New ideas/requests (untriaged)
 - **Backlog** - Triage complete, ready for planning
 - **This Sprint** - Work planned for current sprint
@@ -698,6 +732,7 @@ Our Kanban board has these columns:
 - **Done** - Merged to main, deployed
 
 **Daily Workflow:**
+
 1. Pick an Issue from "This Sprint" column
 2. Move it to "In Progress"
 3. Create branch and start coding
@@ -708,27 +743,28 @@ Our Kanban board has these columns:
 
 ```bash
 # Before starting new work
-git checkout main
-git pull
-git switch -c feat/your-feature-name
+git checkout main # Switch to main branch
+git pull          # Fetch and merge remote changes
+git switch -c feat/your-feature-name # Create and switch to new feature branch
 
 # Keep your branch updated
-git fetch origin
-git rebase origin/main
+git fetch origin # Fetch remote changes
+git rebase origin/main # Rebase feature branch on top of main
 
 # When PR is ready
-git push -u origin feat/your-feature-name
+git push -u origin feat/your-feature-name # Push feature branch to remote
 # Then open PR on GitHub with "Closes #<number>"
 
 # After merge, clean up
-git checkout main
-git pull
+git checkout main # Switch to main branch
+git pull          # Fetch and merge remote changes
 git branch -d feat/your-feature-name    # Delete local branch
 ```
 
 ### Searching and Filtering Issues
 
 **Quick filters in GitHub:**
+
 ```bash
 # Show all high-priority bugs
 is:open is:issue label:type:bug label:P1-high
@@ -771,8 +807,8 @@ pkill -9 node                      # Mac/Linux
 
 ```bash
 # 1. Clean install
-rm -rf node_modules
-pnpm install
+rm -rf node_modules # Remove node_modules folder
+pnpm install # Install dependencies
 
 # 2. If still broken, clear pnpm cache
 pnpm store prune                   # Removes unused packages from store
@@ -919,24 +955,240 @@ code --install-extension <ext>     # Reinstall
 ## Additional Resources
 
 ### Documentation
+
 - [Next.js Docs](https://nextjs.org/docs) - Framework documentation
 - [Supabase Docs](https://supabase.com/docs) - Backend and database
 - [TypeScript Handbook](https://www.typescriptlang.org/docs/) - TypeScript guide
 - [Tailwind CSS](https://tailwindcss.com/docs) - Styling framework
 
 ### Internal Docs
+
 - [ARCHITECTURE.md](./ARCHITECTURE.md) - Technical architecture
 - [ROADMAP.md](./ROADMAP.md) - Development plan
 - [OPERATIONS.md](./OPERATIONS.md) - Monitoring and deployment
 
 ### Getting Help
+
 - **GitHub Issues** - Report bugs or request features
 - **GitHub Discussions** - Ask questions or share ideas
 - **Team Chat** - Quick questions and daily coordination
 
 ---
 
+## UI/UX Standards
+
+### Design Principles
+
+Our design follows modern web standards inspired by top-tier platforms like Airbnb, Stripe, and Linear:
+
+#### Visual Hierarchy
+
+- **Clean Layouts**: Use generous whitespace and proper spacing (`space-y-8`, `space-y-6`)
+- **No Dividing Lines**: Avoid harsh borders, use subtle shadows and whitespace instead
+- **Consistent Colors**: Primary saffron (`#f59e0b`), slate grays, and white backgrounds
+- **Modern Typography**: Clear hierarchy with `text-4xl/3xl/2xl` for headings
+
+#### Component Design
+
+- **Rounded Corners**: Use `rounded-3xl` for major cards, `rounded-full` for buttons
+- **Subtle Shadows**: `shadow-sm` with `hover:shadow-md` transitions
+- **Clean Cards**: White backgrounds with subtle borders (`border-slate-100`)
+- **Responsive Grids**: Use `grid-cols-1 md:grid-cols-2 lg:grid-cols-3` patterns
+
+#### Color Usage
+
+- **Primary Actions**: `bg-saffron-600 hover:bg-saffron-700`
+- **Secondary Actions**: `bg-slate-100 hover:bg-slate-200`
+- **Backgrounds**: Consistent `bg-white` with subtle `bg-slate-50` variations
+- **Text**: `text-slate-900` for headings, `text-slate-600` for body text
+
+#### Layout Patterns
+
+- **Centered Content**: Use `max-w-4xl mx-auto` for readable content
+- **Sticky Elements**: `sticky top-14` for navigation, `lg:sticky lg:top-28` for sidebars
+- **Proper Spacing**: `py-16` for sections, `py-8` for subsections
+
+### Common Patterns
+
+#### Hero Sections
+
+```tsx
+<section className="py-16 md:py-24 bg-gradient-to-br from-saffron-50 via-ivory to-gold-50">
+  <div className="container-custom">
+    <div className="max-w-4xl mx-auto text-center">
+      <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-slate-900 mb-6">
+        Title
+      </h1>
+      <p className="text-lg md:text-xl text-slate-600 leading-relaxed">
+        Description
+      </p>
+    </div>
+  </div>
+</section>
+```
+
+#### Card Layouts
+
+```tsx
+<div className="bg-white rounded-3xl p-8 shadow-sm hover:shadow-md transition-shadow">
+  <h3 className="text-2xl font-bold text-slate-900 mb-4">Title</h3>
+  <p className="text-slate-600 leading-relaxed">Content</p>
+</div>
+```
+
+#### Contact Cards
+
+```tsx
+<div className="bg-white rounded-3xl p-6 shadow-sm border border-slate-100">
+  <h3 className="text-lg font-semibold text-slate-900 mb-4">Contact</h3>
+  <div className="space-y-3">
+    <a href="#" className="w-full py-3 rounded-full bg-saffron-600 text-white font-medium hover:bg-saffron-700 transition-all">
+      WhatsApp
+    </a>
+  </div>
+</div>
+```
+
+---
+
+## shadcn/ui Components
+
+### Configuration
+
+We use shadcn/ui components with the following configuration:
+
+- **Style**: `new-york`
+- **Base Color**: `slate`
+- **CSS Variables**: `true`
+
+### Available Components
+
+#### Core Components
+
+- **Button**: `@/components/ui/button.tsx`
+  - Variants: `default`, `destructive`, `outline`, `secondary`, `ghost`, `link`
+  - Sizes: `default`, `sm`, `lg`, `icon`
+
+- **Card**: `@/components/ui/card.tsx`
+  - Use `CardHeader`, `CardTitle`, `CardDescription`, `CardContent`, `CardFooter`
+
+- **Accordion**: `@/components/ui/accordion.tsx`
+  - Perfect for FAQs and expandable content
+  - Use `type="single"` or `type="multiple"`
+
+- **Badge**: `@/components/ui/badge.tsx`
+  - For status indicators, categories, tags
+  - Variants: `default`, `secondary`, `destructive`, `outline`
+
+- **Input**: `@/components/ui/input.tsx`
+  - Form inputs with consistent styling
+
+- **Skeleton**: `@/components/ui/skeleton.tsx`
+  - Loading states and placeholders
+
+### Usage Examples
+
+#### Button Variants
+
+```tsx
+import { Button } from "@/components/ui/button"
+
+// Primary action
+<Button className="px-5 py-2.5 rounded-full bg-saffron-600 hover:bg-saffron-700">
+  WhatsApp
+</Button>
+
+// Secondary action
+<Button variant="outline" className="rounded-full border-slate-200">
+  Cancel
+</Button>
+
+// Icon button
+<Button variant="ghost" size="icon" className="rounded-full">
+  <Share2 className="h-4 w-4" />
+</Button>
+```
+
+#### Accordion for FAQs
+
+```tsx
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
+
+<Accordion type="single" defaultValue="item-0" className="w-full">
+  <AccordionItem value="item-0">
+    <AccordionTrigger className="text-left">Question?</AccordionTrigger>
+    <AccordionContent>
+      <p className="text-slate-600">Answer</p>
+    </AccordionContent>
+  </AccordionItem>
+</Accordion>
+```
+
+#### Card Layout
+
+```tsx
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+
+<Card className="rounded-3xl shadow-sm">
+  <CardHeader>
+    <CardTitle className="text-2xl">Title</CardTitle>
+    <CardDescription>Description</CardDescription>
+  </CardHeader>
+  <CardContent>
+    <p>Content</p>
+  </CardContent>
+</Card>
+```
+
+### Custom Styling
+
+Extend shadcn components with custom Tailwind classes:
+
+```tsx
+// Custom styled button
+<Button className="rounded-full bg-saffron-600 hover:bg-saffron-700 transition-all shadow-sm hover:shadow-md">
+  Custom Button
+</Button>
+
+// Custom card with gradient
+<Card className="bg-gradient-to-br from-saffron-50 to-orange-50 border-saffron-100">
+  <CardContent className="p-6">
+    Content
+  </CardContent>
+</Card>
+```
+
+### Best Practices
+
+1. **Consistency**: Use the same variants and sizes across the app
+2. **Accessibility**: shadcn components are built with accessibility in mind
+3. **Customization**: Use Tailwind classes to extend, not override default styles
+4. **Performance**: Components are tree-shakeable, only import what you use
+
+---
+
+## UI Component Guidelines
+
+### Naming Convention
+
+Follow our standardized UI component naming convention:
+
+- **shadcn/ui components**: Use lowercase (e.g., `button.tsx`, `card.tsx`, `input.tsx`)
+- **Custom app components**: Use PascalCase (e.g., `ProviderCard.tsx`, `SearchBar.tsx`)
+- **Simple UI elements**: Use lowercase (e.g., `chip.tsx`, `empty-state.tsx`)
+
+**📖 Full Documentation**: See [UI-COMPONENT-NAMING.md](./UI-COMPONENT-NAMING.md) for detailed rules and examples.
+
+### Recent Build Fixes
+
+For information about recent build fixes and troubleshooting, see:
+
+- [BUILD-FIXES.md](./BUILD-FIXES.md) - Complete changelog of build fixes
+
+---
+
 **Next Steps:**
+
 - ✅ Set up local environment
 - ✅ Clone repo and install dependencies
 - ✅ Create your first branch

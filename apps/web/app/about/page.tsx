@@ -3,149 +3,148 @@
 
 import Link from "next/link";
 import { Shield, Users, CheckCircle, Mail } from "lucide-react";
-import { Accordion } from "@/components/ui/Accordion";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 
 export default function AboutPage() {
   return (
     <div className="min-h-screen">
       {/* Hero */}
-      <section className="py-12 md:py-16 bg-gradient-to-br from-saffron-50 via-ivory to-gold-50">
+      <section className="py-16 md:py-24 bg-gradient-to-br from-saffron-50 via-ivory to-gold-50">
         <div className="container-custom">
-          <div className="max-w-3xl">
-            <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-slate-900 mb-3">
+          <div className="max-w-4xl mx-auto text-center">
+            <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-slate-900 mb-6">
               About Vipra Sethu
             </h1>
-            <p className="text-base md:text-lg text-slate-600">
-              Building a trusted, values-aligned community directory connecting people with
-              verified purohits, cooks, and essential service providers.
+            <p className="text-lg md:text-xl text-slate-600 leading-relaxed">
+              Your trusted community platform connecting you with verified service providers who understand and respect your cultural traditions. We bridge the gap between quality service and cultural authenticity.
             </p>
-          </div>
-        </div>
-      </section>
-
-      {/* Team */}
-      <section className="py-8 md:py-12">
-        <div className="container-custom">
-          <h2 className="text-xl md:text-2xl font-bold text-slate-900 mb-4">Our Team</h2>
-          <div className="grid gap-4 md:grid-cols-3">
-            {["Sethu", "Lakshmi", "Arjun"].map((name, idx) => (
-              <div key={idx} className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
-                <div className="h-12 w-12 rounded-xl bg-saffron/10 flex items-center justify-center mb-3">
-                  <span className="text-saffron font-semibold">{name.charAt(0)}</span>
-                </div>
-                <h3 className="font-semibold text-slate-900">{name}</h3>
-                <p className="text-sm text-slate-600">Product & Community</p>
-              </div>
-            ))}
           </div>
         </div>
       </section>
 
       {/* FAQ */}
-      <section className="py-8 md:py-12">
+      <section className="py-16 bg-white">
         <div className="container-custom max-w-3xl">
-          <h2 className="text-xl md:text-2xl font-bold text-slate-900 mb-4">Frequently Asked Questions</h2>
-          <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-            <Accordion
-              items={[
-                {
-                  title: "How does verification work?",
-                  defaultOpen: true,
-                  children: (
-                    <p>
-                      We verify identity and service details before publishing. Additional proofs may be requested.
-                    </p>
-                  ),
-                },
-                {
-                  title: "Is listing free?",
-                  children: (
-                    <p>
-                      Yes, listing is free. We may introduce premium placements in the future, clearly marked as such.
-                    </p>
-                  ),
-                },
-                {
-                  title: "How long does approval take?",
-                  children: (
-                    <p>
-                      Most profiles are reviewed within 24–48 hours. You will receive a WhatsApp notification on approval.
-                    </p>
-                  ),
-                },
-              ]}
-            />
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-slate-900 mb-4">Frequently Asked Questions</h2>
+            <p className="text-slate-600">Everything you need to know about Vipra Sethu</p>
+          </div>
+          <div className="bg-white border border-slate-200 rounded-xl overflow-hidden">
+            <Accordion type="single" defaultValue="item-0" className="w-full">
+              <AccordionItem value="item-0" className="border-b border-slate-100">
+                <AccordionTrigger className="px-6 py-4 hover:bg-slate-50 text-left">How does verification work?</AccordionTrigger>
+                <AccordionContent className="px-6 pb-4">
+                  <p className="text-slate-600 leading-relaxed">
+                    We verify identity and service details before publishing. Additional proofs may be requested.
+                  </p>
+                </AccordionContent>
+              </AccordionItem>
+              <AccordionItem value="item-1" className="border-b border-slate-100">
+                <AccordionTrigger className="px-6 py-4 hover:bg-slate-50 text-left">Is listing free?</AccordionTrigger>
+                <AccordionContent className="px-6 pb-4">
+                  <p className="text-slate-600 leading-relaxed">
+                    Yes, listing is free. We may introduce premium placements in the future, clearly marked as such.
+                  </p>
+                </AccordionContent>
+              </AccordionItem>
+              <AccordionItem value="item-2">
+                <AccordionTrigger className="px-6 py-4 hover:bg-slate-50 text-left">How long does approval take?</AccordionTrigger>
+                <AccordionContent className="px-6 pb-4">
+                  <p className="text-slate-600 leading-relaxed">
+                    Most profiles are reviewed within 24–48 hours. You will receive a WhatsApp notification on approval.
+                  </p>
+                </AccordionContent>
+              </AccordionItem>
+            </Accordion>
           </div>
         </div>
       </section>
 
-      {/* Roadmap */}
-      <section className="py-8 md:py-12">
-        <div className="container-custom max-w-4xl">
-          <h2 className="text-xl md:text-2xl font-bold text-slate-900 mb-4">Roadmap</h2>
-          <ul className="grid md:grid-cols-3 gap-4">
-            <li className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
-              <h4 className="font-semibold text-slate-900 mb-1">Now</h4>
-              <p className="text-sm text-slate-600">UI polish, provider onboarding, admin review workflow.</p>
-            </li>
-            <li className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
-              <h4 className="font-semibold text-slate-900 mb-1">Next</h4>
-              <p className="text-sm text-slate-600">Search improvements, categories, performance optimization.</p>
-            </li>
-            <li className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
-              <h4 className="font-semibold text-slate-900 mb-1">Later</h4>
-              <p className="text-sm text-slate-600">Provider ratings, availability calendars, mobile app.</p>
-            </li>
-          </ul>
-        </div>
-      </section>
-
-      {/* Mission & Values */}
-      <section className="py-10 md:py-14">
-        <div className="container-custom grid gap-6 md:grid-cols-3">
-          <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
-            <Shield className="h-7 w-7 text-saffron mb-3" />
-            <h3 className="font-semibold text-slate-900 mb-1">Trust First</h3>
-            <p className="text-sm text-slate-600">
-              Every listing goes through identity and background verification before it appears
-              in search results.
-            </p>
+      {/* Mission & Values - Compact 3-column cards */}
+      <section className="py-16 bg-white">
+        <div className="container-custom">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-slate-900 mb-4">Our Values</h2>
+            <p className="text-slate-600">The principles that guide everything we do</p>
           </div>
-          <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
-            <Users className="h-7 w-7 text-saffron mb-3" />
-            <h3 className="font-semibold text-slate-900 mb-1">Community-Centric</h3>
-            <p className="text-sm text-slate-600">
-              We prioritize traditions, language, and community needs to enable the right match
-              for every requirement.
-            </p>
-          </div>
-          <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
-            <CheckCircle className="h-7 w-7 text-saffron mb-3" />
-            <h3 className="font-semibold text-slate-900 mb-1">Quality Listings</h3>
-            <p className="text-sm text-slate-600">
-              Clear profiles with languages, traditions, experience and response time to make
-              informed choices.
-            </p>
+          <div className="grid gap-6 md:grid-cols-3 max-w-4xl mx-auto">
+            <div className="bg-slate-50 rounded-xl p-6 shadow-sm border border-slate-100">
+              <div className="h-12 w-12 rounded-xl bg-white flex items-center justify-center mb-4">
+                <Shield className="h-6 w-6 text-slate-600" />
+              </div>
+              <h3 className="text-lg font-semibold text-slate-900 mb-2">Trust First</h3>
+              <p className="text-sm text-slate-600 leading-relaxed">
+                Every listing goes through identity and background verification before it appears in search results.
+              </p>
+            </div>
+            <div className="bg-slate-50 rounded-xl p-6 shadow-sm border border-slate-100">
+              <div className="h-12 w-12 rounded-xl bg-white flex items-center justify-center mb-4">
+                <Users className="h-6 w-6 text-slate-600" />
+              </div>
+              <h3 className="text-lg font-semibold text-slate-900 mb-2">Community-Centric</h3>
+              <p className="text-sm text-slate-600 leading-relaxed">
+                We prioritize traditions, language, and community needs to enable the right match for every requirement.
+              </p>
+            </div>
+            <div className="bg-slate-50 rounded-xl p-6 shadow-sm border border-slate-100">
+              <div className="h-12 w-12 rounded-xl bg-white flex items-center justify-center mb-4">
+                <CheckCircle className="h-6 w-6 text-slate-600" />
+              </div>
+              <h3 className="text-lg font-semibold text-slate-900 mb-2">Quality Listings</h3>
+              <p className="text-sm text-slate-600 leading-relaxed">
+                Clear profiles with languages, traditions, experience and response time to make informed choices.
+              </p>
+            </div>
           </div>
         </div>
       </section>
 
       {/* How trust works */}
-      <section className="py-8 md:py-10">
-        <div className="container-custom max-w-4xl">
-          <h2 className="text-xl md:text-2xl font-bold text-slate-900 mb-3">How trust and verification work</h2>
-          <ol className="list-decimal pl-5 space-y-2 text-slate-700">
-            <li>Providers complete onboarding with identity and service details</li>
-            <li>Our team verifies information and may request additional proofs</li>
-            <li>Approved profiles are published with a Verified badge</li>
-            <li>Community feedback helps keep listings high-quality</li>
-          </ol>
+      <section className="py-12 md:py-16 bg-white">
+        <div className="container-custom max-w-5xl">
+          <div className="text-center mb-10">
+            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-3">How Trust & Verification Work</h2>
+            <p className="text-base md:text-lg text-slate-600">Our rigorous process ensures quality and authenticity</p>
+          </div>
+          <div className="bg-white rounded-2xl p-8 md:p-10 shadow-md border border-gray-200">
+            <ol className="space-y-6">
+              <li className="flex gap-4">
+                <div className="flex-shrink-0 h-8 w-8 rounded-full bg-saffron-600 text-white flex items-center justify-center font-bold">1</div>
+                <div>
+                  <h4 className="font-semibold text-slate-900 mb-1">Provider Onboarding</h4>
+                  <p className="text-slate-600">Providers complete onboarding with identity and service details</p>
+                </div>
+              </li>
+              <li className="flex gap-4">
+                <div className="flex-shrink-0 h-8 w-8 rounded-full bg-saffron-600 text-white flex items-center justify-center font-bold">2</div>
+                <div>
+                  <h4 className="font-semibold text-slate-900 mb-1">Verification Process</h4>
+                  <p className="text-slate-600">Our team verifies information and may request additional proofs</p>
+                </div>
+              </li>
+              <li className="flex gap-4">
+                <div className="flex-shrink-0 h-8 w-8 rounded-full bg-saffron-600 text-white flex items-center justify-center font-bold">3</div>
+                <div>
+                  <h4 className="font-semibold text-slate-900 mb-1">Profile Publication</h4>
+                  <p className="text-slate-600">Approved profiles are published with a Verified badge</p>
+                </div>
+              </li>
+              <li className="flex gap-4">
+                <div className="flex-shrink-0 h-8 w-8 rounded-full bg-saffron-600 text-white flex items-center justify-center font-bold">4</div>
+                <div>
+                  <h4 className="font-semibold text-slate-900 mb-1">Ongoing Quality</h4>
+                  <p className="text-slate-600">Community feedback helps keep listings high-quality</p>
+                </div>
+              </li>
+            </ol>
+          </div>
         </div>
       </section>
 
       {/* Policies & Contact */}
-      <section className="py-8 md:py-12">
-        <div className="container-custom grid md:grid-cols-2 gap-6">
+      <section className="py-12 md:py-16 bg-white">
+        <div className="container-custom max-w-5xl">
+          <div className="grid md:grid-cols-2 gap-8">
           <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
             <h3 className="font-semibold text-slate-900 mb-2">Policies</h3>
             <ul className="text-sm text-slate-700 space-y-1">
@@ -172,6 +171,7 @@ export default function AboutPage() {
               </a>
             </div>
           </div>
+        </div>
         </div>
       </section>
     </div>

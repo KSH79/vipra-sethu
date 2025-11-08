@@ -1,6 +1,6 @@
 # Development Roadmap
 
-**Vipra Sethu development plan and task tracking**
+## Vipra Sethu development plan and task tracking
 
 **Last Updated:** 08-Nov-2025
 
@@ -13,17 +13,20 @@
 **GitHub is our single source of truth** - All planned work is tracked as GitHub Issues with labels and Milestones. This document shows the high-level plan, but GitHub Issues contain the detailed tasks.
 
 **Status Tags:**
+
 - ✅ **Done** - Completed and deployed
 - 🚧 **In Progress** - Currently being worked on
 - 📋 **Planned** - Ready to start, requirements clear
 - 💡 **Backlog** - Future consideration, not prioritized
 
 **Priority Tags:**
+
 - 🔴 **Must** - Critical for launch, blocks other work
 - 🟠 **Should** - Important for quality, user experience
 - 🟡 **Could** - Nice to have, enhances product
 
 **How to track progress:**
+
 1. Create GitHub Issues for all work (features, bugs, chores)
 2. Add labels: `type:*`, `P*`, and `area:*` for filtering
 3. Attach to Milestones for release planning
@@ -55,6 +58,7 @@
 **Target:** 2 weeks from now
 
 **Success Criteria:**
+
 - Seekers can browse and filter providers
 - Providers can onboard themselves
 - Admins can approve/reject applications
@@ -62,6 +66,7 @@
 - Deployed to production (Vercel)
 
 **Key Milestones:**
+
 - [ ] Week 1: Complete authentication + photo display + admin features
 - [ ] Week 2: Deploy to Vercel + final testing + soft launch
 
@@ -74,6 +79,7 @@
 **Target:** 1-2 months after MVP
 
 **Success Criteria:**
+
 - 50+ approved providers across categories
 - 500+ monthly visitors
 - Enhanced search with autocomplete
@@ -81,6 +87,7 @@
 - Zero critical bugs
 
 **Key Milestones:**
+
 - [ ] Month 1: Enhanced search + admin tools + monitoring
 - [ ] Month 2: User feedback integration + performance optimization
 
@@ -93,6 +100,7 @@
 **Target:** 3-6 months after MVP
 
 **Success Criteria:**
+
 - 200+ providers across 3 cities
 - 2,000+ monthly visitors
 - Booking system operational
@@ -100,6 +108,7 @@
 - Mobile app launched
 
 **Key Milestones:**
+
 - [ ] Q1: Booking system + reviews
 - [ ] Q2: Mobile app + city expansion
 - [ ] Q3: Advanced features + community tools
@@ -306,6 +315,7 @@
 **Focus:** Authentication + Photos + Admin Tools
 
 **Goals:**
+
 - [ ] Complete Supabase Auth integration
 - [ ] Implement magic link login/logout
 - [ ] Add photo upload validation
@@ -314,6 +324,7 @@
 - [ ] Add audit logging
 
 **Blockers:**
+
 - None currently
 
 ---
@@ -323,6 +334,7 @@
 **Focus:** Deployment + Testing + Launch Prep
 
 **Goals:**
+
 - [ ] Create Vercel project
 - [ ] Configure all environment variables
 - [ ] Deploy to production
@@ -331,6 +343,7 @@
 - [ ] Soft launch to small group
 
 **Blockers:**
+
 - Need Vercel account access
 - Need production Supabase project
 
@@ -364,7 +377,8 @@
 6. Add to appropriate Milestone (if planning for specific release)
 
 **Example Issue:**
-```
+
+``` HTML
 Title: Add provider rating system
 
 Labels: type:feature, P2-normal, area:frontend
@@ -395,6 +409,7 @@ This builds trust and helps others choose better providers.
 ### ✅ Foundation Complete (Nov 2025)
 
 **What we built:**
+
 - Next.js 14 + TypeScript + Tailwind setup
 - Supabase database with clean taxonomy
 - Row Level Security policies
@@ -405,6 +420,7 @@ This builds trust and helps others choose better providers.
 - Search with filters
 
 **Metrics:**
+
 - 7 database tables created
 - 12 RPC functions implemented
 - 15+ React components built
@@ -418,6 +434,7 @@ This builds trust and helps others choose better providers.
 ### What We're Building First
 
 **MVP Focus:**
+
 - Simple directory (browse + filter + contact)
 - Manual admin approval (no automation)
 - Web-only (no mobile app yet)
@@ -427,6 +444,7 @@ This builds trust and helps others choose better providers.
 ### What We're Deferring
 
 **Not in MVP:**
+
 - Booking system (manual coordination for now)
 - Reviews/ratings (trust through admin approval)
 - In-app messaging (use WhatsApp/phone)
@@ -436,16 +454,19 @@ This builds trust and helps others choose better providers.
 ### Why These Choices
 
 **Speed to launch:**
+
 - Get feedback from real users quickly
 - Validate core value proposition
 - Iterate based on actual usage
 
 **Simplicity:**
+
 - Easier to maintain with small team
 - Lower infrastructure costs
 - Faster onboarding for users
 
 **Community trust:**
+
 - Manual approval builds quality
 - WhatsApp is familiar to users
 - No platform lock-in
@@ -483,18 +504,22 @@ This builds trust and helps others choose better providers.
 ## Resources & Links
 
 **Project:**
+
 - GitHub: `vipra-sethu/vipra-sethu-app`
 - Supabase: [Project Dashboard](https://supabase.com/dashboard)
 - Vercel: [To be created]
 
 **Documentation:**
+
 - [README.md](./README.md) - Entry point
 - [DEVELOPER-GUIDE.md](./DEVELOPER-GUIDE.md) - Setup guide
 - [ARCHITECTURE.md](./ARCHITECTURE.md) - Technical design
 - [PRODUCT.md](./PRODUCT.md) - Product vision
 
 **Tools:**
+
 - PostHog: Analytics
+
 - Sentry: Error tracking
 - Vercel Analytics: Performance
 

@@ -1,19 +1,20 @@
-
 "use client";
 
 import { useState, useEffect } from "react";
 import { useParams, useSearchParams } from "next/navigation";
-import { Badge } from "@/components/ui/Badge";
-import { Button } from "@/components/ui/Button";
-import { Accordion, AccordionItem } from "@/components/ui/Accordion";
+import Link from "next/link";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { Skeleton } from "@/components/ui/skeleton";
 import { ProviderPhoto, ProviderPhotoCard } from "@/components/ui/ProviderPhoto";
 import { getWhatsAppLink, getTelLink, getWhatsAppContextLink } from "@/lib/utils";
 import { getProviderDetails } from "@/lib/services/taxonomy";
 import { ProviderWithTaxonomy } from "@/lib/types/taxonomy";
 import { MessageCircle, Phone, Share2, MapPin, Languages, Clock, Star, Loader2 } from "lucide-react";
-import { Skeleton } from "@/components/ui/Skeleton";
-import { PageViewTracker } from "@/hooks/usePageView";
-import { analytics } from "@/lib/analytics";
+// Temporarily disabled to fix blank page issue
+// import { PageViewTracker } from "@/hooks/usePageView";
+// import { analytics } from "@/lib/analytics";
 
 export default function ProviderDetail() {
   const params = useParams();
@@ -33,13 +34,9 @@ export default function ProviderDetail() {
         const data = await getProviderDetails(providerId);
         setProvider(data);
         
-        // Track provider view analytics
-        const source = searchParams?.get('source') || 'direct_link';
-        analytics.trackProviderView(
-          providerId,
-          data?.name || 'Unknown Provider',
-          source
-        );
+        // Analytics tracking temporarily disabled
+        // const source = searchParams?.get('source') || 'direct_link';
+        // analytics.trackProviderView(providerId, data?.name || 'Unknown Provider', source);
       } catch (err) {
         console.error('Failed to load provider:', err);
         setError('Failed to load provider details');
@@ -54,21 +51,11 @@ export default function ProviderDetail() {
   const handleContactClick = (contactMethod: 'whatsapp' | 'phone', messageContext?: 'general' | 'ritual' | 'consultation') => {
     if (!provider) return;
     
-    // Track contact CTA with enhanced analytics
-    analytics.trackContactClick(
-      providerId,
-      provider.name || 'Unknown Provider',
-      contactMethod,
-      'provider_detail',
-      messageContext
-    );
+    // Analytics tracking temporarily disabled
+    // analytics.trackContactClick(providerId, provider.name || 'Unknown Provider', contactMethod, 'provider_detail', messageContext);
+    // analytics.trackContactAttempt(providerId, provider.name || 'Unknown Provider', contactMethod);
     
-    // Also track the existing contact attempt for backward compatibility
-    analytics.trackContactAttempt(
-      providerId,
-      provider.name || 'Unknown Provider',
-      contactMethod
-    );
+    console.log('Contact clicked:', contactMethod, messageContext);
   };
 
   const handleShare = async () => {
@@ -133,18 +120,17 @@ export default function ProviderDetail() {
 
   return (
     <div className="min-h-screen">
-      <PageViewTracker />
-      {/* Sticky Action Bar */}
-      <div className="sticky top-14 z-30 bg-ivory/90 backdrop-blur border-b border-sandstone/20">
-        <div className="container-custom py-2">
-          <div className="flex items-center gap-2">
-            <nav className="text-sm text-slate-600 hidden md:block">
-              <span className="hover:text-saffron">Providers</span>
-              <span className="mx-2">/</span>
+      {/* PageViewTracker temporarily disabled */}
+      {/* Sticky Action Bar - Modern Clean Design */}
+      <div className="sticky top-14 z-30 bg-white/80 backdrop-blur-xl">
+        <div className="container-custom py-4">
+          <div className="flex items-center justify-between">
+            <nav className="text-sm text-slate-500 hidden md:block">
+              <Link href="/providers" className="hover:text-slate-900 transition-colors">Providers</Link>
+              <span className="mx-2 text-slate-300">/</span>
               <span className="text-slate-900 font-medium">{provider.name || 'Unknown Provider'}</span>
             </nav>
-            <h1 className="font-medium truncate flex-1 md:hidden">{provider.name || 'Unknown Provider'}</h1>
-            <div className="flex gap-2">
+            <div className="flex gap-3">
               {provider.phone && (
                 <>
                   <a
@@ -152,7 +138,7 @@ export default function ProviderDetail() {
                     target="_blank"
                     rel="noopener noreferrer"
                     onClick={() => handleContactClick('whatsapp', 'general')}
-                    className="h-9 px-3 rounded-xl bg-saffron text-white text-sm hover:opacity-90 transition-opacity inline-flex items-center gap-1.5"
+                    className="px-5 py-2.5 rounded-full bg-saffron-600 text-white text-sm font-medium hover:bg-saffron-700 transition-all inline-flex items-center gap-2 shadow-sm hover:shadow-md"
                   >
                     <MessageCircle className="h-4 w-4" />
                     WhatsApp
@@ -160,7 +146,7 @@ export default function ProviderDetail() {
                   <a
                     href={getTelLink(provider.phone)}
                     onClick={() => handleContactClick('phone')}
-                    className="h-9 px-3 rounded-xl border border-sandstone/30 text-sm hover:border-saffron/50 transition-colors inline-flex items-center gap-1.5"
+                    className="px-5 py-2.5 rounded-full bg-white text-slate-700 text-sm font-medium hover:bg-slate-50 transition-all inline-flex items-center gap-2 shadow-sm hover:shadow-md"
                   >
                     <Phone className="h-4 w-4" />
                     Call
@@ -169,10 +155,9 @@ export default function ProviderDetail() {
               )}
               <button
                 onClick={handleShare}
-                className="h-9 px-3 rounded-xl text-saffron hover:bg-saffron/10 transition-colors inline-flex items-center gap-1.5"
+                className="p-2.5 rounded-full text-slate-600 hover:bg-slate-100 transition-all"
               >
                 <Share2 className="h-4 w-4" />
-                Share
               </button>
             </div>
           </div>
@@ -180,14 +165,14 @@ export default function ProviderDetail() {
       </div>
 
       <div className="section-padding">
-        <div className="container-custom max-w-6xl">
-          {/* Two-column layout */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            {/* Left/Main column */}
-            <div className="lg:col-span-2 space-y-6">
-              {/* Provider Header */}
-              <div className="bg-white rounded-2xl p-6 shadow-sm">
-                <div className="flex items-start gap-4">
+        <div className="container-custom max-w-7xl">
+          {/* Two-column layout - Better proportions */}
+          <div className="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-8">
+            {/* Main column - Centered and wider */}
+            <div className="space-y-8 max-w-3xl mx-auto lg:mx-0 w-full">
+              {/* Provider Header - Modern Clean Design */}
+              <div className="bg-white rounded-3xl p-8 shadow-sm hover:shadow-md transition-shadow">
+                <div className="flex flex-col md:flex-row items-start gap-6">
                   <ProviderPhoto
                     photoUrl={provider.photo_url}
                     providerName={provider.name || 'Unknown Provider'}
@@ -195,164 +180,141 @@ export default function ProviderDetail() {
                     priority
                   />
                   
-                  <div className="flex-1 space-y-3">
+                  <div className="flex-1 space-y-4">
                     <div>
-                      <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-slate-900">{provider.name || 'Unknown Provider'}</h2>
-                      <p className="text-slate-600">{provider.category_name || 'Service Provider'}</p>
+                      <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-slate-900 mb-2">
+                        {provider.name || 'Unknown Provider'}
+                      </h1>
+                      <p className="text-lg text-slate-600">{provider.category_name || 'Service Provider'}</p>
                     </div>
 
-                    <div className="flex flex-wrap items-center gap-3">
+                    <div className="flex flex-wrap items-center gap-2">
                       {provider.status === 'approved' && (
-                        <Badge variant="verified">Verified</Badge>
+                        <span className="px-3 py-1 rounded-full bg-green-50 text-green-700 text-sm font-medium flex items-center gap-1">
+                          <span className="h-1.5 w-1.5 rounded-full bg-green-500"></span>
+                          Verified
+                        </span>
                       )}
                       {provider.sampradaya_name && (
-                        <Badge variant="saffron">{provider.sampradaya_name}</Badge>
+                        <span className="px-3 py-1 rounded-full bg-saffron-50 text-saffron-700 text-sm font-medium">
+                          {provider.sampradaya_name}
+                        </span>
                       )}
                       {provider.experience_years && (
-                        <div className="flex items-center gap-1 text-sm text-slate-600">
-                          <Star className="h-4 w-4 text-gold" />
-                          {provider.experience_years} years experience
-                        </div>
+                        <span className="px-3 py-1 rounded-full bg-amber-50 text-amber-700 text-sm font-medium flex items-center gap-1">
+                          <Star className="h-3.5 w-3.5 fill-current" />
+                          {provider.experience_years} years
+                        </span>
                       )}
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-3 text-sm">
-                      <div className="flex items-center gap-2 text-slate-600">
-                        <MapPin className="h-4 w-4" />
-                        <span>{provider.location_text || 'Location not specified'}</span>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
+                      <div className="flex items-center gap-3 text-slate-600">
+                        <div className="h-10 w-10 rounded-full bg-slate-100 flex items-center justify-center flex-shrink-0">
+                          <MapPin className="h-5 w-5" />
+                        </div>
+                        <div>
+                          <p className="text-xs text-slate-500 font-medium">Location</p>
+                          <p className="text-sm">{provider.location_text || 'Not specified'}</p>
+                        </div>
                       </div>
-                      <div className="flex items-center gap-2 text-slate-600 min-w-0">
-                        <Languages className="h-4 w-4" />
-                        <span className="truncate whitespace-nowrap">{provider.languages?.join(" · ") || 'Languages not specified'}</span>
-                      </div>
-                      <div className="flex items-center gap-2 text-slate-600">
-                        <Clock className="h-4 w-4" />
-                        <span>Responds in ~{provider.response_time_hours || 2} hrs</span>
+                      <div className="flex items-center gap-3 text-slate-600">
+                        <div className="h-10 w-10 rounded-full bg-slate-100 flex items-center justify-center flex-shrink-0">
+                          <Languages className="h-5 w-5" />
+                        </div>
+                        <div>
+                          <p className="text-xs text-slate-500 font-medium">Languages</p>
+                          <p className="text-sm">{provider.languages?.join(", ") || 'Not specified'}</p>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
 
-              {/* Detailed Information */}
-              <div className="bg-white rounded-2xl shadow-sm overflow-hidden">
-                <Accordion
-                  items={[
-                    {
-                      title: "About",
-                      defaultOpen: true,
-                      children: (
-                        <div className="px-4 md:px-6 pt-5 pb-6 space-y-4">
-                          <p className="leading-7">{provider.about || 'No description available.'}</p>
-                          {provider.expectations && provider.expectations.length > 0 && (
-                            <div className="p-4 bg-gold/5 rounded-xl">
-                              <h4 className="text-slate-900 font-semibold mb-1">Client Expectations</h4>
-                              <ul className="text-sm text-slate-700 leading-6 list-disc list-inside space-y-1">
-                                {provider.expectations.map((exp, index) => (
-                                  <li key={index}>{exp}</li>
-                                ))}
-                              </ul>
-                            </div>
-                          )}
-                        </div>
-                      )
-                    },
-                    {
-                      title: "Rituals Performed",
-                      children: (
-                        <div className="px-4 md:px-6 py-4 flex flex-wrap gap-2">
-                          {/* TODO: Fetch rituals from provider_rituals table */}
-                          <span className="text-sm text-slate-500">Rituals information will be available soon</span>
-                        </div>
-                      )
-                    },
-                    {
-                      title: "Availability & Travel",
-                      children: (
-                        <div className="px-4 md:px-6 pt-5 pb-6 space-y-4">
-                          <div>
-                            <h4 className="text-slate-900 font-semibold tracking-tight mb-1">Availability</h4>
-                            <p className="text-sm text-slate-700 leading-6">{provider.availability_notes || 'Availability information not provided.'}</p>
-                          </div>
-                          <div>
-                            <h4 className="text-slate-900 font-semibold tracking-tight mb-1">Travel Radius</h4>
-                            <p className="text-sm text-slate-700 leading-6">
-                              {provider.service_radius_km 
-                                ? `Willing to travel up to ${provider.service_radius_km} km${provider.travel_notes ? '. ' + provider.travel_notes : ''}`
-                                : 'Travel preferences not specified.'}
-                            </p>
-                          </div>
-                        </div>
-                      )
-                    },
-                    {
-                      title: "Photos",
-                      children: (
-                        <div className="px-4 md:px-6 py-4">
-                          {provider.photo_url ? (
-                            <div className="space-y-4">
-                              <ProviderPhotoCard
-                                photoUrl={provider.photo_url}
-                                providerName={provider.name || 'Unknown Provider'}
-                                className="w-full max-w-md mx-auto"
-                              />
-                              <p className="text-sm text-slate-600 text-center">
-                                Photo of {provider.name || 'provider'}
-                              </p>
-                            </div>
-                          ) : (
-                            <div className="text-center py-8 text-slate-500">
-                              <div className="h-16 w-16 rounded-full bg-sandstone/10 flex items-center justify-center mx-auto mb-3">
-                                <svg className="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                                </svg>
-                              </div>
-                              <p className="text-sm">No photos available</p>
-                            </div>
-                          )}
-                        </div>
-                      )
-                    },
-                    {
-                      title: "Contact Information",
-                      children: (
-                        <div className="px-4 md:px-6 py-4 space-y-3">
-                          {provider.phone ? (
-                            <div className="flex items-center gap-3">
-                              <Phone className="h-4 w-4 text-slate-600" />
-                              <span className="text-sm">{provider.phone}</span>
-                              <a href={getTelLink(provider.phone)} className="ml-auto text-xs text-saffron hover:underline">Call</a>
-                            </div>
-                          ) : (
-                            <div className="text-sm text-slate-500">Phone number not available</div>
-                          )}
-                          {provider.email && (
-                            <div className="flex items-center gap-3">
-                              <svg className="h-4 w-4 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                              </svg>
-                              <span className="text-sm">{provider.email}</span>
-                            </div>
-                          )}
-                        </div>
-                      )
-                    }
-                  ]}
-                />
+              {/* About Section - No Accordion, Always Visible */}
+              <div className="bg-white rounded-3xl p-8 shadow-sm hover:shadow-md transition-shadow">
+                <h2 className="text-2xl font-bold text-slate-900 mb-6">About</h2>
+                <div className="space-y-6">
+                  <p className="text-base leading-relaxed text-slate-700">
+                    {provider.about || 'No description available.'}
+                  </p>
+                  {provider.expectations && provider.expectations.length > 0 && (
+                    <div className="p-6 bg-gradient-to-br from-amber-50 to-orange-50 rounded-2xl">
+                      <h3 className="text-lg font-semibold text-slate-900 mb-4 flex items-center gap-2">
+                        <span className="h-6 w-6 bg-amber-500 rounded-full flex items-center justify-center text-white text-sm">✓</span>
+                        What to Expect
+                      </h3>
+                      <ul className="space-y-3">
+                        {provider.expectations.map((exp, index) => (
+                          <li key={index} className="flex items-start gap-3 text-slate-700">
+                            <span className="h-1.5 w-1.5 rounded-full bg-amber-500 mt-2 flex-shrink-0"></span>
+                            <span className="text-sm leading-relaxed">{exp}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                </div>
               </div>
 
-              {/* Related Providers - TODO: Implement related providers logic */}
-              {/* <div className="space-y-4">
-                <h3 className="text-xl font-semibold text-slate-900">Related Providers</h3>
-                <div className="text-sm text-slate-500">Related providers will be shown here soon</div>
-              </div> */}
+              {/* Service Details */}
+              <div className="bg-white rounded-3xl p-8 shadow-sm hover:shadow-md transition-shadow">
+                <h2 className="text-2xl font-bold text-slate-900 mb-6">Service Details</h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="p-6 bg-slate-50 rounded-2xl">
+                    <div className="flex items-center gap-3 mb-3">
+                      <div className="h-10 w-10 rounded-full bg-saffron-100 flex items-center justify-center">
+                        <MapPin className="h-5 w-5 text-saffron-600" />
+                      </div>
+                      <h3 className="font-semibold text-slate-900">Service Area</h3>
+                    </div>
+                    <p className="text-sm text-slate-600 leading-relaxed">
+                      {provider.service_radius_km 
+                        ? `Available within ${provider.service_radius_km} km${provider.travel_notes ? '. ' + provider.travel_notes : ''}`
+                        : 'Please contact for availability'}
+                    </p>
+                  </div>
+                  
+                  <div className="p-6 bg-slate-50 rounded-2xl">
+                    <div className="flex items-center gap-3 mb-3">
+                      <div className="h-10 w-10 rounded-full bg-blue-100 flex items-center justify-center">
+                        <Clock className="h-5 w-5 text-blue-600" />
+                      </div>
+                      <h3 className="font-semibold text-slate-900">Response Time</h3>
+                    </div>
+                    <p className="text-sm text-slate-600 leading-relaxed">
+                      Typically responds within {provider.response_time_hours || 2} hours
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Rituals & Services - Simplified */}
+              <div className="bg-gradient-to-br from-saffron-50 to-orange-50 rounded-3xl p-8">
+                <div className="text-center max-w-md mx-auto">
+                  <div className="h-16 w-16 bg-white rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-sm">
+                    <span className="text-3xl">🕉️</span>
+                  </div>
+                  <h2 className="text-2xl font-bold text-slate-900 mb-3">Rituals & Services</h2>
+                  <p className="text-slate-600 mb-6">
+                    Contact {provider.name?.split(' ')[0]} to discuss specific rituals and ceremonies
+                  </p>
+                  <div className="flex flex-wrap gap-2 justify-center">
+                    <span className="px-4 py-2 bg-white text-slate-700 rounded-full text-sm font-medium shadow-sm">Traditional Ceremonies</span>
+                    <span className="px-4 py-2 bg-white text-slate-700 rounded-full text-sm font-medium shadow-sm">Puja Services</span>
+                    <span className="px-4 py-2 bg-white text-slate-700 rounded-full text-sm font-medium shadow-sm">Custom Rituals</span>
+                  </div>
+                </div>
+              </div>
+
             </div>
 
-            {/* Right sidebar */}
-            <div className="space-y-6">
-              {/* Contact Card */}
-              <div className="bg-white rounded-2xl p-6 shadow-sm">
-                <h3 className="font-semibold text-slate-900 mb-4">Get in Touch</h3>
+            {/* Right sidebar - Subtle Contact Card */}
+            <div className="lg:sticky lg:top-28 space-y-6 h-fit">
+              {/* Contact Card - Subtle White Design */}
+              <div className="bg-white rounded-3xl p-6 shadow-sm border border-slate-100">
+                <h3 className="text-lg font-semibold text-slate-900 mb-4">Contact</h3>
                 <div className="space-y-3">
                   {provider.phone ? (
                     <>
@@ -361,7 +323,7 @@ export default function ProviderDetail() {
                         target="_blank"
                         rel="noopener noreferrer"
                         onClick={() => handleContactClick('whatsapp', 'general')}
-                        className="w-full h-11 rounded-xl bg-saffron text-white hover:opacity-90 transition-opacity inline-flex items-center justify-center gap-2"
+                        className="w-full py-3 rounded-full bg-saffron-600 text-white font-medium hover:bg-saffron-700 transition-all inline-flex items-center justify-center gap-2"
                       >
                         <MessageCircle className="h-4 w-4" />
                         WhatsApp
@@ -369,32 +331,58 @@ export default function ProviderDetail() {
                       <a
                         href={getTelLink(provider.phone)}
                         onClick={() => handleContactClick('phone')}
-                        className="w-full h-11 rounded-xl border border-sandstone/30 hover:border-saffron/50 transition-colors inline-flex items-center justify-center gap-2"
+                        className="w-full py-3 rounded-full bg-slate-100 text-slate-700 font-medium hover:bg-slate-200 transition-all inline-flex items-center justify-center gap-2"
                       >
                         <Phone className="h-4 w-4" />
-                        Call Now
+                        Call
                       </a>
                     </>
                   ) : (
-                    <p className="text-sm text-slate-500">Contact information not available</p>
+                    <p className="text-slate-500 text-sm">Contact information not available</p>
+                  )}
+                </div>
+                
+                {/* Quick Info */}
+                <div className="mt-6 pt-6 border-t border-slate-100 space-y-4">
+                  {provider.response_time_hours && (
+                    <div className="flex items-center gap-3 text-slate-600 text-sm">
+                      <Clock className="h-4 w-4" />
+                      <span>Responds in ~{provider.response_time_hours} hours</span>
+                    </div>
+                  )}
+                  {provider.distance_km && (
+                    <div className="flex items-center gap-3 text-slate-600 text-sm">
+                      <MapPin className="h-4 w-4" />
+                      <span>{provider.distance_km.toFixed(1)} km away</span>
+                    </div>
                   )}
                 </div>
               </div>
-
-              {/* Quick Info */}
-              {provider.distance_km && (
-                <div className="bg-white rounded-2xl p-6 shadow-sm">
-                  <h3 className="font-semibold text-slate-900 mb-4">Location</h3>
-                  <div className="flex items-center gap-2 text-sm text-slate-600">
-                    <MapPin className="h-4 w-4" />
-                    <span>{provider.distance_km.toFixed(1)} km away</span>
-                  </div>
-                </div>
-              )}
             </div>
           </div>
         </div>
       </div>
+
+      {/* Footer CTA - Simplified */}
+      <section className="bg-white mt-16">
+        <div className="container-custom py-16">
+          <div className="max-w-3xl mx-auto text-center">
+            <h2 className="text-3xl font-bold text-slate-900 mb-4">
+              Looking for more providers?
+            </h2>
+            <p className="text-lg text-slate-600 mb-8">
+              Explore our directory of verified professionals
+            </p>
+            <Link 
+              href="/providers"
+              className="inline-flex items-center gap-2 px-8 py-4 bg-saffron-600 text-white font-medium rounded-full hover:bg-saffron-700 transition-all shadow-lg hover:shadow-xl"
+            >
+              Browse All Providers
+              <span>→</span>
+            </Link>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }
