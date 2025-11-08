@@ -41,6 +41,35 @@ Supabase Backend
     |-- RPC Functions (search, analytics)
 ```
 
+### Environment Architecture
+
+We use a **two-environment setup** with trunk-based development:
+
+```
+GitHub Repository (main branch)
+        |
+        | Push triggers both deployments
+        |
+    ┌───┴───┐
+    |       |
+    v       v
+Vercel    Vercel
+  Dev      Prod
+    |       |
+    v       v
+Supabase  Supabase
+  Dev      Prod
+```
+
+**Key Principles:**
+- Single codebase (main branch)
+- Two Supabase projects (dev + prod)
+- Two Vercel projects (dev + prod)
+- Database migrations managed via Supabase CLI
+- All schema changes tracked in Git
+
+**📖 Complete Guide:** See [ENVIRONMENT-SETUP.md](./ENVIRONMENT-SETUP.md) for full details.
+
 ### Technology Stack
 
 **Frontend**
@@ -55,9 +84,10 @@ Supabase Backend
 - Row Level Security (RLS) - Database-level access control (users only see their own data)
 
 **Infrastructure**
-- Vercel - Hosting platform (deploys from GitHub automatically)
+- Vercel - Hosting platform (two projects: dev + prod, both deploy from main)
+- Supabase CLI - Database migrations and schema management
 - pnpm + Turborepo - Package manager and monorepo build system
-- GitHub - Version control and collaboration
+- GitHub - Version control and collaboration (trunk-based development)
 
 **Monitoring**
 - PostHog - User analytics (tracks how people use the app)

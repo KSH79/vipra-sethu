@@ -204,16 +204,25 @@ vipra-sethu/
 
 ## 📚 Documentation
 
-### For Developers
-- **[DEVELOPER-GUIDE.md](docs/DEVELOPER-GUIDE.md)** - Complete setup, commands, and workflows
-- **[ARCHITECTURE.md](docs/ARCHITECTURE.md)** - Technical architecture and decisions
-- **[ROADMAP.md](docs/ROADMAP.md)** - Development plan and task list
+### External Resources
+
+- [Next.js Docs](https://nextjs.org/docs) - Framework documentation
+- [Supabase Docs](https://supabase.com/docs) - Backend and database
+- [TypeScript Handbook](https://www.typescriptlang.org/docs/) - TypeScript guide
+- [Tailwind CSS](https://tailwindcss.com/docs) - Styling framework
+
+### Internal Docs
+
+- [DEVELOPER-GUIDE.md](./DEVELOPER-GUIDE.md) - Complete development guide
+- [ENVIRONMENT-SETUP.md](./ENVIRONMENT-SETUP.md) - Dev/prod environment management
+- [ARCHITECTURE.md](./ARCHITECTURE.md) - Technical architecture
+- [ROADMAP.md](./ROADMAP.md) - Development plan
+- [OPERATIONS.md](./OPERATIONS.md) - Monitoring and deployment
 
 ### For Product & Business
 - **[PRODUCT.md](docs/PRODUCT.md)** - Product vision, requirements, and user stories
 - **[OPERATIONS.md](docs/OPERATIONS.md)** - Running and monitoring the app
 
-### Quick Links
 - [Local Development Setup](docs/DEVELOPER-GUIDE.md#local-setup)
 - [Database Migrations](docs/DEVELOPER-GUIDE.md#database-migrations)
 - [Deployment Guide](docs/DEVELOPER-GUIDE.md#deployment)

@@ -117,194 +117,294 @@
 
 ## Task List by Area
 
+### 🎯 Top 10 Backlog (Next Priority Tasks)
+
+**These are the most impactful tasks selected from across all areas based on current MVP needs and dependencies:**
+
+- [ ] **Complete authentication integration** - Critical foundation that blocks all protected features and admin functionality
+- [ ] **Implement photo upload with signed URLs** - Essential for provider profiles, builds trust and enables visual verification
+- [ ] **Build admin approval/rejection workflow** - Core business process needed for quality control and platform safety
+- [ ] **Deploy to Vercel production** - Required for real user testing and feedback collection before launch
+- [ ] **Add comprehensive error states and loading spinners** - Dramatically improves user experience during authentication and file uploads
+- [ ] **Implement admin audit logging** - Essential for security, compliance, and tracking all provider approval decisions
+- [ ] **Set up Sentry error tracking** - Critical for monitoring production issues and maintaining platform reliability
+- [ ] **Create manual testing checklist** - Ensures quality before launch and prevents embarrassing bugs in production
+- [ ] **Add pagination to provider lists** - Improves performance and user experience as provider count grows
+- [ ] **Build form validation and error handling** - Reduces user frustration and improves onboarding completion rates
+
+---
+
 ### 🎨 Product & Design
 
-| Task | Priority | Status | Phase | Notes |
-|------|----------|--------|-------|-------|
-| Homepage hero section | Must | ✅ Done | 0 | Completed |
-| Provider directory UI | Must | ✅ Done | 0 | Completed |
-| Provider detail page | Must | ✅ Done | 0 | Completed |
-| Onboarding form (multi-step) | Must | ✅ Done | 0 | Completed |
-| Admin approval dashboard | Must | ✅ Done | 0 | Completed |
-| Filter UI (category, language, location) | Must | ✅ Done | 0 | Completed |
-| WhatsApp/phone contact buttons | Must | ✅ Done | 0 | Completed |
-| Loading states for all pages | Should | 📋 Planned | 1 | Spinners, skeletons |
-| Error states and messages | Should | 📋 Planned | 1 | User-friendly errors |
-| Success confirmations | Should | 📋 Planned | 1 | After onboarding, contact |
-| Empty states (no results) | Should | 📋 Planned | 1 | Helpful suggestions |
-| Admin rejection flow UI | Should | 📋 Planned | 2 | Modal with reason |
-| Admin audit log viewer | Should | 📋 Planned | 2 | `/admin/audit-log` page |
-| Provider profile editing | Could | 💡 Backlog | 2 | After approval |
-| Search autocomplete | Could | 💡 Backlog | 2 | Suggestions as you type |
-| Booking request form | Could | 💡 Backlog | 3 | Calendar integration |
-| Reviews and ratings UI | Could | 💡 Backlog | 3 | Star ratings, comments |
+#### ✅ Completed (Phase 0)
+
+- [x] Homepage hero section
+- [x] Provider directory UI  
+- [x] Provider detail page
+- [x] Onboarding form (multi-step)
+- [x] Admin approval dashboard
+- [x] Filter UI (category, language, location)
+- [x] WhatsApp/phone contact buttons
+
+#### 📋 Planned (Phase 1)
+
+- [ ] Loading states for all pages
+- [ ] Error states and messages
+- [ ] Success confirmations
+- [ ] Empty states (no results)
+
+#### 📋 Planned (Phase 2)
+
+- [ ] Admin rejection flow UI
+- [ ] Admin audit log viewer
+
+#### 💡 Backlog (Phase 2+)
+
+- [ ] Provider profile editing
+- [ ] Search autocomplete
+- [ ] Booking request form
+- [ ] Reviews and ratings UI
 
 ---
 
 ### 💻 Frontend Development
 
-| Task | Priority | Status | Phase | Notes |
-|------|----------|--------|-------|-------|
-| Next.js 14 App Router setup | Must | ✅ Done | 0 | With TypeScript |
-| Tailwind CSS configuration | Must | ✅ Done | 0 | Custom colors |
-| Supabase client setup | Must | ✅ Done | 0 | Client + server |
-| TypeScript types for all entities | Must | ✅ Done | 0 | Providers, categories, etc. |
-| React Hook Form + Zod validation | Must | ✅ Done | 0 | Onboarding form |
-| Authentication integration | Must | 🚧 In Progress | 1 | Magic links |
-| Login/logout UI | Must | 📋 Planned | 1 | Simple email form |
-| Protected routes middleware | Must | 📋 Planned | 1 | Auth check |
-| Photo upload with validation | Must | 📋 Planned | 1 | File type, size limits |
-| Signed URL display for photos | Must | 📋 Planned | 1 | 15-min expiry |
-| Search RPC integration | Must | ✅ Done | 0 | Filters working |
-| Pagination for provider list | Should | 📋 Planned | 1 | 50 per page |
-| Form error handling | Should | 📋 Planned | 1 | Inline validation |
-| Admin bulk actions | Should | 📋 Planned | 2 | Approve/reject multiple |
-| Real-time search results | Could | 💡 Backlog | 2 | As you type |
-| Provider favorites/bookmarks | Could | 💡 Backlog | 2 | Save for later |
-| Mobile app (React Native) | Could | 💡 Backlog | 3 | iOS + Android |
+#### ✅ Completed (Phase 0)
+
+- [x] Next.js 14 App Router setup
+- [x] Tailwind CSS configuration
+- [x] Supabase client setup
+- [x] TypeScript types for all entities
+- [x] React Hook Form + Zod validation
+- [x] Search RPC integration
+
+#### 🚧 In Progress (Phase 1)
+
+- [ ] Authentication integration
+
+#### 📋 Planned (Phase 1)
+
+- [ ] Login/logout UI
+- [ ] Protected routes middleware
+- [ ] Photo upload with validation
+- [ ] Signed URL display for photos
+- [ ] Pagination for provider list
+- [ ] Form error handling
+
+#### 📋 Planned (Phase 2)
+
+- [ ] Admin bulk actions
+
+#### 💡 Backlog (Phase 2+)
+
+- [ ] Real-time search results
+- [ ] Provider favorites/bookmarks
+- [ ] Mobile app (React Native)
 
 ---
 
 ### 🗄️ Backend & Database
 
-| Task | Priority | Status | Phase | Notes |
-|------|----------|--------|-------|-------|
-| PostgreSQL schema design | Must | ✅ Done | 0 | All tables created |
-| Clean taxonomy (categories, sampradayas) | Must | ✅ Done | 0 | Normalized |
-| Row Level Security policies | Must | ✅ Done | 0 | Public read, admin write |
-| Supabase Storage bucket | Must | ✅ Done | 0 | Private photos |
-| RPC search function | Must | ✅ Done | 0 | Text + filters |
-| Provider details RPC | Must | ✅ Done | 0 | Full profile |
-| Admin functions (approve/reject) | Must | 📋 Planned | 1 | With audit log |
-| Signed URL generation | Must | 📋 Planned | 1 | Service role |
-| Rate limiting on onboarding | Must | 📋 Planned | 1 | Prevent spam |
-| File upload validation | Must | 📋 Planned | 1 | Server-side |
-| Admin action audit logging | Should | 📋 Planned | 1 | Track all changes |
-| Provider statistics RPC | Should | 📋 Planned | 2 | Dashboard metrics |
-| Search relevance scoring | Should | 💡 Backlog | 2 | Better ordering |
-| Typo tolerance in search | Should | 💡 Backlog | 2 | Trigram similarity |
-| Booking system tables | Could | 💡 Backlog | 3 | Requests, confirmations |
-| Reviews and ratings tables | Could | 💡 Backlog | 3 | User feedback |
-| Migrate to Typesense/Meilisearch | Could | 💡 Backlog | 3 | If >10k providers |
+#### ✅ Completed (Phase 0)
+
+- [x] PostgreSQL schema design
+- [x] Clean taxonomy (categories, sampradayas)
+- [x] Row Level Security policies
+- [x] Supabase Storage bucket
+- [x] RPC search function
+- [x] Provider details RPC
+
+#### 📋 Planned (Phase 1)
+
+- [ ] Admin functions (approve/reject)
+- [ ] Signed URL generation
+- [ ] Rate limiting on onboarding
+- [ ] File upload validation
+
+#### 📋 Planned (Phase 1-2)
+
+- [ ] Admin action audit logging
+- [ ] Provider statistics RPC
+
+#### 💡 Backlog (Phase 2+)
+
+- [ ] Search relevance scoring
+- [ ] Typo tolerance in search
+- [ ] Booking system tables
+- [ ] Reviews and ratings tables
+- [ ] Migrate to Typesense/Meilisearch
 
 ---
 
 ### 🔐 Security & Auth
 
-| Task | Priority | Status | Phase | Notes |
-|------|----------|--------|-------|-------|
-| Supabase Auth setup | Must | 🚧 In Progress | 1 | @supabase/ssr |
-| Magic link authentication | Must | 📋 Planned | 1 | Passwordless |
-| Auth callback route | Must | 📋 Planned | 1 | Handle redirects |
-| Session management | Must | 📋 Planned | 1 | Cookies, refresh |
-| Admin email allowlist check | Must | 📋 Planned | 1 | Middleware |
-| Protect admin routes | Must | 📋 Planned | 1 | `/admin/*` |
-| Protect onboarding route | Must | 📋 Planned | 1 | Require auth |
-| MFA for admins (TOTP) | Should | 📋 Planned | 1 | Google Authenticator |
-| Recovery codes for MFA | Should | 📋 Planned | 1 | Backup access |
-| Rate limiting on login | Should | 📋 Planned | 2 | Prevent brute force |
-| Security headers | Should | 💡 Backlog | 2 | CSP, HSTS, etc. |
-| CAPTCHA on onboarding | Could | 💡 Backlog | 2 | hCaptcha or Turnstile |
+#### 🚧 In Progress (Phase 1)
+
+- [ ] Supabase Auth setup
+
+#### 📋 Planned (Phase 1)
+
+- [ ] Magic link authentication
+- [ ] Auth callback route
+- [ ] Session management
+- [ ] Admin email allowlist check
+- [ ] Protect admin routes
+- [ ] Protect onboarding route
+- [ ] MFA for admins (TOTP)
+- [ ] Recovery codes for MFA
+
+#### 📋 Planned (Phase 2)
+
+- [ ] Rate limiting on login
+
+#### 💡 Backlog (Phase 2+)
+
+- [ ] Security headers
+- [ ] CAPTCHA on onboarding
 
 ---
 
 ### 🚀 Infrastructure & DevOps
 
-| Task | Priority | Status | Phase | Notes |
-|------|----------|--------|-------|-------|
-| Vercel project creation | Must | 📋 Planned | 1 | Connect GitHub |
-| Environment variables setup | Must | 📋 Planned | 1 | All keys configured |
-| Vercel Analytics enable | Must | 📋 Planned | 1 | Core Web Vitals |
-| Production deployment | Must | 📋 Planned | 1 | First deploy |
-| Custom domain setup | Should | 📋 Planned | 1 | vipra-sethu.com |
-| Preview deployments for PRs | Should | 📋 Planned | 2 | Auto-deploy |
-| GitHub Actions CI/CD | Should | 📋 Planned | 2 | Lint, type-check, build |
-| Automated testing in CI | Should | 💡 Backlog | 2 | Playwright E2E |
-| Database backups | Should | 💡 Backlog | 2 | Supabase auto-backup |
-| Monitoring alerts | Should | 💡 Backlog | 2 | Sentry, PostHog |
-| CDN for images | Could | 💡 Backlog | 3 | If performance issues |
+#### ✅ Completed (Phase 0)
+
+- [x] Environment strategy defined (dev/prod separation)
+- [x] Supabase CLI setup documented
+- [x] Migration workflow established
+
+#### 📋 Planned (Phase 1)
+
+- [ ] Create dev Supabase project
+- [ ] Create prod Supabase project
+- [ ] Baseline migration from current schema
+- [ ] Vercel dev project creation
+- [ ] Vercel prod project creation
+- [ ] Environment variables setup (Vercel)
+- [ ] Vercel Analytics enable
+- [ ] Production deployment
+- [ ] Custom domain setup
+
+#### 📋 Planned (Phase 2)
+
+- [ ] Preview deployments for PRs
+- [ ] GitHub Actions CI/CD
+
+#### 💡 Backlog (Phase 2+)
+
+- [ ] Automated testing in CI
+- [ ] Database backups
+- [ ] Monitoring alerts
+- [ ] CDN for images
 
 ---
 
 ### 📊 Analytics & Monitoring
 
-| Task | Priority | Status | Phase | Notes |
-|------|----------|--------|-------|-------|
-| PostHog integration | Must | ✅ Done | 0 | User analytics |
-| Event tracking (search, view, contact) | Must | ✅ Done | 0 | Core events |
-| Conversion funnels | Must | ✅ Done | 0 | Onboarding flow |
-| Vercel Analytics | Must | 📋 Planned | 1 | Performance metrics |
-| Sentry error tracking | Must | 📋 Planned | 1 | Client + server |
-| Sentry performance monitoring | Should | 📋 Planned | 2 | Slow queries |
-| Admin dashboard analytics | Should | 📋 Planned | 2 | Approval stats |
-| Search analytics | Should | 💡 Backlog | 2 | Popular queries |
-| Provider view tracking | Should | ✅ Done | 0 | Profile engagement |
-| Contact conversion tracking | Should | ✅ Done | 0 | Click tracking |
-| User feedback mechanism | Could | 💡 Backlog | 2 | Report errors |
+#### ✅ Completed (Phase 0)
+
+- [x] PostHog integration
+- [x] Event tracking (search, view, contact)
+- [x] Conversion funnels
+- [x] Provider view tracking
+- [x] Contact conversion tracking
+
+#### 📋 Planned (Phase 1)
+
+- [ ] Vercel Analytics
+- [ ] Sentry error tracking
+
+#### 📋 Planned (Phase 2)
+
+- [ ] Sentry performance monitoring
+- [ ] Admin dashboard analytics
+
+#### 💡 Backlog (Phase 2+)
+
+- [ ] Search analytics
+- [ ] User feedback mechanism
 
 ---
 
 ### 📝 Documentation
 
-| Task | Priority | Status | Phase | Notes |
-|------|----------|--------|-------|-------|
-| README.md (entry point) | Must | ✅ Done | 0 | Quick start guide |
-| DEVELOPER-GUIDE.md | Must | ✅ Done | 0 | Local setup, Git workflow |
-| ARCHITECTURE.md | Must | ✅ Done | 0 | System design + ADRs |
-| PRODUCT.md | Must | ✅ Done | 0 | Vision, personas, features |
-| ROADMAP.md (this file) | Must | 🚧 In Progress | 0 | Development plan |
-| OPERATIONS.md | Must | 📋 Planned | 1 | Monitoring, runbooks |
-| API documentation | Should | 💡 Backlog | 2 | RPC functions |
-| Deployment guide | Should | 💡 Backlog | 2 | Step-by-step |
-| Troubleshooting guide | Should | 💡 Backlog | 2 | Common issues |
-| Contributing guidelines | Could | 💡 Backlog | 2 | For open source |
+#### ✅ Completed (Phase 0)
+
+- [x] README.md (entry point)
+- [x] DEVELOPER-GUIDE.md
+- [x] ARCHITECTURE.md
+- [x] PRODUCT.md
+
+#### ✅ Completed (Phase 0)
+
+- [x] ROADMAP.md (this file)
+- [x] ENVIRONMENT-SETUP.md (dev/prod environment guide)
+
+#### 📋 Planned (Phase 1)
+
+- [ ] OPERATIONS.md
+
+#### 💡 Backlog (Phase 2+)
+
+- [ ] API documentation
+- [ ] Deployment guide
+- [ ] Troubleshooting guide
+- [ ] Contributing guidelines
 
 ---
 
 ### 🧪 Testing & Quality
 
-| Task | Priority | Status | Phase | Notes |
-|------|----------|--------|-------|-------|
-| Manual testing checklist | Must | 📋 Planned | 1 | Before launch |
-| Playwright E2E setup | Should | 📋 Planned | 2 | Critical paths |
-| Test: Onboarding flow | Should | 📋 Planned | 2 | End-to-end |
-| Test: Admin approval | Should | 📋 Planned | 2 | End-to-end |
-| Test: Search and filter | Should | 📋 Planned | 2 | End-to-end |
-| Test: Contact provider | Should | 📋 Planned | 2 | WhatsApp/phone |
-| Unit tests for utilities | Could | 💡 Backlog | 2 | Helper functions |
-| Visual regression testing | Could | 💡 Backlog | 3 | Screenshot diffs |
-| Performance testing | Could | 💡 Backlog | 3 | Load testing |
+#### 📋 Planned (Phase 1)
+
+- [ ] Manual testing checklist
+
+#### 📋 Planned (Phase 2)
+
+- [ ] Playwright E2E setup
+- [ ] Test: Onboarding flow
+- [ ] Test: Admin approval
+- [ ] Test: Search and filter
+- [ ] Test: Contact provider
+
+#### 💡 Backlog (Phase 2+)
+
+- [ ] Unit tests for utilities
+- [ ] Visual regression testing
+- [ ] Performance testing
 
 ---
 
 ### 🌍 Internationalization & Accessibility
 
-| Task | Priority | Status | Phase | Notes |
-|------|----------|--------|-------|-------|
-| Keyboard navigation | Should | 📋 Planned | 2 | Tab order, focus |
-| ARIA labels | Should | 📋 Planned | 2 | Screen readers |
-| Color contrast audit | Should | 📋 Planned | 2 | WCAG AA |
-| Semantic HTML | Should | 📋 Planned | 2 | Proper headings |
-| Define i18n strategy | Could | 💡 Backlog | 2 | Kannada + English? |
-| Translate UI labels | Could | 💡 Backlog | 3 | Key pages |
-| Language switcher | Could | 💡 Backlog | 3 | UI component |
+#### 📋 Planned (Phase 2)
+
+- [ ] Keyboard navigation
+- [ ] ARIA labels
+- [ ] Color contrast audit
+- [ ] Semantic HTML
+
+#### 💡 Backlog (Phase 2+)
+
+- [ ] Define i18n strategy
+- [ ] Translate UI labels
+- [ ] Language switcher
 
 ---
 
 ### 🎯 Future Features (V2+)
 
-| Task | Priority | Status | Phase | Notes |
-|------|----------|--------|-------|-------|
-| Booking system | Could | 💡 Backlog | 3 | Request + confirm |
-| Reviews and ratings | Could | 💡 Backlog | 3 | After service |
-| Provider recommendations | Could | 💡 Backlog | 3 | Based on history |
-| Email notifications | Could | 💡 Backlog | 3 | New providers |
-| Mobile app (iOS/Android) | Could | 💡 Backlog | 3 | React Native |
-| Multi-language interface | Could | 💡 Backlog | 3 | Kannada, Tamil, Hindi |
-| Community events calendar | Could | 💡 Backlog | 3 | Festivals, rituals |
-| Provider badges system | Could | 💡 Backlog | 3 | Verified, Experienced |
-| Reference system | Could | 💡 Backlog | 3 | User testimonials |
-| Advanced search (Typesense) | Could | 💡 Backlog | 3 | If >10k providers |
+#### 💡 Backlog (Phase 3)
+
+- [ ] Booking system
+- [ ] Reviews and ratings
+- [ ] Provider recommendations
+- [ ] Email notifications
+- [ ] Mobile app (iOS/Android)
+- [ ] Multi-language interface
+- [ ] Community events calendar
+- [ ] Provider badges system
+- [ ] Reference system
+- [ ] Advanced search (Typesense)
 
 ---
 

@@ -12,14 +12,15 @@
 3. [Environment Variables](#environment-variables)
 4. [Development Commands](#development-commands)
 5. [Database Setup](#database-setup)
-6. [Git Workflow](#git-workflow)
-7. [Collaboration Guide](#collaboration-guide)
-8. [Daily Workflow](#daily-workflow)
-9. [Working with Issues, Projects, and PRs](#working-with-issues-projects-and-prs)
-10. [UI Component Guidelines](#ui-component-guidelines)
-11. [UI/UX Standards](#uiux-standards)
-12. [shadcn/ui Components](#shadcnui-components)
-13. [Troubleshooting](#troubleshooting)
+6. [Supabase CLI](#supabase-cli)
+7. [Git Workflow](#git-workflow)
+8. [Collaboration Guide](#collaboration-guide)
+9. [Daily Workflow](#daily-workflow)
+10. [Working with Issues, Projects, and PRs](#working-with-issues-projects-and-prs)
+11. [UI Component Guidelines](#ui-component-guidelines)
+12. [UI/UX Standards](#uiux-standards)
+13. [shadcn/ui Components](#shadcnui-components)
+14. [Troubleshooting](#troubleshooting)
 
 ---
 
@@ -118,45 +119,64 @@ pnpm dev
 
 ## Environment Variables
 
-### Required Variables
+### Environment Strategy
 
-Edit `apps/web/.env.local` with these values:
+We use a **two-environment setup** (dev + prod) with separate Supabase projects:
+
+- **Local Development** → Always uses `vipra-sethu-dev` (dev Supabase project)
+- **Vercel Dev** → Uses `vipra-sethu-dev` (dev Supabase project)
+- **Vercel Prod** → Uses `vipra-sethu` (prod Supabase project)
+
+**📖 Complete Guide:** See [ENVIRONMENT-SETUP.md](./ENVIRONMENT-SETUP.md) for full details on dev/prod setup.
+
+### Required Variables (Local Development)
+
+Edit `apps/web/.env.local` with **dev environment** values:
 
 ```env
-# Supabase Configuration
-# Get these from: Supabase Dashboard → Settings → API
-NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
-NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGc...your-anon-key
-SUPABASE_SERVICE_ROLE_KEY=eyJhbGc...your-service-role-key
+# Supabase Configuration (DEV PROJECT)
+# Get these from: Supabase Dashboard → vipra-sethu-dev → Settings → API
+NEXT_PUBLIC_SUPABASE_URL=https://<dev-project-ref>.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=<dev-anon-key>
+SUPABASE_SERVICE_ROLE_KEY=<dev-service-key>
 
 # Application URL
-# Use localhost for development, your domain for production
 NEXT_PUBLIC_APP_URL=http://localhost:3000
 
-# Analytics (Optional - can add later)
-NEXT_PUBLIC_POSTHOG_KEY=phc_your-posthog-key
+# Analytics (Optional - use dev keys)
+NEXT_PUBLIC_POSTHOG_KEY=<dev-posthog-key>
 NEXT_PUBLIC_POSTHOG_HOST=https://app.posthog.com
 
-# Error Tracking (Optional - can add later)
-NEXT_PUBLIC_SENTRY_DSN=https://your-sentry-dsn
-SENTRY_AUTH_TOKEN=your-sentry-auth-token
+# Error Tracking (Optional - use dev DSN)
+NEXT_PUBLIC_SENTRY_DSN=<dev-sentry-dsn>
+SENTRY_AUTH_TOKEN=<dev-sentry-token>
 ```
 
 ### Getting Supabase Credentials
 
+**For Dev Environment:**
+
 1. Go to [supabase.com](https://supabase.com) and sign in
-2. Create a new project (or open existing)
+2. Open **vipra-sethu-dev** project
 3. Go to **Settings** → **API**
 4. Copy **Project URL** → paste as `NEXT_PUBLIC_SUPABASE_URL`
 5. Copy **anon public** key → paste as `NEXT_PUBLIC_SUPABASE_ANON_KEY`
 6. Copy **service_role** key → paste as `SUPABASE_SERVICE_ROLE_KEY`
+
+**For Prod Environment:**
+
+- Prod credentials are managed in Vercel dashboard
+- Never use prod credentials locally
+- See [ENVIRONMENT-SETUP.md](./ENVIRONMENT-SETUP.md) for Vercel configuration
 
 ### Security Rules
 
 - ✅ **DO** commit `.env.example` (template with no real values)
 - ❌ **DON'T** commit `.env.local` (contains secrets)
 - ❌ **DON'T** share service role keys publicly
-- ✅ **DO** use different keys for dev/staging/production
+- ✅ **DO** use different keys for dev/prod environments
+- ✅ **DO** always use dev keys for local development
+- ❌ **DON'T** use prod keys locally (risk of accidental data changes)
 
 ---
 
@@ -225,42 +245,66 @@ rm -rf .next                         # Manually delete Next.js build cache
 
 ## Database Setup
 
-### Running Migrations
+### Modern Approach: Supabase CLI Migrations
 
-**Prerequisites**: Enable required PostgreSQL extensions first:
+**We now use Supabase CLI for database management** (Database as Code):
 
-```sql
-CREATE EXTENSION IF NOT EXISTS pg_trgm;      -- Trigram similarity for fuzzy search
-CREATE EXTENSION IF NOT EXISTS postgis;      -- Geospatial queries
-```
+- All schema changes tracked in `supabase/migrations/` folder
+- Migrations committed to Git alongside code
+- Applied via CLI to dev, then prod environments
+- No more manual SQL execution in Studio
 
-**Migrations must be run in order** in your Supabase SQL Editor:
+**📖 Complete Guide:** See [ENVIRONMENT-SETUP.md](./ENVIRONMENT-SETUP.md) for full migration workflow.
+
+### Quick Start with Supabase CLI
 
 ```bash
-# 1. Open Supabase Dashboard → SQL Editor
-# 2. Run these migration files in order:
+# 1. Install Supabase CLI
+npm install -g supabase
 
-infra/supabase/01_alter_providers_table.sql     # Adds columns to providers table
-infra/supabase/02_create_new_tables.sql         # Creates provider_photos, provider_rituals
-infra/supabase/03_update_rls_policies.sql       # Row Level Security policies
-infra/supabase/04_create_triggers.sql           # Auto-update timestamps, logging
-infra/supabase/05_update_rpc_functions.sql      # Search and admin functions
-infra/supabase/06_clean_taxonomy_tables.sql     # Category and sampradaya tables
-infra/supabase/07_clean_rpc_and_views.sql       # Updated search with taxonomy
-infra/supabase/08_fix_admins_policy.sql         # Admin table RLS fix
+# 2. Login to Supabase
+supabase login
 
-# 3. Set up storage bucket (after migrations)
-infra/supabase/provider-photos-storage-policy.sql
+# 3. Link to dev project
+cd c:\dev\vipra-sethu
+supabase link --project-ref <dev-project-ref>
+
+# 4. Apply all migrations
+supabase db push
+
+# 5. Verify setup
+supabase db diff  # Should show "No schema differences"
 ```
 
-**Note**: The following files are **legacy/redundant** and should NOT be used:
+### Creating New Migrations
 
-- `schema.sql` - Old initial schema (superseded by migrations)
-- `policies.sql` - Old RLS policies (superseded by `03_update_rls_policies.sql`)
-- `rpc_search_providers.sql` - Old search function (superseded by `05_update_rpc_functions.sql`)
-- `06_create_taxonomy_tables.sql` - Old version (use `06_clean_taxonomy_tables.sql` instead)
+```bash
+# Create new migration file
+supabase migration new "add_booking_table"
 
-**Full documentation**: See `infra/supabase/README.md` for detailed migration instructions and testing.
+# Edit the generated file
+code supabase/migrations/<timestamp>_add_booking_table.sql
+
+# Apply to dev environment
+supabase db push
+
+# Test locally
+pnpm dev
+
+# Commit to Git
+git add supabase/migrations/
+git commit -m "feat: add booking table migration"
+```
+
+### Legacy Approach (Deprecated)
+
+**⚠️ Old Method:** The following files in `infra/supabase/` are **legacy** and should NOT be used for new projects:
+
+- `01_alter_providers_table.sql` through `08_fix_admins_policy.sql`
+- These were manually run in Supabase Studio
+- Now superseded by CLI-managed migrations in `supabase/migrations/`
+
+**Migration Status:** We are migrating from the old approach to Supabase CLI. See [ENVIRONMENT-SETUP.md](./ENVIRONMENT-SETUP.md) for migration instructions.
 
 ### Verifying Database Setup
 
@@ -283,22 +327,122 @@ SELECT * FROM search_providers(
 -- Should return results or empty array (no errors)
 ```
 
-### Database Commands (via Supabase CLI - Optional)
+---
+
+## Supabase CLI
+
+### Essential Commands
 
 ```bash
-# Install Supabase CLI
-pnpm add -g supabase
+# Help and documentation
+supabase --help                                  # Show all commands
+supabase db --help                               # Database commands
+supabase migration --help                        # Migration commands
 
-# Link to your project
-supabase link --project-ref your-project-ref    # Connects CLI to your Supabase project
+# Project management
+supabase login                                   # Login to Supabase
+supabase link --project-ref <ref>                # Link to Supabase project
+supabase projects list                           # List all your projects
 
-# Pull schema from remote
-supabase db pull                                # Downloads current database schema
+# Database operations
+supabase db pull                                 # Fetch current schema from remote
+supabase db push                                 # Apply local migrations to remote
+supabase db diff                                 # Show differences between local and remote
+supabase db reset                                # Reset local database (dev only!)
 
-# Generate TypeScript types
-supabase gen types typescript --local > apps/web/lib/types/database.ts
-# Creates type-safe database types for TypeScript
+# Migration management
+supabase migration new "description"             # Create new migration file
+supabase migration list                          # List all migrations
+supabase migration up                            # Apply pending migrations
+
+# Type generation
+supabase gen types typescript --linked > apps/web/lib/types/database.ts
 ```
+
+### Common Workflows
+
+**Switch between dev and prod:**
+
+```bash
+# Work on dev environment
+supabase link --project-ref <dev-project-ref>
+supabase db push
+
+# Switch to prod (for applying tested migrations)
+supabase link --project-ref <prod-project-ref>
+supabase db push
+```
+
+**Create and apply migration:**
+
+```bash
+# 1. Create migration
+supabase migration new "add_reviews_table"
+
+# 2. Edit file
+code supabase/migrations/<timestamp>_add_reviews_table.sql
+
+# 3. Apply to dev
+supabase link --project-ref <dev-project-ref>
+supabase db push
+
+# 4. Test locally
+pnpm dev
+
+# 5. Commit to Git
+git add supabase/migrations/
+git commit -m "feat: add reviews table"
+
+# 6. After merge, apply to prod
+supabase link --project-ref <prod-project-ref>
+supabase db push
+```
+
+**Generate TypeScript types:**
+
+```bash
+# After schema changes, regenerate types
+supabase gen types typescript --linked > apps/web/lib/types/database.ts
+
+# Commit updated types
+git add apps/web/lib/types/database.ts
+git commit -m "chore: update database types"
+```
+
+### Troubleshooting
+
+**Problem:** `supabase: command not found`
+
+```bash
+# Reinstall globally
+npm install -g supabase
+
+# Verify
+supabase --version
+```
+
+**Problem:** `Failed to link project`
+
+```bash
+# Get project ref from Supabase Dashboard → Settings → General
+# Ensure you're logged in
+supabase login
+
+# Link with correct ref
+supabase link --project-ref <exact-project-ref>
+```
+
+**Problem:** `Migration already applied`
+
+```bash
+# Check migration status
+supabase migration list
+
+# If needed, create new migration to fix issue
+supabase migration new "fix_schema_issue"
+```
+
+**📖 Full Guide:** See [ENVIRONMENT-SETUP.md](./ENVIRONMENT-SETUP.md) for complete Supabase CLI documentation.
 
 ---
 
