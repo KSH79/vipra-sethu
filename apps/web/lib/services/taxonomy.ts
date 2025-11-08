@@ -148,9 +148,9 @@ export class TaxonomyService {
         }
 
         // Add pagination at the end
-        query = query
-          .limit(filters.limit || 50)
-          .offset(filters.offset || 0);
+        const offset = filters.offset || 0;
+        const limit = filters.limit || 50;
+        query = query.range(offset, offset + limit - 1);
 
         const { data, error, count } = await query;
 

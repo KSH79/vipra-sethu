@@ -1,8 +1,8 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { Badge } from "./badge";
-import { Button } from "./button";
+import { Badge } from "./Badge";
+import { Button } from "./Button";
 import { ChevronDown } from "lucide-react";
 
 export interface FilterOption {

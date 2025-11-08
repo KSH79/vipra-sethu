@@ -2,7 +2,7 @@
 
 import { cn } from "@/lib/utils";
 import { HTMLAttributes, ReactNode } from "react";
-import { Button } from "./button";
+import { Button } from "./Button";
 
 export interface StepProps extends HTMLAttributes<HTMLDivElement> {
   title: string;

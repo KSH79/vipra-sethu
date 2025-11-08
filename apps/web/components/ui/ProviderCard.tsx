@@ -1,10 +1,10 @@
 "use client";
 
-import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Separator } from "@/components/ui/separator";
+import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/Card";
+import { Badge } from "@/components/ui/Badge";
+import { Button } from "@/components/ui/Button";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/Avatar";
+import { Separator } from "@/components/ui/Separator";
 import { getWhatsAppContextLink, formatPhone } from "@/lib/utils";
 import { Phone, MessageCircle, Star, MapPin, CheckCircle } from "lucide-react";
 

@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { createClient } from '@/lib/supabaseClient';
-import { Button } from '@/components/ui/button';
+import { Button } from '@/components/ui/Button';
 
 export function SupabaseConnectionTest() {
   const [status, setStatus] = useState<'loading' | 'success' | 'error'>('loading');

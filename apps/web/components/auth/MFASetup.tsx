@@ -2,8 +2,8 @@
 
 import { useState, useEffect } from 'react';
 import { createClient } from '@/lib/supabaseClient';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/Button';
+import { Badge } from '@/components/ui/Badge';
 
 interface MFASetupProps {
   onSetupComplete: () => void;

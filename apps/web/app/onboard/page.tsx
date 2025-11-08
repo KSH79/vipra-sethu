@@ -5,7 +5,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { StepForm, Step } from "@/components/ui/Step-form";
+import { StepForm, Step } from "@/components/ui/step-form";
 import { Button } from "@/components/ui/Button";
 import { Upload, User, Briefcase, Camera } from "lucide-react";
 import { PageViewTracker } from "@/hooks/usePageView";

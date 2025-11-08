@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils";
 import { useRouter } from "next/navigation";
-import { Badge } from "./badge";
-import { Button } from "./button";
+import { Badge } from "./Badge";
+import { Button } from "./Button";
 import { ProviderPhoto } from "./ProviderPhoto";
 import { getWhatsAppLink, getTelLink, getWhatsAppContextLink } from "@/lib/utils";
 import { MessageCircle, Phone, Eye } from "lucide-react";
