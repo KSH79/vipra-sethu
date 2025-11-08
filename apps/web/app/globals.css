@@ -71,6 +71,61 @@
   .skip-link:focus {
     top: 0;
   }
+  :root {
+    /* Indian-inspired theme with saffron warmth */
+    --background: 47 100% 97%; /* ivory-100 - warm, creamy background */
+    --foreground: 25 20% 25%; /* deep slate text */
+    --card: 0 0% 100%;
+    --card-foreground: 25 20% 25%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 25 20% 25%;
+    --primary: 25 82% 50%; /* saffron-500 - warm, trusted primary */
+    --primary-foreground: 47 100% 97%; /* ivory-100 */
+    --secondary: 25 15% 95%; /* warm light gray */
+    --secondary-foreground: 25 20% 25%;
+    --muted: 25 10% 92%;
+    --muted-foreground: 25 10% 45%;
+    --accent: 43 85% 52%; /* gold-500 - complementary accent */
+    --accent-foreground: 25 20% 25%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 47 100% 97%;
+    --border: 25 15% 88%;
+    --input: 25 15% 88%;
+    --ring: 25 82% 50%; /* saffron-500 for focus rings */
+    --chart-1: 25 82% 50%; /* saffron */
+    --chart-2: 43 85% 52%; /* gold */
+    --chart-3: 25 45% 65%; /* sandstone */
+    --chart-4: 25 35% 45%;
+    --chart-5: 25 25% 35%;
+    --radius: 0.5rem;
+  }
+  .dark {
+    /* Dark theme for future accessibility */
+    --background: 25 20% 10%;
+    --foreground: 47 100% 95%;
+    --card: 25 20% 15%;
+    --card-foreground: 47 100% 95%;
+    --popover: 25 20% 15%;
+    --popover-foreground: 47 100% 95%;
+    --primary: 25 82% 60%;
+    --primary-foreground: 25 20% 10%;
+    --secondary: 25 20% 20%;
+    --secondary-foreground: 47 100% 95%;
+    --muted: 25 20% 25%;
+    --muted-foreground: 47 50% 65%;
+    --accent: 43 85% 62%;
+    --accent-foreground: 25 20% 10%;
+    --destructive: 0 62% 50%;
+    --destructive-foreground: 47 100% 95%;
+    --border: 25 20% 25%;
+    --input: 25 20% 25%;
+    --ring: 25 82% 60%;
+    --chart-1: 25 82% 60%;
+    --chart-2: 43 85% 62%;
+    --chart-3: 25 45% 75%;
+    --chart-4: 25 35% 65%;
+    --chart-5: 25 25% 55%;
+  }
 }
 
 @layer components {
@@ -112,5 +167,16 @@
   
   .chip-base {
     @apply rounded-full px-3 py-1.5 text-sm;
+  }
+}
+
+
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
   }
 }

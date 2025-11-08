@@ -2,13 +2,13 @@
 
 import { useState } from 'react';
 import { ProviderFilters } from '@/lib/types/taxonomy';
-import { Input } from '@/components/ui/Input';
-import { Button } from '@/components/ui/Button';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
 import { CategoryFilter } from './CategoryFilter';
 import { SampradayaFilter } from './SampradayaFilter';
 import { LanguageFilter } from './LanguageFilter';
 import { LocationFilter } from './LocationFilter';
-import { Badge } from '@/components/ui/Badge';
+import { Badge } from '@/components/ui/badge';
 
 interface ProviderSearchFormProps {
   onSearch: (filters: ProviderFilters) => void;
@@ -220,7 +220,7 @@ export function ProviderSearchForm({
         <div className="flex gap-3 pt-4">
           <Button
             onClick={handleSearch}
-            loading={loading}
+            disabled={loading}
             className="flex-1"
           >
             Search Providers

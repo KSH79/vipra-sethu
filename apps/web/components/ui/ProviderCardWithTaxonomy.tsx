@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils";
 import { useRouter } from "next/navigation";
-import { Badge } from "./Badge";
-import { Button } from "./Button";
+import { Badge } from "./badge";
+import { Button } from "./button";
 import { ProviderPhoto } from "./ProviderPhoto";
 import { getWhatsAppLink, getTelLink, getWhatsAppContextLink } from "@/lib/utils";
 import { MessageCircle, Phone, Eye } from "lucide-react";
@@ -92,7 +92,7 @@ export function ProviderCardWithTaxonomy({ provider, className }: ProviderCardPr
       {/* Status and Taxonomy Badges */}
       <div className="flex flex-wrap items-center gap-2">
         {isApproved ? (
-          <Badge variant="verified" className="text-xs font-medium">Approved</Badge>
+          <Badge variant="default" className="text-xs font-medium">Approved</Badge>
         ) : (
           <Badge variant="secondary" className="text-xs font-medium">
             {status === 'pending' ? 'Pending' : status}
@@ -101,7 +101,7 @@ export function ProviderCardWithTaxonomy({ provider, className }: ProviderCardPr
         
         {/* Category Badge */}
         {category_code && (
-          <Badge variant="saffron" className="text-xs font-medium">
+          <Badge variant="default" className="text-xs font-medium">
             {category_name || category_code}
             {category_name && category_code && (
               <span className="ml-1 opacity-70">({category_code})</span>

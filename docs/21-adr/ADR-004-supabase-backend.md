@@ -1,7 +1,7 @@
 # ADR-004: Supabase as Backend
 
 **Status:** Accepted  
-**Date:** 2025-11-08  
+**Date:** 08-Nov-2025  
 **Deciders:** Development Team
 
 ---

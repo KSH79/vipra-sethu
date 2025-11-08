@@ -2,9 +2,9 @@
 
 import { ProviderWithTaxonomy, SearchResult } from '@/lib/types/taxonomy';
 import { ProviderCardWithTaxonomy } from '@/components/ui/ProviderCardWithTaxonomy';
-import { EmptyState } from '@/components/ui/EmptyState';
-import { Skeleton } from '@/components/ui/Skeleton';
-import { Button } from '@/components/ui/Button';
+import { EmptyState } from '@/components/ui/empty-state';
+import { Skeleton } from '@/components/ui/skeleton';
+import { Button } from '@/components/ui/button';
 import { Search } from 'lucide-react';
 
 interface ProviderSearchResultsProps {
@@ -95,7 +95,7 @@ export function ProviderSearchResults({
         <div className="flex justify-center pt-6">
           <Button
             onClick={onLoadMore}
-            loading={loading}
+            disabled={loading}
             variant="outline"
             className="min-w-32"
           >

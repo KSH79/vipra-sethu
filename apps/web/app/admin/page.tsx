@@ -2,10 +2,10 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { Badge } from "@/components/ui/Badge";
-import { Button } from "@/components/ui/Button";
-import { Drawer } from "@/components/ui/Drawer";
-import { EmptyState } from "@/components/ui/EmptyState";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Drawer } from "@/components/ui/drawer";
+import { EmptyState } from "@/components/ui/empty-state";
 import { CheckCircle, XCircle, Eye, Clock, User, Briefcase, Phone, Mail, Globe } from "lucide-react";
 import { analytics } from "@/lib/analytics";
 
@@ -173,8 +173,8 @@ export default function Admin() {
 
   return (
     <div className="min-h-screen bg-slate-50">
-      <div className="section-padding">
-        <div className="container-custom max-w-6xl space-y-6">
+      <div className="section-padding flex items-center justify-center min-h-screen py-12">
+        <div className="container-custom max-w-6xl w-full space-y-6">
           {/* Header */}
           <div className="bg-white rounded-2xl p-6 shadow-sm">
             <h1 className="title-large mb-2">Admin Dashboard</h1>
@@ -246,9 +246,9 @@ export default function Admin() {
                         <h3 className="font-medium text-slate-900 truncate">
                           {provider.name}
                         </h3>
-                        <Badge variant="saffron">{provider.category}</Badge>
+                        <Badge variant="default">{provider.category}</Badge>
                         {provider.sampradaya && (
-                          <Badge variant="sandstone">{provider.sampradaya}</Badge>
+                          <Badge variant="secondary">{provider.sampradaya}</Badge>
                         )}
                       </div>
                       
@@ -350,9 +350,9 @@ export default function Admin() {
               <p className="subtitle">{selectedProvider.category}</p>
               
               <div className="flex flex-wrap items-center gap-2 mt-3">
-                <Badge variant="saffron">{selectedProvider.category}</Badge>
+                <Badge variant="default">{selectedProvider.category}</Badge>
                 {selectedProvider.sampradaya && (
-                  <Badge variant="sandstone">{selectedProvider.sampradaya}</Badge>
+                  <Badge variant="secondary">{selectedProvider.sampradaya}</Badge>
                 )}
               </div>
             </div>
@@ -404,7 +404,7 @@ export default function Admin() {
               <h3 className="font-medium text-slate-900">Submission Details</h3>
               <div className="text-sm text-slate-600">
                 <p>Submitted: {formatDate(selectedProvider.submittedAt)}</p>
-                <p>Status: <Badge variant="saffron">Pending Review</Badge></p>
+                <p>Status: <Badge variant="default">Pending Review</Badge></p>
               </div>
             </div>
 

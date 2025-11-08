@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { Category } from '@/lib/types/taxonomy';
 import { getCategories } from '@/lib/services/taxonomy';
-import { Badge } from '@/components/ui/Badge';
+import { Badge } from '@/components/ui/badge';
 
 interface CategoryFilterProps {
   selectedCategory?: string;

@@ -3,11 +3,23 @@ import { createClient } from '@supabase/supabase-js'
 /**
  * Service role client for admin operations on Supabase Storage
  * Uses service role key for elevated permissions (upload, delete)
+ * Lazy-loaded to prevent browser initialization errors
  */
-const supabaseAdmin = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-)
+let supabaseAdmin: ReturnType<typeof createClient> | null = null
+
+function getSupabaseAdmin() {
+  if (!supabaseAdmin) {
+    const url = process.env.NEXT_PUBLIC_SUPABASE_URL
+    const key = process.env.SUPABASE_SERVICE_ROLE_KEY
+    
+    if (!url || !key) {
+      throw new Error('Supabase environment variables not configured')
+    }
+    
+    supabaseAdmin = createClient(url, key)
+  }
+  return supabaseAdmin
+}
 
 /**
  * Storage helper functions for provider photo management
@@ -25,7 +37,7 @@ export interface UploadResult {
  * @param ttl - Time to live in seconds (default: 15 minutes)
  */
 export async function getSignedPhotoUrl(path: string, ttl: number = 900): Promise<string> {
-  const { data, error } = await supabaseAdmin.storage
+  const { data, error} = await getSupabaseAdmin().storage
     .from('provider-photos')
     .createSignedUrl(path, ttl)
   
@@ -63,7 +75,7 @@ export async function uploadProviderPhoto(
   const fileExt = file.name.split('.').pop()
   const fileName = `${providerId}/${Date.now()}.${fileExt}`
   
-  const { data, error } = await supabaseAdmin.storage
+  const { data, error } = await getSupabaseAdmin().storage
     .from('provider-photos')
     .upload(fileName, file, {
       contentType: file.type,
@@ -89,7 +101,7 @@ export async function uploadProviderPhoto(
  * @param path - Storage path of the photo to delete
  */
 export async function deleteProviderPhoto(path: string): Promise<void> {
-  const { error } = await supabaseAdmin.storage
+  const { error } = await getSupabaseAdmin().storage
     .from('provider-photos')
     .remove([path])
   
@@ -104,7 +116,7 @@ export async function deleteProviderPhoto(path: string): Promise<void> {
  * @param path - Storage path of the photo
  */
 export async function getPhotoInfo(path: string) {
-  const { data } = await supabaseAdmin.storage
+  const { data } = await getSupabaseAdmin().storage
     .from('provider-photos')
     .getPublicUrl(path)
   

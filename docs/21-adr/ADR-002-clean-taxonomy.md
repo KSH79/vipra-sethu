@@ -1,7 +1,7 @@
 # ADR-002: Clean Taxonomy with Normalized Tables
 
 **Status:** Accepted  
-**Date:** 2025-11-04  
+**Date:** 08-Nov-2025  
 **Deciders:** Development Team
 
 ---

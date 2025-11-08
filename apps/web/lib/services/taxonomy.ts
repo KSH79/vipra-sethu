@@ -64,50 +64,120 @@ export class TaxonomyService {
    */
   async searchProviders(filters: ProviderFilters): Promise<SearchResult<ProviderWithTaxonomy>> {
     const supabase = await createClient();
-    const params = {
-      p_text: filters.text || null,
-      p_category: filters.category_code || null,
-      p_languages: filters.languages || null,
-      p_sampradaya: filters.sampradaya_code || null,
-      p_lat: filters.lat || null,
-      p_lon: filters.lon || null,
-      p_radius_km: filters.radius_km || 15,
-      p_limit: filters.limit || 50,
-      p_offset: filters.offset || 0,
-    };
+    
+    try {
+      // Try RPC first
+      const params = {
+        p_text: filters.text || null,
+        p_category: filters.category_code || null,
+        p_languages: filters.languages || null,
+        p_sampradaya: filters.sampradaya_code || null,
+        p_lat: filters.lat || null,
+        p_lon: filters.lon || null,
+        p_radius_km: filters.radius_km || 15,
+        p_limit: filters.limit || 50,
+        p_offset: filters.offset || 0,
+      };
 
-    const { data, error } = await supabase.rpc('search_providers', params);
-    
-    if (error) {
-      console.error('Error searching providers:', error);
-      throw new Error('Failed to search providers');
+      console.log('Calling search_providers RPC with params:', params);
+      const { data, error } = await supabase.rpc('search_providers', params);
+      
+      if (error) {
+        console.error('RPC error:', error);
+        throw error;
+      }
+      
+      // RPC now returns { providers, total_count, distance_km, text_similarity_score, text_rank } per row
+      const rows = (data || []) as Array<{
+        providers: ProviderWithTaxonomy;
+        total_count: bigint;
+        distance_km: number | null;
+        text_similarity_score: number | null;
+        text_rank: number | null;
+      }>;
+      
+      const providers = rows.map(row => ({
+        ...row.providers,
+        distance_km: row.distance_km ?? undefined,
+        text_similarity_score: row.text_similarity_score ?? undefined,
+        text_rank: row.text_rank ?? undefined,
+      }));
+      
+      const total = rows.length > 0 ? Number(rows[0].total_count) : 0;
+      
+      return {
+        data: providers,
+        total,
+        hasMore: (filters.offset || 0) + providers.length < total,
+        limit: filters.limit || 50,
+        offset: filters.offset || 0,
+      };
+    } catch (rpcError) {
+      console.warn('RPC failed, trying fallback query:', rpcError);
+      
+      // Fallback: Direct table query (simplified version)
+      try {
+        let query = supabase
+          .from('providers')
+          .select(`
+            *,
+            categories!inner(
+              code,
+              name
+            ),
+            sampradayas!inner(
+              code,
+              name
+            )
+          `, { count: 'exact' })
+          .eq('status', 'approved');
+
+        // Add text search if provided
+        if (filters.text) {
+          query = query.or(`name.ilike.%${filters.text}%,about.ilike.%${filters.text}%`);
+        }
+
+        // Add category filter
+        if (filters.category_code) {
+          query = query.eq('categories.code', filters.category_code);
+        }
+
+        // Add sampradaya filter
+        if (filters.sampradaya_code) {
+          query = query.eq('sampradayas.code', filters.sampradaya_code);
+        }
+
+        // Add pagination at the end
+        query = query
+          .limit(filters.limit || 50)
+          .offset(filters.offset || 0);
+
+        const { data, error, count } = await query;
+
+        if (error) {
+          console.error('Fallback query also failed:', error);
+          throw new Error(`RPC failed: ${rpcError}. Fallback also failed: ${error.message}`);
+        }
+
+        // Transform data to match expected format
+        const providers = (data || []).map((provider: any) => ({
+          ...provider,
+          category: provider.categories,
+          sampradaya: provider.sampradayas,
+        }));
+
+        return {
+          data: providers,
+          total: count || providers.length,
+          hasMore: providers.length === (filters.limit || 50),
+          limit: filters.limit || 50,
+          offset: filters.offset || 0,
+        };
+      } catch (fallbackError) {
+        console.error('Both RPC and fallback failed:', fallbackError);
+        throw new Error(`Failed to search providers. RPC error: ${rpcError}. Fallback error: ${fallbackError}`);
+      }
     }
-    
-    // RPC now returns { providers, total_count, distance_km, text_similarity_score, text_rank } per row
-    const rows = (data || []) as Array<{
-      providers: ProviderWithTaxonomy;
-      total_count: bigint;
-      distance_km: number | null;
-      text_similarity_score: number | null;
-      text_rank: number | null;
-    }>;
-    
-    const providers = rows.map(row => ({
-      ...row.providers,
-      distance_km: row.distance_km ?? undefined,
-      text_similarity_score: row.text_similarity_score ?? undefined,
-      text_rank: row.text_rank ?? undefined,
-    }));
-    
-    const total = rows.length > 0 ? Number(rows[0].total_count) : 0;
-    
-    return {
-      data: providers,
-      total,
-      hasMore: (filters.offset || 0) + providers.length < total,
-      limit: filters.limit || 50,
-      offset: filters.offset || 0,
-    };
   }
 
   /**

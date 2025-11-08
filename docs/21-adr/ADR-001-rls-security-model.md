@@ -1,7 +1,7 @@
 # ADR-001: Row Level Security for Authorization
 
 **Status:** Accepted  
-**Date:** 2025-11-08  
+**Date:** 08-Nov-2025  
 **Deciders:** Development Team
 
 ---

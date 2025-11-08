@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { Sampradaya } from '@/lib/types/taxonomy';
 import { getSampradayas } from '@/lib/services/taxonomy';
-import { Badge } from '@/components/ui/Badge';
+import { Badge } from '@/components/ui/badge';
 
 interface SampradayaFilterProps {
   selectedSampradaya?: string;

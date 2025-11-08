@@ -1,163 +1,155 @@
-import { cn } from "@/lib/utils";
-import { useRouter } from "next/navigation";
-import { Badge } from "./Badge";
-import { Button } from "./Button";
-import { getWhatsAppLink, getTelLink } from "@/lib/utils";
-import { MessageCircle, Phone, Eye } from "lucide-react";
+"use client";
 
-export interface Provider {
+import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Separator } from "@/components/ui/separator";
+import { getWhatsAppContextLink, formatPhone } from "@/lib/utils";
+import { Phone, MessageCircle, Star, MapPin, CheckCircle } from "lucide-react";
+
+interface Provider {
   id: string;
   name: string;
   category: string;
   languages: string[];
   sampradaya?: string;
+  phone: string;
+  email?: string;
+  location: string;
+  experience: string;
+  about: string;
+  rating?: number;
   verified?: boolean;
-  yearsExperience?: number;
-  distance?: number;
-  phone?: string;
-  avatar?: string;
-  responseTime?: string;
+  photo?: string;
 }
 
-export interface ProviderCardProps {
+interface ProviderCardProps {
   provider: Provider;
+  onContact?: (provider: Provider) => void;
   className?: string;
 }
 
-/**
- * Provider card component for search results
- */
-export function ProviderCard({ provider, className }: ProviderCardProps) {
-  const router = useRouter();
-  const {
-    id,
-    name,
-    category,
-    languages,
-    sampradaya,
-    verified,
-    yearsExperience,
-    distance,
-    phone,
-    avatar,
-    responseTime
-  } = provider;
+export function ProviderCard({ provider, onContact, className }: ProviderCardProps) {
+  const whatsappLink = getWhatsAppContextLink(
+    provider.phone,
+    provider.name,
+    'ritual'
+  );
+
+  const handleContact = () => {
+    if (onContact) {
+      onContact(provider);
+    } else {
+      window.open(whatsappLink, '_blank');
+    }
+  };
 
   return (
-    <article
-      onClick={() => router.push(`/providers/${id}`)}
-      className={cn(
-      "group bg-white rounded-2xl shadow-soft border border-gray-100 p-5 flex flex-col gap-4 min-h-[240px]",
-      "hover:shadow-xl hover:-translate-y-1 hover:border-saffron-200",
-      "transition-all duration-300 cursor-pointer",
-      className
-    )}
-      role="button"
-      tabIndex={0}
-      aria-label={`View profile for ${name}`}
-    >
-      {/* Header with avatar and info */}
-      <div className="flex items-center gap-4">
-        <div className="h-14 w-14 rounded-xl object-cover bg-ivory flex items-center justify-center overflow-hidden
-                        group-hover:scale-105 transition-transform duration-300 shadow-sm">
-          {avatar ? (
-            <img 
-              src={avatar} 
-              alt={name}
-              className="h-full w-full object-cover"
-            />
-          ) : (
-            <div className="h-full w-full bg-gradient-to-br from-saffron-100 to-saffron-50 flex items-center justify-center">
-              <span className="text-saffron-600 font-bold text-xl">
-                {name.charAt(0).toUpperCase()}
-              </span>
+    <Card className={`hover:shadow-lg transition-all duration-200 ${className}`}>
+      <CardHeader className="pb-3">
+        <div className="flex items-start gap-3">
+          <Avatar className="h-12 w-12">
+            <AvatarImage src={provider.photo} alt={provider.name} />
+            <AvatarFallback className="bg-primary/10 text-primary font-medium">
+              {provider.name.split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase()}
+            </AvatarFallback>
+          </Avatar>
+          
+          <div className="flex-1 min-w-0">
+            <div className="flex items-center gap-2 mb-1">
+              <h3 className="font-semibold text-foreground truncate">
+                {provider.name}
+              </h3>
+              {provider.verified && (
+                <CheckCircle className="h-4 w-4 text-primary flex-shrink-0" />
+              )}
             </div>
+            
+            <p className="text-sm text-muted-foreground font-medium">
+              {provider.category}
+              {provider.experience && ` • ${provider.experience} experience`}
+            </p>
+          </div>
+        </div>
+      </CardHeader>
+
+      <CardContent className="space-y-3">
+        {/* Status and Taxonomy Badges */}
+        <div className="flex flex-wrap items-center gap-2">
+          {provider.verified && (
+            <Badge variant="default" className="text-xs font-medium">Verified</Badge>
+          )}
+          {provider.sampradaya && (
+            <Badge variant="secondary" className="text-xs font-medium">{provider.sampradaya}</Badge>
           )}
         </div>
-        <div className="min-w-0 flex-1">
-          <h3 className="font-semibold text-slate-900 truncate text-base group-hover:text-saffron-700 
-                         transition-colors duration-200">{name}</h3>
-          <p className="text-sm text-slate-600 font-medium">
-            {category}
-            {yearsExperience && ` • ${yearsExperience} yrs`}
+
+        {/* Location */}
+        <div className="flex items-center gap-2 text-sm text-muted-foreground">
+          <MapPin className="h-4 w-4" />
+          <span>{provider.location}</span>
+        </div>
+
+        {/* Languages */}
+        {provider.languages.length > 0 && (
+          <div className="space-y-1">
+            <p className="text-xs font-medium text-muted-foreground">Languages</p>
+            <div className="flex flex-wrap gap-1">
+              {provider.languages.slice(0, 3).map((language) => (
+                <Badge key={language} variant="outline" className="text-xs">
+                  {language}
+                </Badge>
+              ))}
+              {provider.languages.length > 3 && (
+                <Badge variant="outline" className="text-xs">
+                  +{provider.languages.length - 3}
+                </Badge>
+              )}
+            </div>
+          </div>
+        )}
+
+        {/* Rating */}
+        {provider.rating && (
+          <div className="flex items-center gap-1">
+            <Star className="h-4 w-4 fill-current text-yellow-500" />
+            <span className="text-sm font-medium">{provider.rating}</span>
+            <span className="text-xs text-muted-foreground">rating</span>
+          </div>
+        )}
+
+        <Separator />
+
+        {/* About */}
+        <div className="space-y-1">
+          <p className="text-xs font-medium text-muted-foreground">About</p>
+          <p className="text-sm text-muted-foreground line-clamp-2 leading-relaxed">
+            {provider.about}
           </p>
         </div>
-      </div>
+      </CardContent>
 
-      {/* Badges row */}
-      <div className="flex flex-wrap items-center gap-2">
-        {verified && (
-          <Badge variant="verified" className="text-xs font-medium">Verified</Badge>
-        )}
-        {sampradaya && (
-          <Badge variant="saffron" className="text-xs font-medium">{sampradaya}</Badge>
-        )}
-      </div>
-
-      {/* Languages + Distance row (consistent layout) */}
-      <div className="flex items-center gap-2">
-        <div className="min-w-0 flex-1">
-          {languages.length > 0 && (
-            <span className="block truncate text-sm text-slate-600 font-medium px-2 py-1 bg-gray-50 rounded-lg">
-              {languages.slice(0, 3).join(" · ")}
-              {languages.length > 3 && ` +${languages.length - 3}`}
-            </span>
-          )}
-        </div>
-        {typeof distance === 'number' && (
-          <span className="shrink-0 text-sm text-slate-500 font-medium bg-gray-50 px-2 py-1 rounded-lg">
-            {distance.toFixed(1)} km
-          </span>
-        )}
-      </div>
-
-      {/* Response time */}
-      {responseTime && (
-        <div className="flex items-center gap-1 text-sm text-slate-600 bg-green-50 px-3 py-2 rounded-lg w-fit">
-          <div className="h-2 w-2 bg-green-500 rounded-full animate-pulse"></div>
-          Responds in ~{responseTime}
-        </div>
-      )}
-
-      {/* Action buttons */}
-      <div className="flex items-center gap-2 pt-2 mt-auto">
-        {phone && (
-          <a
-            href={getWhatsAppLink(phone)}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex-1 inline-flex items-center justify-center gap-2 h-11 rounded-xl bg-saffron text-white text-sm font-medium
-                     hover:bg-saffron-600 hover:shadow-lg hover:-translate-y-0.5
-                     transition-all duration-200"
-            onClick={(e) => e.stopPropagation()}
+      <CardFooter className="pt-3">
+        <div className="flex gap-2 w-full">
+          <Button
+            variant="default"
+            size="sm"
+            className="flex-1"
+            onClick={handleContact}
           >
-            <MessageCircle className="h-4 w-4" />
+            <MessageCircle className="h-4 w-4 mr-2" />
             WhatsApp
-          </a>
-        )}
-        {phone && (
-          <a
-            href={getTelLink(phone)}
-            onClick={(e) => e.stopPropagation()}
-            className="flex-1 inline-flex items-center justify-center gap-2 h-11 rounded-xl border-2 border-gray-200 text-sm font-medium
-                     hover:border-saffron-300 hover:bg-saffron-50 hover:text-saffron-700 hover:shadow-md
-                     transition-all duration-200"
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => window.open(`tel:+91${provider.phone.replace(/\D/g, '')}`, '_blank')}
           >
             <Phone className="h-4 w-4" />
-            Call
-          </a>
-        )}
-        <a
-          href={`/providers/${id}`}
-          onClick={(e) => e.stopPropagation()}
-          className="h-11 inline-flex items-center justify-center gap-2 px-4 rounded-xl text-sm font-medium text-saffron-600
-                   hover:bg-saffron-50 hover:text-saffron-700 hover:shadow-md
-                   transition-all duration-200"
-        >
-          <Eye className="h-4 w-4" />
-          View
-        </a>
-      </div>
-    </article>
+          </Button>
+        </div>
+      </CardFooter>
+    </Card>
   );
 }

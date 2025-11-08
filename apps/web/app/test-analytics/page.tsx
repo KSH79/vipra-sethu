@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 import { analytics } from "@/lib/analytics";
-import { Button } from "@/components/ui/Button";
-import { Card } from "@/components/ui/Card";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
 
 export default function TestAnalytics() {
   const [eventCount, setEventCount] = useState(0);

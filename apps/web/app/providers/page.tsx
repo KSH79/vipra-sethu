@@ -1,104 +1,109 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
-import { ProviderFilters, SearchResult, ProviderWithTaxonomy } from "@/lib/types/taxonomy";
-import { searchProviders } from "@/lib/services/taxonomy";
-import { ProviderSearchForm } from "@/components/forms/ProviderSearchForm";
-import { ProviderSearchResults } from "@/components/search/ProviderSearchResults";
-import { EmptyState } from "@/components/ui/EmptyState";
-import { Search, Filter, MapPin } from "lucide-react";
-import { Button } from "@/components/ui/Button";
-import { PageViewTracker } from "@/hooks/usePageView";
-import { analytics } from "@/lib/analytics";
+import { useState, useEffect } from "react";
+import { searchProviders, getCategories } from "@/lib/services/taxonomy";
+import { ProviderWithTaxonomy, Category } from "@/lib/types/taxonomy";
+import Link from "next/link";
+import { Search, Filter, X, ChevronDown } from "lucide-react";
+
+type SortOption = 'newest' | 'experience' | 'name';
 
 export default function Providers() {
-  const [searchResults, setSearchResults] = useState<SearchResult<ProviderWithTaxonomy> | null>(null);
-  const [loading, setLoading] = useState(false);
-  const [initialLoad, setInitialLoad] = useState(true);
-  const [currentFilters, setCurrentFilters] = useState<ProviderFilters>({ limit: 50, radius_km: 15 });
+  const [allProviders, setAllProviders] = useState<ProviderWithTaxonomy[]>([]);
+  const [displayedProviders, setDisplayedProviders] = useState<ProviderWithTaxonomy[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  
+  // Filter states
+  const [searchText, setSearchText] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState<string>("");
+  const [sortBy, setSortBy] = useState<SortOption>('newest');
+  
+  // Pagination
+  const [displayCount, setDisplayCount] = useState(12);
+  const itemsPerPage = 12;
 
-  // Load initial providers on mount
+  // Load initial data
   useEffect(() => {
-    loadInitialProviders();
+    const loadData = async () => {
+      try {
+        setLoading(true);
+        const [providersResult, categoriesResult] = await Promise.all([
+          searchProviders({ limit: 100 }),
+          getCategories()
+        ]);
+        setAllProviders(providersResult.data);
+        setCategories(categoriesResult);
+      } catch (err) {
+        console.error('Error loading data:', err);
+        setError(err instanceof Error ? err.message : 'Failed to load data');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadData();
   }, []);
 
-  const loadInitialProviders = async () => {
-    try {
-      setLoading(true);
-      const results = await searchProviders({ limit: 50 });
-      setSearchResults(results);
-    } catch (error) {
-      console.error('Failed to load providers:', error);
-    } finally {
-      setLoading(false);
-      setInitialLoad(false);
+  // Apply filters and sorting
+  useEffect(() => {
+    let filtered = [...allProviders];
+
+    // Apply search filter
+    if (searchText.trim()) {
+      const searchLower = searchText.toLowerCase();
+      filtered = filtered.filter(provider => 
+        provider.name.toLowerCase().includes(searchLower) ||
+        provider.about?.toLowerCase().includes(searchLower) ||
+        provider.category_name?.toLowerCase().includes(searchLower)
+      );
     }
+
+    // Apply category filter
+    if (selectedCategory) {
+      filtered = filtered.filter(provider => 
+        provider.category_code === selectedCategory
+      );
+    }
+
+    // Apply sorting
+    filtered.sort((a, b) => {
+      switch (sortBy) {
+        case 'name':
+          return a.name.localeCompare(b.name);
+        case 'experience':
+          return (b.experience_years || 0) - (a.experience_years || 0);
+        case 'newest':
+        default:
+          return new Date(b.created_at || 0).getTime() - new Date(a.created_at || 0).getTime();
+      }
+    });
+
+    setDisplayedProviders(filtered);
+    setDisplayCount(itemsPerPage); // Reset pagination when filters change
+  }, [allProviders, searchText, selectedCategory, sortBy]);
+
+  const hasActiveFilters = searchText || selectedCategory;
+  const visibleProviders = displayedProviders.slice(0, displayCount);
+  const hasMore = displayCount < displayedProviders.length;
+
+  const clearFilters = () => {
+    setSearchText("");
+    setSelectedCategory("");
+    setSortBy('newest');
   };
 
-  const handleSearch = useCallback(async (filters: ProviderFilters) => {
-    try {
-      setLoading(true);
-      const results = await searchProviders({
-        ...filters,
-        limit: filters.limit || 50,
-        offset: 0, // Reset offset for new search
-      });
-      setSearchResults(results);
-      setCurrentFilters(filters);
-      
-      // Track search analytics
-      analytics.trackSearch(
-        filters.text || '',
-        {
-          category_code: filters.category_code,
-          sampradaya_code: filters.sampradaya_code,
-          languages: filters.languages,
-          radius_km: filters.radius_km,
-          location_lat: filters.lat,
-          location_lon: filters.lon,
-        },
-        results.total || 0
-      );
-    } catch (error) {
-      console.error('Failed to search providers:', error);
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
-  const handleLoadMore = useCallback(async () => {
-    if (!searchResults || !searchResults.hasMore) return;
-
-    try {
-      setLoading(true);
-      const nextFilters = {
-        ...currentFilters,
-        limit: 50,
-        offset: searchResults.offset + searchResults.limit,
-      };
-      
-      const moreResults = await searchProviders(nextFilters);
-      
-      setSearchResults(prev => prev ? {
-        ...moreResults,
-        data: [...prev.data, ...moreResults.data],
-      } : moreResults);
-      
-      setCurrentFilters(nextFilters);
-    } catch (error) {
-      console.error('Failed to load more providers:', error);
-    } finally {
-      setLoading(false);
-    }
-  }, [searchResults, currentFilters]);
+  const loadMore = () => {
+    setDisplayCount(prev => prev + itemsPerPage);
+  };
 
   return (
     <div className="min-h-screen bg-ivory">
-      <PageViewTracker />
       {/* Hero Section */}
       <section className="py-12 md:py-16 bg-gradient-to-br from-saffron-50 via-ivory to-gold-50">
         <div className="container-custom">
-          <div className="text-center space-y-4 mb-8">
+          <div className="text-center space-y-4">
             <h1 className="text-3xl md:text-4xl font-bold text-slate-900">
               Find Trusted Service Providers
             </h1>
@@ -106,112 +111,198 @@ export default function Providers() {
               Connect with verified purohits, cooks, and essential services in your community
             </p>
           </div>
-
-          {/* Search Summary */}
-          {!initialLoad && searchResults && (
-            <div className="max-w-4xl mx-auto">
-              <div className="bg-white/80 backdrop-blur-sm rounded-lg border border-saffron-100 p-4">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <div className="h-8 w-8 rounded-lg bg-saffron-100 flex items-center justify-center">
-                      <Search className="h-4 w-4 text-saffron-600" />
-                    </div>
-                    <div>
-                      <p className="font-semibold text-slate-900">
-                        {searchResults.total} provider{searchResults.total !== 1 ? 's' : ''} available
-                      </p>
-                      <p className="text-sm text-slate-600">
-                        {searchResults.data.length > 0 && 
-                          `Showing ${searchResults.data.length} result${searchResults.data.length !== 1 ? 's' : ''}`
-                        }
-                      </p>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-2 text-sm text-slate-600">
-                    <MapPin className="h-4 w-4" />
-                    <span>All Locations</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
         </div>
       </section>
 
       {/* Main Content */}
       <section className="py-8">
-        <div className="container-custom space-y-8">
-          {/* Search Form */}
-          <ProviderSearchForm
-            onSearch={handleSearch}
-            loading={loading}
-            initialFilters={{
-              limit: 50,
-              radius_km: 15,
-            }}
-          />
+        <div className="container-custom">
+          {/* Search and Filters */}
+          {!loading && !error && (
+            <div className="mb-8 space-y-4">
+              {/* Search Bar */}
+              <div className="relative">
+                <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-400" />
+                <input
+                  type="text"
+                  placeholder="Search by name, category, or description..."
+                  value={searchText}
+                  onChange={(e) => setSearchText(e.target.value)}
+                  className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-saffron-500 focus:border-transparent"
+                />
+              </div>
 
-          {/* Search Results */}
-          <ProviderSearchResults
-            results={searchResults}
-            loading={loading}
-            onLoadMore={handleLoadMore}
-          />
+              {/* Filters Row */}
+              <div className="flex flex-col sm:flex-row gap-4">
+                {/* Category Filter */}
+                <div className="flex-1">
+                  <div className="relative">
+                    <Filter className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
+                    <select
+                      value={selectedCategory}
+                      onChange={(e) => setSelectedCategory(e.target.value)}
+                      className="w-full pl-10 pr-10 py-2.5 border border-gray-300 rounded-lg appearance-none bg-white focus:ring-2 focus:ring-saffron-500 focus:border-transparent"
+                    >
+                      <option value="">All Categories</option>
+                      {categories.map((category) => (
+                        <option key={category.code} value={category.code}>
+                          {category.name}
+                        </option>
+                      ))}
+                    </select>
+                    <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 pointer-events-none" />
+                  </div>
+                </div>
 
-          {/* Initial Load Empty State */}
-          {initialLoad && (
-            <div className="space-y-6">
+                {/* Sort By */}
+                <div className="flex-1">
+                  <div className="relative">
+                    <select
+                      value={sortBy}
+                      onChange={(e) => setSortBy(e.target.value as SortOption)}
+                      className="w-full pl-4 pr-10 py-2.5 border border-gray-300 rounded-lg appearance-none bg-white focus:ring-2 focus:ring-saffron-500 focus:border-transparent"
+                    >
+                      <option value="newest">Newest First</option>
+                      <option value="experience">Most Experienced</option>
+                      <option value="name">Name (A-Z)</option>
+                    </select>
+                    <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 pointer-events-none" />
+                  </div>
+                </div>
+
+                {/* Clear Filters */}
+                {hasActiveFilters && (
+                  <button
+                    onClick={clearFilters}
+                    className="flex items-center gap-2 px-4 py-2.5 text-sm font-medium text-slate-700 bg-white border border-gray-300 rounded-lg hover:bg-slate-50 transition-colors"
+                  >
+                    <X className="h-4 w-4" />
+                    Clear
+                  </button>
+                )}
+              </div>
+
+              {/* Results Count */}
+              <div className="flex items-center justify-between text-sm">
+                <p className="text-slate-600">
+                  {displayedProviders.length === 0 ? (
+                    'No providers found'
+                  ) : (
+                    <>
+                      Showing <span className="font-medium text-slate-900">{visibleProviders.length}</span> of{' '}
+                      <span className="font-medium text-slate-900">{displayedProviders.length}</span> provider
+                      {displayedProviders.length !== 1 ? 's' : ''}
+                    </>
+                  )}
+                </p>
+                {hasActiveFilters && (
+                  <p className="text-slate-500">
+                    {displayedProviders.length} of {allProviders.length} total
+                  </p>
+                )}
+              </div>
+            </div>
+          )}
+
+          {/* Loading State */}
+          {loading && (
+            <div className="text-center py-12">
+              <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-saffron-600 border-r-transparent"></div>
+              <p className="mt-4 text-slate-600">Loading providers...</p>
+            </div>
+          )}
+
+          {/* Error State */}
+          {error && !loading && (
+            <div className="bg-red-50 border border-red-200 rounded-lg p-6 max-w-2xl mx-auto">
+              <h3 className="text-red-800 font-medium mb-2">Error loading providers</h3>
+              <p className="text-red-700 text-sm">{error}</p>
+            </div>
+          )}
+
+          {/* Providers Grid */}
+          {!loading && !error && visibleProviders.length > 0 && (
+            <div className="space-y-8">
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {Array.from({ length: 6 }).map((_, index) => (
-                  <div key={index} className="bg-white rounded-lg border border-gray-200 p-6 animate-pulse">
-                    <div className="space-y-4">
-                      <div className="flex items-center gap-4">
-                        <div className="h-14 w-14 bg-gray-200 rounded-lg"></div>
-                        <div className="flex-1">
-                          <div className="h-4 bg-gray-200 rounded w-32 mb-2"></div>
-                          <div className="h-3 bg-gray-200 rounded w-24"></div>
-                        </div>
+                {visibleProviders.map((provider: ProviderWithTaxonomy) => (
+                  <Link
+                    key={provider.id}
+                    href={`/providers/${provider.id}`}
+                    className="bg-white rounded-lg border border-gray-200 p-6 hover:shadow-lg hover:border-saffron-200 transition-all duration-200 group"
+                  >
+                    <div className="space-y-3">
+                      <div>
+                        <h3 className="font-semibold text-lg text-slate-900 group-hover:text-saffron-600 transition-colors">
+                          {provider.name}
+                        </h3>
+                        <p className="text-sm text-slate-600">
+                          {provider.category_name || 'Service Provider'}
+                        </p>
                       </div>
-                      <div className="space-y-2">
-                        <div className="h-3 bg-gray-200 rounded w-full"></div>
-                        <div className="h-3 bg-gray-200 rounded w-3/4"></div>
-                        <div className="h-3 bg-gray-200 rounded w-1/2"></div>
+
+                      {provider.about && (
+                        <p className="text-sm text-slate-600 line-clamp-2">
+                          {provider.about}
+                        </p>
+                      )}
+
+                      <div className="flex flex-wrap gap-2">
+                        {provider.languages && provider.languages.length > 0 && (
+                          <span className="text-xs px-2 py-1 bg-slate-100 text-slate-700 rounded">
+                            {provider.languages.join(', ')}
+                          </span>
+                        )}
+                        {provider.experience_years && (
+                          <span className="text-xs px-2 py-1 bg-green-100 text-green-700 rounded font-medium">
+                            {provider.experience_years}+ years
+                          </span>
+                        )}
                       </div>
                     </div>
-                  </div>
+                  </Link>
                 ))}
+              </div>
+
+              {/* Load More Button */}
+              {hasMore && (
+                <div className="text-center pt-4">
+                  <button
+                    onClick={loadMore}
+                    className="px-8 py-3 bg-saffron-600 text-white font-medium rounded-lg hover:bg-saffron-700 transition-colors shadow-sm hover:shadow-md"
+                  >
+                    Load More ({displayedProviders.length - displayCount} remaining)
+                  </button>
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* Empty State */}
+          {!loading && !error && displayedProviders.length === 0 && (
+            <div className="text-center py-16">
+              <div className="max-w-md mx-auto">
+                <div className="h-16 w-16 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Search className="h-8 w-8 text-slate-400" />
+                </div>
+                <h3 className="text-lg font-semibold text-slate-900 mb-2">No providers found</h3>
+                <p className="text-slate-600 mb-6">
+                  {hasActiveFilters 
+                    ? "Try adjusting your search or filters to find what you're looking for."
+                    : "There are no providers available at the moment."}
+                </p>
+                {hasActiveFilters && (
+                  <button
+                    onClick={clearFilters}
+                    className="px-6 py-2 bg-saffron-600 text-white font-medium rounded-lg hover:bg-saffron-700 transition-colors"
+                  >
+                    Clear All Filters
+                  </button>
+                )}
               </div>
             </div>
           )}
         </div>
       </section>
-
-      {/* CTA Section */}
-      {!initialLoad && searchResults && searchResults.data.length > 0 && (
-        <section className="py-12 bg-saffron-50">
-          <div className="container-custom">
-            <div className="text-center space-y-4">
-              <h2 className="text-2xl font-bold text-slate-900">
-                Can't find what you're looking for?
-              </h2>
-              <p className="text-slate-600 max-w-2xl mx-auto">
-                Our team is here to help you find the perfect service provider for your needs.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
-                <Button className="h-12 px-8 text-base font-semibold">
-                  Request Callback
-                </Button>
-                <Button 
-                  variant="outline" 
-                  className="h-12 px-8 text-base font-medium"
-                >
-                  Browse All Categories
-                </Button>
-              </div>
-            </div>
-          </div>
-        </section>
-      )}
     </div>
   );
 }

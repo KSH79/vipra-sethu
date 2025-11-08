@@ -37,10 +37,13 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  // Disable analytics during development
+  const isDevelopment = process.env.NODE_ENV === 'development';
+  
   return (
     <html lang="en" className="scroll-smooth">
       <body className={inter.className}>
-        <PostHogAnalyticsProvider>
+        {!isDevelopment && <PostHogAnalyticsProvider>
           {/* Skip link for accessibility */}
           <a href="#main-content" className="skip-link">
             Skip to main content
@@ -101,8 +104,74 @@ export default function RootLayout({
               </div>
             </footer>
           </div>
-          <Analytics />
-        </PostHogAnalyticsProvider>
+          {!isDevelopment && <Analytics />}
+        </PostHogAnalyticsProvider>}
+        
+        {/* Development mode - no analytics */}
+        {isDevelopment && (
+          <>
+            {/* Skip link for accessibility */}
+            <a href="#main-content" className="skip-link">
+              Skip to main content
+            </a>
+            <div className="min-h-screen bg-ivory flex flex-col">
+              <TopNav />
+              <main id="main-content" className="flex-1">
+                {children}
+              </main>
+              {/* Global Footer - visible on all pages */}
+              <footer className="border-t border-gray-200 bg-white py-12">
+                <div className="container-custom">
+                  <div className="flex flex-col md:flex-row justify-between items-center gap-6 mb-8">
+                    <div className="flex items-center gap-3">
+                      <div className="h-10 w-10 rounded-xl bg-gradient-to-br from-saffron-500 to-gold-500 
+                                    flex items-center justify-center shadow-md">
+                        <span className="text-white font-bold text-base">VS</span>
+                      </div>
+                      <div>
+                        <span className="font-display font-bold text-lg text-slate-900 block">
+                          Vipra Sethu
+                        </span>
+                        <span className="text-xs text-slate-500">
+                          Building community through trust
+                        </span>
+                      </div>
+                    </div>
+                    
+                    <nav className="flex flex-wrap justify-center gap-6 text-sm">
+                      <Link href="/onboard" 
+                            className="text-slate-600 hover:text-saffron-600 font-medium transition-colors">
+                        List your service
+                      </Link>
+                      <Link href="/about" 
+                            className="text-slate-600 hover:text-saffron-600 font-medium transition-colors">
+                        About
+                      </Link>
+                      <Link href="/conduct" 
+                            className="text-slate-600 hover:text-saffron-600 font-medium transition-colors">
+                        Code of Conduct
+                      </Link>
+                      <Link href="/privacy" 
+                            className="text-slate-600 hover:text-saffron-600 font-medium transition-colors">
+                        Privacy
+                      </Link>
+                      <Link href="/contact" 
+                            className="text-slate-600 hover:text-saffron-600 font-medium transition-colors">
+                        Contact
+                      </Link>
+                    </nav>
+                  </div>
+                  
+                  <div className="pt-6 border-t border-gray-200 text-center">
+                    <p className="text-sm text-slate-600">
+                      © 2025 Vipra Sethu. Building community through trust and tradition.
+                    </p>
+                  </div>
+                </div>
+              </footer>
+            </div>
+          </>
+        )}
       </body>
     </html>
   );

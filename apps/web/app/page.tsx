@@ -3,8 +3,8 @@
 
 import Link from "next/link";
 import { Search, Shield, Heart, Sparkles } from "lucide-react";
-import { Button } from "@/components/ui/Button";
-import { Chip } from "@/components/ui/Chip";
+import { Button } from "@/components/ui/button";
+import { Chip } from "@/components/ui/chip";
 import { PageViewTracker } from "@/hooks/usePageView";
 
 export default function Home() {
@@ -39,8 +39,8 @@ export default function Home() {
       color: "text-saffron-600 bg-saffron-50"
     },
     {
-      title: "Respectful",
-      description: "Dignified service honoring cultural traditions",
+      title: "Quality-Focused",
+      description: "Experienced professionals committed to excellence",
       icon: Sparkles,
       color: "text-gold-600 bg-gold-50"
     }
@@ -128,7 +128,7 @@ export default function Home() {
       </section>
 
       {/* Browse by Ritual - Enhanced */}
-      <section className="py-16 md:py-20">
+      <section className="py-12 md:py-16">
         <div className="container-custom">
           <div className="text-center mb-10">
             <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">Browse by Ritual</h2>
@@ -155,7 +155,7 @@ export default function Home() {
       </section>
 
       {/* CTA Section - Enhanced */}
-      <section className="py-16 md:py-20 bg-gradient-to-br from-saffron-50 via-ivory-100 to-gold-50">
+      <section className="py-12 md:py-16 bg-gradient-to-br from-saffron-50 via-ivory-100 to-gold-50">
         <div className="container-custom">
           <div className="max-w-2xl mx-auto text-center p-8 md:p-12 rounded-3xl space-y-4 md:space-y-6
                        bg-white/80 backdrop-blur-sm shadow-xl border border-saffron-100">
