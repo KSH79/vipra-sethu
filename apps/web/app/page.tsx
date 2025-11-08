@@ -3,8 +3,8 @@
 
 import Link from "next/link";
 import { Search, Shield, Heart, Sparkles } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Chip } from "@/components/ui/chip";
+import { Button } from "@/components/ui/Button";
+import { Chip } from "@/components/ui/Chip";
 import { PageViewTracker } from "@/hooks/usePageView";
 
 export default function Home() {

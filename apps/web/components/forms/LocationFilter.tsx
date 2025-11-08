@@ -1,8 +1,8 @@
 'use client';
 
 import { useState } from 'react';
-import { Badge } from '@/components/ui/badge';
-import { Input } from '@/components/ui/input';
+import { Badge } from '@/components/ui/Badge';
+import { Input } from '@/components/ui/Input';
 import { MapPin, Crosshair } from 'lucide-react';
 
 interface LocationFilterProps {

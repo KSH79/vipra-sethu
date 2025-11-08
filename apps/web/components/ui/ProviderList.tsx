@@ -3,12 +3,12 @@
 import { useState } from "react";
 import { ProviderCard } from "./ProviderCard";
 import { SearchBar } from "./SearchBar";
-import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
-import { Skeleton } from "@/components/ui/skeleton";
-import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Card, CardContent } from "@/components/ui/Card";
+import { Badge } from "@/components/ui/Badge";
+import { Button } from "@/components/ui/Button";
+import { Separator } from "@/components/ui/Separator";
+import { Skeleton } from "@/components/ui/Skeleton";
+import { Alert, AlertDescription } from "@/components/ui/Alert";
 import {
   DropdownMenu,
   DropdownMenuContent,

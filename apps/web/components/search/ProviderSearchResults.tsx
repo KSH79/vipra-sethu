@@ -2,9 +2,9 @@
 
 import { ProviderWithTaxonomy, SearchResult } from '@/lib/types/taxonomy';
 import { ProviderCardWithTaxonomy } from '@/components/ui/ProviderCardWithTaxonomy';
-import { EmptyState } from '@/components/ui/empty-state';
-import { Skeleton } from '@/components/ui/skeleton';
-import { Button } from '@/components/ui/button';
+import { EmptyState } from '@/components/ui/Empty-state';
+import { Skeleton } from '@/components/ui/Skeleton';
+import { Button } from '@/components/ui/Button';
 import { Search } from 'lucide-react';
 
 interface ProviderSearchResultsProps {

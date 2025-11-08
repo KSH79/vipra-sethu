@@ -3,10 +3,10 @@
 import { useState, useEffect } from "react";
 import { useParams, useSearchParams } from "next/navigation";
 import Link from "next/link";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { Skeleton } from "@/components/ui/skeleton";
+import { Badge } from "@/components/ui/Badge";
+import { Button } from "@/components/ui/Button";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/Accordion";
+import { Skeleton } from "@/components/ui/Skeleton";
 import { ProviderPhoto, ProviderPhotoCard } from "@/components/ui/ProviderPhoto";
 import { getWhatsAppLink, getTelLink, getWhatsAppContextLink } from "@/lib/utils";
 import { getProviderDetails } from "@/lib/services/taxonomy";

@@ -2,10 +2,10 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Drawer } from "@/components/ui/drawer";
-import { EmptyState } from "@/components/ui/empty-state";
+import { Badge } from "@/components/ui/Badge";
+import { Button } from "@/components/ui/Button";
+import { Drawer } from "@/components/ui/Drawer";
+import { EmptyState } from "@/components/ui/EmptyState";
 import { CheckCircle, XCircle, Eye, Clock, User, Briefcase, Phone, Mail, Globe } from "lucide-react";
 import { analytics } from "@/lib/analytics";
 

@@ -2,13 +2,13 @@
 
 import { useState } from 'react';
 import { ProviderFilters } from '@/lib/types/taxonomy';
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/Input';
+import { Button } from '@/components/ui/Button';
 import { CategoryFilter } from './CategoryFilter';
 import { SampradayaFilter } from './SampradayaFilter';
 import { LanguageFilter } from './LanguageFilter';
 import { LocationFilter } from './LocationFilter';
-import { Badge } from '@/components/ui/badge';
+import { Badge } from '@/components/ui/Badge';
 
 interface ProviderSearchFormProps {
   onSearch: (filters: ProviderFilters) => void;

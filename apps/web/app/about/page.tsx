@@ -3,7 +3,7 @@
 
 import Link from "next/link";
 import { Shield, Users, CheckCircle, Mail } from "lucide-react";
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/Accordion";
 
 export default function AboutPage() {
   return (
