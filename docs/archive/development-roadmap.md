@@ -126,6 +126,9 @@ vipra-sethu/
 - [ ] Enable Vercel Analytics in project settings
 - [ ] Set preview deployments for PRs (optional)
 - [ ] Add custom domain (later)
+  
+  Repo to connect: `vipra-sethu/vipra-sethu-app`  
+  Status: Git repo initialized and pushed to `main`; Vercel project creation pending
 
 ### 2. MFA for Admin Security
 
@@ -821,9 +824,15 @@ git pull origin main
 
 git status
 
+### Ensure you’re on main and working tree is clean
+
+git branch --show-current
+git status
+
 git add .
 
 git commit -m "feat: initial commit of Vipra Sethu application with complete frontend"
+git commit --amend -m "init: amended initial commit"
 
 git remote -v
 
@@ -840,12 +849,78 @@ git push -u origin main
 
 ### Option B: Personal Access Token
 
-git remote set-url origin https://[YOUR-TOKEN]@github.com/vipra-sethu/vipra-sethu-app.git
+git remote set-url origin https://[YOUR-TOKEN]@[github.com/vipra-sethu/vipra-sethu-app.git]
 git push -u origin main
 
 ### Option C: SSH (if you have SSH keys set up)
 
-git remote set-url origin git@github.com:vipra-sethu/vipra-sethu-app.git
+git remote set-url origin https://github.com/KSH79/vipra-sethu.git
 git push -u origin main
 
+#### Verify auth and remote read:
+
+gh auth status
 git ls-remote origin
+
+--
+
+## Vercel Setup Guide
+
+Follow these steps to deploy the Next.js app on Vercel.
+
+### 1) Create and Link Project
+
+- **Import Git Repository**: `vipra-sethu/vipra-sethu-app`
+- Framework Preset: Next.js
+- Root directory: `apps/web`
+- Build command: auto (Next.js default)
+- Output directory: auto
+
+### 2) Environment Variables (Project → Settings → Environment Variables)
+
+Add these for Production and Preview:
+
+- `NEXT_PUBLIC_SUPABASE_URL`
+- `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+- `SUPABASE_SERVICE_ROLE_KEY` (Server-side only; never expose in client code)
+- `NEXT_PUBLIC_APP_URL` (e.g., https://vipra-sethu.vercel.app)
+- `NEXT_PUBLIC_POSTHOG_KEY` (optional)
+- `NEXT_PUBLIC_POSTHOG_HOST` (optional, defaults to https://app.posthog.com)
+- `NEXT_PUBLIC_SENTRY_DSN` (optional until Sentry is ready)
+
+Reference: `apps/web/.env.example`
+
+### 3) Analytics and Monitoring
+
+- Enable Vercel Analytics
+- Verify PostHog loads on production domain
+- Verify Sentry DSN is present, then test via `/test-sentry` page
+
+### 4) Preview Deployments
+
+- Enable “Create preview deployments for PRs”
+- Protect production with required reviews (optional)
+
+### 5) Domains (Later)
+
+- Add custom domain
+- Set `NEXT_PUBLIC_APP_URL` accordingly
+
+
+#### Wire Git to use your GH token:
+
+gh auth setup-git
+
+
+#### Overwrite remote (destructive)
+
+Overwrite remote (destructive)
+
+#### Verify default branch
+
+git branch --show-current   # should be 'main'
+
+#### Confirm remote and status:
+
+git remote -v
+git status
