@@ -1,7 +1,7 @@
 
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
-import { uploadProviderPhoto } from "@/lib/storage";
+import { uploadWithThumbnail } from "@/lib/photo";
 
 export async function POST(req: NextRequest) {
   try {
@@ -42,34 +42,54 @@ export async function POST(req: NextRequest) {
       { auth: { persistSession: false } }
     );
     
-    // Handle photo upload
+    // 1) Insert provider first to get provider_id
+    const { data: providerRow, error: insertErr } = await sb
+      .from('providers')
+      .insert(payload)
+      .select('id')
+      .single();
+    if (insertErr || !providerRow) {
+      console.error('Database insert error:', insertErr);
+      return NextResponse.json(
+        { ok: false, error: `Failed to save provider: ${insertErr?.message || 'Unknown error'}` },
+        { status: 500 }
+      );
+    }
+
+    const providerId: string = providerRow.id as string;
+
+    // 2) If photo present, upload + generate thumbnail, then record metadata and update provider
     const file = form.get('photo') as File | null;
     if (file && file.size > 0) {
       try {
-        // Generate a temporary provider ID for the upload
-        const tempProviderId = crypto.randomUUID();
-        const uploadResult = await uploadProviderPhoto(file, tempProviderId);
-        payload.photo_url = uploadResult.path;
+        const { originalPath, thumbnailPath, mimeType, sizeBytes } = await uploadWithThumbnail(file, providerId);
+
+        // Insert photo metadata
+        const { error: metaErr } = await sb.from('provider_photos').insert({
+          provider_id: providerId,
+          original_path: originalPath,
+          thumbnail_path: thumbnailPath,
+          mime_type: mimeType,
+          size_bytes: sizeBytes,
+        });
+        if (metaErr) throw metaErr;
+
+        // Update provider to reference thumbnail for fast display
+        const { error: updErr } = await sb
+          .from('providers')
+          .update({ photo_url: thumbnailPath })
+          .eq('id', providerId);
+        if (updErr) throw updErr;
       } catch (uploadError) {
-        console.error('Photo upload failed:', uploadError);
+        console.error('Photo upload/thumbnail failed:', uploadError);
         return NextResponse.json(
           { ok: false, error: `Photo upload failed: ${uploadError instanceof Error ? uploadError.message : 'Unknown error'}` },
           { status: 400 }
         );
       }
     }
-    
-    // Insert provider into database
-    const { error } = await sb.from('providers').insert(payload);
-    if (error) {
-      console.error('Database insert error:', error);
-      return NextResponse.json(
-        { ok: false, error: `Failed to save provider: ${error.message}` },
-        { status: 500 }
-      );
-    }
-    
-    return NextResponse.json({ ok: true });
+
+    return NextResponse.json({ ok: true, id: providerId });
     
   } catch (error) {
     console.error('Onboarding API error:', error);
