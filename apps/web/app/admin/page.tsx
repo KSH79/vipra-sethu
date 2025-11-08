@@ -1,7 +1,7 @@
 
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { Drawer } from "@/components/ui/Drawer";
@@ -56,7 +56,7 @@ const mockPendingProviders = [
 ];
 
 export default function Admin() {
-  const [pendingProviders, setPendingProviders] = useState(mockPendingProviders);
+  const [pendingProviders, setPendingProviders] = useState<any[]>([]);
   const [selectedProvider, setSelectedProvider] = useState<any>(null);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -65,6 +65,40 @@ export default function Admin() {
   const [category, setCategory] = useState<string>('');
   const [page, setPage] = useState(1);
   const pageSize = 5;
+  const [isListLoading, setIsListLoading] = useState(true);
+  const [listError, setListError] = useState<string | null>(null);
+
+  // Simulate async load for pending providers; replace with Supabase call later
+  useEffect(() => {
+    const load = async () => {
+      setIsListLoading(true);
+      setListError(null);
+      try {
+        await new Promise((r) => setTimeout(r, 500));
+        setPendingProviders(mockPendingProviders);
+      } catch (e) {
+        setListError('Failed to load pending providers.');
+      } finally {
+        setIsListLoading(false);
+      }
+    };
+    load();
+  }, []);
+
+  const retryLoad = () => {
+    setIsListLoading(true);
+    setListError(null);
+    // re-run the same simulated fetch
+    setTimeout(() => {
+      try {
+        setPendingProviders(mockPendingProviders);
+        setIsListLoading(false);
+      } catch (e) {
+        setListError('Failed to load pending providers.');
+        setIsListLoading(false);
+      }
+    }, 400);
+  };
 
   const handleApprove = async (providerId: string) => {
     setIsLoading(true);
