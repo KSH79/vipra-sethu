@@ -2,7 +2,7 @@
 
 ## Vipra Sethu development plan and task tracking
 
-**Last Updated:** 09-Nov-2025 (Admin login complete)
+**Last Updated:** 09-Nov-2025 (Admin drawer + detail API tests added)
 
 ---
 
@@ -361,7 +361,7 @@
 
 - [x] Playwright E2E setup
 - [x] Test: Onboarding flow
-- [ ] Test: Admin approval
+- [x] Test: Admin approval
 - [ ] Test: Search and filter
 - [ ] Test: Contact provider
 

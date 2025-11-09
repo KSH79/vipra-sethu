@@ -1,4 +1,3 @@
-
 ### Admin Route Protection & Middleware
 
 - Middleware (`apps/web/middleware.ts`) uses `@supabase/ssr` with cookie adapters to refresh sessions and protect `/admin/*` routes.
@@ -6,6 +5,19 @@
 - Admin allowlist is enforced via `public.admins(user_email)`; middleware checks the current session's email against this table.
 - MFA checks are integrated (via Supabase MFA API) and can redirect to `/admin/mfa-verify` when needed.
 - Logout is exposed in the top navigation only when authenticated, wired to `POST /auth/logout`.
+
+### Admin Approval Drawer
+
+- Drawer is a modal side panel used to review a single provider.
+- Detail data is lazy-loaded from `GET /api/admin/providers/[id]` to keep list queries fast.
+- The API returns only non-audit business fields (e.g., phone, whatsapp, languages, about, service_radius_km, availability_notes, travel_notes, expectations, response_time_hours, rejection_reason) plus category/sampradaya codes and optional primary photo.
+- The Drawer renders all these with labels and "N/A" fallbacks. Audit fields like `created_at` are not displayed.
+- UX rules:
+  - Clicking the backdrop does not close the Drawer.
+  - Escape key does not close the Drawer.
+  - Focus moves into the Drawer when opened; admin must choose an action (Approve/Reject) or Close button.
+  - Primary photo uses provider photo if available (provider_photos thumbnail or profile/photo URLs), displayed without cropping.
+
 # Architecture
 
 **Technical architecture and design decisions for Vipra Sethu**
