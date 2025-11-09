@@ -16,8 +16,20 @@ export async function GET(request: NextRequest) {
     const { error } = await supabase.auth.exchangeCodeForSession(code)
     
     if (!error) {
-      // Successful authentication, redirect to the intended page
-      return NextResponse.redirect(`${origin}${next}`)
+      // Successful authentication, redirect to the intended page.
+      // "next" may be an absolute URL (e.g., from middleware passing req.url)
+      // or a relative path. Normalize safely and avoid duplicating origin.
+      try {
+        const resolved = new URL(next, origin)
+        // Prevent open redirect: only allow same-origin redirects
+        if (resolved.origin !== origin) {
+          return NextResponse.redirect(origin)
+        }
+        return NextResponse.redirect(resolved.toString())
+      } catch {
+        // If URL parsing fails, fall back to site origin
+        return NextResponse.redirect(origin)
+      }
     }
   }
 
