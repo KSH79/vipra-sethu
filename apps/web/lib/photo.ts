@@ -22,7 +22,12 @@ export type ThumbnailResult = {
  */
 export async function uploadWithThumbnail(file: File, providerId: string): Promise<ThumbnailResult> {
   const allowed = ['image/jpeg','image/jpg','image/png','image/webp']
-  if (!allowed.includes(file.type)) throw new Error('Invalid file type')
+  const origExt = (file.name.split('.').pop() || 'jpg').toLowerCase()
+  const extAllowed = ['jpg','jpeg','png','webp']
+  const inferredMime = file.type || (origExt === 'png' ? 'image/png' : (origExt === 'webp' ? 'image/webp' : 'image/jpeg'))
+  if (!allowed.includes(file.type) && !extAllowed.includes(origExt)) {
+    throw new Error(`Invalid file type: type=${file.type || 'n/a'} ext=.${origExt}`)
+  }
   if (file.size > 5 * 1024 * 1024) throw new Error('File too large (max 5MB)')
 
   const admin = getAdmin()
@@ -30,7 +35,6 @@ export async function uploadWithThumbnail(file: File, providerId: string): Promi
   const buf = Buffer.from(arrayBuf)
 
   // derive extension
-  const origExt = (file.name.split('.').pop() || 'jpg').toLowerCase()
   const baseName = `${providerId}/${crypto.randomUUID()}`
   const originalPath = `originals/${baseName}.${origExt}`
   const thumbnailPath = `thumbs/${baseName}.webp`
@@ -38,7 +42,7 @@ export async function uploadWithThumbnail(file: File, providerId: string): Promi
   // upload original
   const { error: upErr } = await admin.storage
     .from('provider-photos')
-    .upload(originalPath, buf, { contentType: file.type, upsert: true })
+    .upload(originalPath, buf, { contentType: inferredMime, upsert: true })
   if (upErr) throw upErr
 
   // generate thumbnail
@@ -55,7 +59,7 @@ export async function uploadWithThumbnail(file: File, providerId: string): Promi
   return {
     originalPath,
     thumbnailPath,
-    mimeType: file.type,
+    mimeType: inferredMime,
     sizeBytes: file.size,
   }
 }

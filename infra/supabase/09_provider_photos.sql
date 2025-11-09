@@ -21,17 +21,35 @@ alter table public.provider_photos enable row level security;
 -- Policies
 -- Read access controlled via signed URLs from Storage; no anonymous selects needed.
 -- Allow admins full access
-create policy if not exists provider_photos_admin_all on public.provider_photos
-  for all to authenticated using (
-    exists (
-      select 1 from public.admins a where a.user_email = (auth.jwt() ->> 'email')
-    )
-  );
+do $$ begin
+  if not exists (
+    select 1 from pg_policies 
+    where schemaname = 'public' 
+      and tablename = 'provider_photos' 
+      and policyname = 'provider_photos_admin_all'
+  ) then
+    create policy provider_photos_admin_all on public.provider_photos
+      for all to authenticated using (
+        exists (
+          select 1 from public.admins a where a.user_email = (auth.jwt() ->> 'email')
+        )
+      );
+  end if;
+end $$;
 
 -- Providers can insert their own photo metadata; match on phone/email if such linkage exists later.
 -- For now, limit insert to authenticated users only; app enforces association on server side.
-create policy if not exists provider_photos_insert_authenticated on public.provider_photos
-  for insert to authenticated with check (true);
+do $$ begin
+  if not exists (
+    select 1 from pg_policies 
+    where schemaname = 'public' 
+      and tablename = 'provider_photos' 
+      and policyname = 'provider_photos_insert_authenticated'
+  ) then
+    create policy provider_photos_insert_authenticated on public.provider_photos
+      for insert to authenticated with check (true);
+  end if;
+end $$;
 
 -- Optional: owners can select their own records (if needed by app); keep restricted for now
 -- create policy provider_photos_select_self on public.provider_photos for select to authenticated using (provider_id = provider_id);
