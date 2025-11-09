@@ -136,7 +136,7 @@
 
 ### Product & Design
 
-#### ✅ Completed (Phase 0)
+#### ✅ Product - Completed (Phase 0)
 
 - [x] Homepage hero section
 - [x] Provider directory UI  
@@ -146,19 +146,19 @@
 - [x] Filter UI (category, language, location)
 - [x] WhatsApp/phone contact buttons
 
-#### 📋 Planned (Phase 1)
+#### 📋 Product - Planned (Phase 1)
 
 - [ ] Loading states for all pages
 - [ ] Error states and messages
 - [ ] Success confirmations
 - [ ] Empty states (no results)
 
-#### 📋 Planned (Phase 2)
+#### 📋 Product - Planned (Phase 2)
 
 - [ ] Admin rejection flow UI
 - [ ] Admin audit log viewer
 
-#### 💡 Backlog (Phase 2+)
+#### 💡 Product - Backlog (Phase 2+)
 
 - [ ] Provider profile editing
 - [ ] Search autocomplete
@@ -169,7 +169,7 @@
 
 ### 💻 Frontend Development
 
-#### ✅ Completed (Phase 0)
+#### ✅ Frontend - Completed (Phase 0)
 
 - [x] Next.js 14 App Router setup
 - [x] Tailwind CSS configuration
@@ -178,11 +178,11 @@
 - [x] React Hook Form + Zod validation
 - [x] Search RPC integration
 
-#### 🚧 In Progress (Phase 1)
+#### 🚧 Frontend - In Progress (Phase 1)
 
 - [ ] Authentication integration
 
-#### 📋 Planned (Phase 1)
+#### 📋 Frontend - Planned (Phase 1)
 
 - [ ] Login/logout UI
 - [ ] Protected routes middleware
@@ -191,11 +191,11 @@
 - [ ] Pagination for provider list
 - [ ] Form error handling
 
-#### 📋 Planned (Phase 2)
+#### 📋 Frontend - Planned (Phase 2)
 
 - [ ] Admin bulk actions
 
-#### 💡 Backlog (Phase 2+)
+#### 💡 Frontend - Backlog (Phase 2+)
 
 - [ ] Real-time search results
 - [ ] Provider favorites/bookmarks
@@ -205,7 +205,7 @@
 
 ### 🗄️ Backend & Database
 
-#### ✅ Completed (Phase 0)
+#### ✅ Backend - Completed (Phase 0)
 
 - [x] PostgreSQL schema design
 - [x] Clean taxonomy (categories, sampradayas)
@@ -214,19 +214,19 @@
 - [x] RPC search function
 - [x] Provider details RPC
 
-#### 📋 Planned (Phase 1)
+#### 📋 Backend - Planned (Phase 1)
 
 - [ ] Admin functions (approve/reject)
 - [ ] Signed URL generation
 - [ ] Rate limiting on onboarding
 - [ ] File upload validation
 
-#### 📋 Planned (Phase 1-2)
+#### 📋 Backend - Planned (Phase 1-2)
 
 - [ ] Admin action audit logging
 - [ ] Provider statistics RPC
 
-#### 💡 Backlog (Phase 2+)
+#### 💡 Backend - Backlog (Phase 2+)
 
 - [ ] Search relevance scoring
 - [ ] Typo tolerance in search
@@ -238,11 +238,11 @@
 
 ### 🔐 Security & Auth
 
-#### 🚧 In Progress (Phase 1)
+#### 🚧 Security - In Progress (Phase 1)
 
 - [ ] Supabase Auth setup
 
-#### 📋 Planned (Phase 1)
+#### 📋 Security - Planned (Phase 1)
 
 - [ ] Magic link authentication
 - [ ] Auth callback route
@@ -253,11 +253,11 @@
 - [ ] MFA for admins (TOTP)
 - [ ] Recovery codes for MFA
 
-#### 📋 Planned (Phase 2)
+#### 📋 Security - Planned (Phase 2)
 
 - [ ] Rate limiting on login
 
-#### 💡 Backlog (Phase 2+)
+#### 💡 Security - Backlog (Phase 2+)
 
 - [ ] Security headers
 - [ ] CAPTCHA on onboarding
@@ -266,13 +266,13 @@
 
 ### 🚀 Infrastructure & DevOps
 
-#### ✅ Completed (Phase 0)
+#### ✅ Infrastructure - Completed (Phase 0)
 
 - [x] Environment strategy defined (dev/prod separation)
 - [x] Supabase CLI setup documented
 - [x] Migration workflow established
 
-#### 📋 Planned (Phase 1)
+#### 📋 Infrastructure - Planned (Phase 1)
 
 - [ ] Create dev Supabase project
 - [ ] Create prod Supabase project
@@ -284,12 +284,12 @@
 - [ ] Production deployment
 - [ ] Custom domain setup
 
-#### 📋 Planned (Phase 2)
+#### 📋 Infrastructure - Planned (Phase 2)
 
 - [ ] Preview deployments for PRs
 - [ ] GitHub Actions CI/CD
 
-#### 💡 Backlog (Phase 2+)
+#### 💡 Infrastructure - Backlog (Phase 2+)
 
 - [ ] Automated testing in CI
 - [ ] Database backups
@@ -300,7 +300,7 @@
 
 ### 📊 Analytics & Monitoring
 
-#### ✅ Completed (Phase 0)
+#### ✅ Analytics - Completed (Phase 0)
 
 - [x] PostHog integration
 - [x] Event tracking (search, view, contact)
@@ -308,17 +308,17 @@
 - [x] Provider view tracking
 - [x] Contact conversion tracking
 
-#### 📋 Planned (Phase 1)
+#### 📋 Analytics - Planned (Phase 1)
 
 - [ ] Vercel Analytics
 - [ ] Sentry error tracking
 
-#### 📋 Planned (Phase 2)
+#### 📋 Analytics - Planned (Phase 2)
 
 - [ ] Sentry performance monitoring
 - [ ] Admin dashboard analytics
 
-#### 💡 Backlog (Phase 2+)
+#### 💡 Analytics - Backlog (Phase 2+)
 
 - [ ] Search analytics
 - [ ] User feedback mechanism
@@ -327,23 +327,23 @@
 
 ### 📝 Documentation
 
-#### ✅ Completed (Phase 0)
+#### ✅ Documentation - Completed (Phase 0.1)
 
 - [x] README.md (entry point)
 - [x] DEVELOPER-GUIDE.md
 - [x] ARCHITECTURE.md
 - [x] PRODUCT.md
 
-#### ✅ Completed (Phase 0)
+#### ✅ Documentation - Completed (Phase 0.2)
 
 - [x] ROADMAP.md (this file)
 - [x] ENVIRONMENT-SETUP.md (dev/prod environment guide)
 
-#### 📋 Planned (Phase 1)
+#### 📋 Documentation - Planned (Phase 1)
 
 - [ ] OPERATIONS.md
 
-#### 💡 Backlog (Phase 2+)
+#### 💡 Documentation - Backlog (Phase 2+)
 
 - [ ] API documentation
 - [ ] Deployment guide
@@ -354,11 +354,11 @@
 
 ### 🧪 Testing & Quality
 
-#### 📋 Planned (Phase 1)
+#### 📋 Test -Planned (Phase 1)
 
 - [ ] Manual testing checklist
 
-#### 📋 Planned (Phase 2)
+#### 📋 Test - Planned (Phase 2)
 
 - [x] Playwright E2E setup
 - [x] Test: Onboarding flow
@@ -366,7 +366,7 @@
 - [ ] Test: Search and filter
 - [ ] Test: Contact provider
 
-#### 💡 Backlog (Phase 2+)
+#### 💡 Test Backlog (Phase 2+)
 
 - [ ] Unit tests for utilities
 - [ ] Visual regression testing
@@ -376,14 +376,14 @@
 
 ### 🌍 Internationalization & Accessibility
 
-#### 📋 Planned (Phase 2)
+#### 📋 Internationalization - Planned (Phase 2)
 
 - [ ] Keyboard navigation
 - [ ] ARIA labels
 - [ ] Color contrast audit
 - [ ] Semantic HTML
 
-#### 💡 Backlog (Phase 2+)
+#### 💡 Internationalization - Backlog (Phase 2+)
 
 - [ ] Define i18n strategy
 - [ ] Translate UI labels

@@ -1,6 +1,6 @@
 # Environment Setup Guide
 
-**Complete guide for managing development and production environments**
+Complete guide for managing development and production environments
 
 **Last Updated:** 2025-11-08
 
@@ -26,7 +26,7 @@
 
 We use a **clean two-environment setup** with trunk-based development:
 
-```
+HTML
 ┌─────────────────────────────────────────────────────────────┐
 │                     GitHub Repository                        │
 │                     (Single main branch)                     │
@@ -48,7 +48,8 @@ We use a **clean two-environment setup** with trunk-based development:
 │     -dev      │     │     (prod)    │
 │  (Supabase)   │     │  (Supabase)   │
 └───────────────┘     └───────────────┘
-```
+
+``` HTML
 
 ### Key Principles
 
@@ -76,6 +77,7 @@ fix/bug-name → PR → Merge to main → Delete branch
 ```
 
 **Benefits:**
+
 - ✅ Fewer merge conflicts
 - ✅ Faster integration
 - ✅ Simpler workflow
@@ -91,6 +93,7 @@ fix/bug-name → PR → Merge to main → Delete branch
 | `vipra-sethu` (prod) | Production users | Migrations applied after testing |
 
 **Key Points:**
+
 - Dev and prod are **completely isolated** (separate databases, storage, auth)
 - Schema changes tested in dev before applying to prod
 - Seed data only in dev (prod has real user data)
@@ -146,8 +149,13 @@ NEXT_PUBLIC_APP_URL=http://localhost:3000
 ### Installation
 
 ```bash
-# Install Supabase CLI globally
-npm install -g supabase
+
+npm install -g supabase # Install Supabase CLI globally
+
+npm i supabase --save-dev  # As dev dependency:
+
+Via Scoop: scoop install supabase #recommended method for Windows
+scoop update supabase 
 
 # Verify installation
 supabase --version
@@ -183,6 +191,7 @@ supabase link --project-ref <prod-project-ref>
 ```
 
 **Finding Project Ref:**
+
 1. Go to Supabase Dashboard
 2. Select your project
 3. Settings → General → Reference ID
@@ -309,7 +318,7 @@ supabase db diff
 
 #### Step 4: Repurpose Current as Prod
 
-**Option A: Keep Current as Prod (Recommended)**
+Option A: Keep Current as Prod (Recommended)
 
 ```bash
 # Rename project in Supabase Dashboard
@@ -319,7 +328,7 @@ supabase db diff
 # Just update environment variables in Vercel
 ```
 
-**Option B: Create Fresh Prod Project**
+Option B: Create Fresh Prod Project
 
 ```bash
 # 1. Create new project: vipra-sethu (prod)
@@ -609,6 +618,7 @@ supabase db diff
 ### Migration Best Practices
 
 **DO:**
+
 - ✅ Create small, focused migrations (one feature per migration)
 - ✅ Test in dev before applying to prod
 - ✅ Include rollback instructions in comments
@@ -617,6 +627,7 @@ supabase db diff
 - ✅ Commit migrations to Git before applying to prod
 
 **DON'T:**
+
 - ❌ Modify existing migration files (create new ones instead)
 - ❌ Include seed data in migrations (use seed.sql)
 - ❌ Apply untested migrations to prod
@@ -645,7 +656,7 @@ DROP TABLE IF EXISTS bookings CASCADE;
 supabase db push
 ```
 
-**Option 2: Restore from backup**
+Option 2: Restore from backup
 
 ```bash
 # Supabase automatically backs up daily
@@ -853,12 +864,14 @@ supabase db push
 ---
 
 **Next Steps:**
+
 1. Complete migration from current setup (Steps 1-6 above)
 2. Update team documentation with new workflow
 3. Train team on Supabase CLI usage
 4. Set up CI/CD for automated migration application (future)
 
 **Related Documentation:**
+
 - [DEVELOPER-GUIDE.md](./DEVELOPER-GUIDE.md) - Development workflows
 - [ARCHITECTURE.md](./ARCHITECTURE.md) - System architecture
 - [ROADMAP.md](./ROADMAP.md) - Development plan

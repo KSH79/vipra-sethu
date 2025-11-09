@@ -409,7 +409,7 @@ git add apps/web/lib/types/database.ts
 git commit -m "chore: update database types"
 ```
 
-### Troubleshooting
+### Troubleshooting Database
 
 **Problem:** `supabase: command not found`
 
@@ -491,6 +491,24 @@ git push                            # Short version (pushes to tracked upstream)
 # Switch branches
 git checkout main                   # Switches to main branch
 git checkout feat/other-feature     # Switches to another feature branch
+
+# Temporarily shelve local changes, switch branches, test, then restore or drop the stash
+git stash push -m "temp: switching to feature/baseline-setup to test"
+git fetch origin feature/baseline-setup
+git checkout -b feature/baseline-setup --track origin/feature/baseline-setup
+
+# After testing (optional): return to main and restore or drop stash
+git checkout main
+git stash list
+git stash pop           # applies most recent stash
+# If you don't need the stash:
+# git stash drop
+
+# Commit to a temp branch
+git checkout -b docs/update-roadmap
+git add docs/ROADMAP.md
+git commit -m "docs: WIP roadmap edits"
+git checkout -b feature/baseline-setup --track origin/feature/baseline-setup
 
 # Keep branch updated with main
 git checkout main                   # Switch to main
@@ -579,6 +597,8 @@ git stash pop                       # Applies most recent stash and removes it
 git stash apply                     # Applies stash but keeps it in list
 git stash drop                      # Deletes most recent stash
 ```
+
+git log origin/main..HEAD --oneline --decorate # shows commits that are in your local branch but not in the remote branch
 
 ---
 
