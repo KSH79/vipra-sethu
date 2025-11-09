@@ -2,7 +2,7 @@
 
 ## Vipra Sethu development plan and task tracking
 
-**Last Updated:** 09-Nov-2025
+**Last Updated:** 09-Nov-2025 (Admin login complete)
 
 ---
 
@@ -240,15 +240,14 @@
 
 #### 🚧 Security - In Progress (Phase 1)
 
-- [ ] Supabase Auth setup
+- [x] Supabase Auth setup (magic link)
 
 #### 📋 Security - Planned (Phase 1)
 
-- [ ] Magic link authentication
-- [ ] Auth callback route
-- [ ] Session management
-- [ ] Admin email allowlist check
-- [ ] Protect admin routes
+- [x] Auth callback route
+- [x] Admin email allowlist check
+- [x] Protect admin routes
+- [x] Logout route and UI
 - [ ] Protect onboarding route
 - [ ] MFA for admins (TOTP)
 - [ ] Recovery codes for MFA
