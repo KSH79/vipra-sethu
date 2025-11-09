@@ -25,24 +25,25 @@ export default function Providers() {
   const itemsPerPage = 12;
 
   // Load initial data
-  useEffect(() => {
-    const loadData = async () => {
-      try {
-        setLoading(true);
-        const [providersResult, categoriesResult] = await Promise.all([
-          searchProviders({ limit: 100 }),
-          getCategories()
-        ]);
-        setAllProviders(providersResult.data);
-        setCategories(categoriesResult);
-      } catch (err) {
-        console.error('Error loading data:', err);
-        setError(err instanceof Error ? err.message : 'Failed to load data');
-      } finally {
-        setLoading(false);
-      }
-    };
+  const loadData = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      const [providersResult, categoriesResult] = await Promise.all([
+        searchProviders({ limit: 100 }),
+        getCategories()
+      ]);
+      setAllProviders(providersResult.data);
+      setCategories(categoriesResult);
+    } catch (err) {
+      console.error('Error loading data:', err);
+      setError(err instanceof Error ? err.message : 'Failed to load data');
+    } finally {
+      setLoading(false);
+    }
+  };
 
+  useEffect(() => {
     loadData();
   }, []);
 
@@ -216,7 +217,13 @@ export default function Providers() {
           {error && !loading && (
             <div className="bg-red-50 border border-red-200 rounded-lg p-6 max-w-2xl mx-auto">
               <h3 className="text-red-800 font-medium mb-2">Error loading providers</h3>
-              <p className="text-red-700 text-sm">{error}</p>
+              <p className="text-red-700 text-sm mb-3">{error}</p>
+              <button
+                onClick={loadData}
+                className="px-4 py-2 text-sm rounded-lg border border-red-200 bg-white hover:bg-red-50 transition-colors"
+              >
+                Retry
+              </button>
             </div>
           )}
 
