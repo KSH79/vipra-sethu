@@ -1,4 +1,4 @@
-import { createMiddlewareClient } from '@supabase/auth-helpers-nextjs'
+import { createServerClient } from '@supabase/ssr'
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 
@@ -11,7 +11,22 @@ import type { NextRequest } from 'next/server'
  */
 export async function middleware(req: NextRequest) {
   const res = NextResponse.next()
-  const supabase = createMiddlewareClient({ req, res })
+  const supabase = createServerClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    {
+      cookies: {
+        getAll() {
+          return req.cookies.getAll()
+        },
+        setAll(cookiesToSet) {
+          cookiesToSet.forEach(({ name, value, options }) => {
+            res.cookies.set(name, value, options)
+          })
+        },
+      },
+    }
+  )
 
   // Refresh session if expired - required for Server Components
   // https://supabase.com/docs/guides/auth/auth-helpers/nextjs#managing-session-with-middleware
@@ -24,17 +39,18 @@ export async function middleware(req: NextRequest) {
   // Protect admin routes
   if (req.nextUrl.pathname.startsWith('/admin')) {
     if (!session) {
-      // No authenticated user, redirect to login
+      // No authenticated user, redirect to login with a RELATIVE redirectTo
       const loginUrl = new URL('/login', req.url)
-      loginUrl.searchParams.set('redirectTo', req.url)
+      const relativeNext = req.nextUrl.pathname + req.nextUrl.search
+      loginUrl.searchParams.set('redirectTo', relativeNext || '/')
       return NextResponse.redirect(loginUrl)
     }
 
     // Check if user is an admin
     const { data: adminData, error } = await supabase
       .from('admins')
-      .select('id')
-      .eq('user_id', session.user.id)
+      .select('user_email')
+      .eq('user_email', session.user.email)
       .single()
 
     if (error || !adminData) {

@@ -122,11 +122,11 @@ export async function shouldRequireMFA(): Promise<boolean> {
       return false;
     }
 
-    // Check if user is in admins table
+    // Check if user is in admins table (by email)
     const { data: adminData, error } = await supabase
       .from('admins')
-      .select('id')
-      .eq('user_id', user.id)
+      .select('user_email')
+      .eq('user_email', user.email)
       .single();
 
     if (error || !adminData) {
