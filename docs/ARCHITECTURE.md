@@ -5,6 +5,7 @@
 - Unauthenticated access to `/admin` redirects to `/login?redirectTo=/admin` (relative path to avoid malformed URLs).
 - Admin allowlist is enforced via `public.admins(user_email)`; middleware checks the current session's email against this table.
 - MFA checks are integrated (via Supabase MFA API) and can redirect to `/admin/mfa-verify` when needed.
+- Logout is exposed in the top navigation only when authenticated, wired to `POST /auth/logout`.
 # Architecture
 
 **Technical architecture and design decisions for Vipra Sethu**
@@ -350,6 +351,11 @@ Browser
 - The callback uses `@supabase/ssr` to `exchangeCodeForSession(code)` and attaches the resulting session cookies to the redirect response.
 - Safe redirect normalization only allows same-origin URLs and supports both relative and absolute `next` values.
 - Session is stored in HTTP-only cookies; middleware refreshes sessions.
+
+**Logout (SSR)**
+- Route: `POST /auth/logout`
+- Uses `@supabase/ssr` to call `auth.signOut()` with cookie adapters writing to the redirect response.
+- Redirects to `/` upon success (best-effort; still redirects even if signOut throws).
 
 **MFA for Admins (TOTP)**
 - Admins must enable two-factor authentication

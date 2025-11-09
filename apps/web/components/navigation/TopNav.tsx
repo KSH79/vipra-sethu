@@ -9,7 +9,7 @@ import { useState, useEffect } from "react";
 /**
  * Top navigation bar with logo, search, and links
  */
-export function TopNav() {
+export function TopNav({ isAuthenticated = false }: { isAuthenticated?: boolean }) {
   const pathname = usePathname();
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -87,6 +87,16 @@ export function TopNav() {
             >
               Add Listing
             </Link>
+            {isAuthenticated && (
+              <form action="/auth/logout" method="post">
+                <button
+                  type="submit"
+                  className="text-sm text-slate-600 hover:text-saffron transition-colors"
+                >
+                  Logout
+                </button>
+              </form>
+            )}
           </nav>
 
           {/* Mobile Menu Button */}
@@ -125,6 +135,17 @@ export function TopNav() {
               >
                 Add Listing
               </Link>
+              {isAuthenticated && (
+                <form action="/auth/logout" method="post">
+                  <button
+                    type="submit"
+                    className="px-3 py-2 rounded-md text-sm font-medium text-slate-600 hover:bg-sandstone/10 text-left"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    Logout
+                  </button>
+                </form>
+              )}
             </nav>
           </div>
         )}

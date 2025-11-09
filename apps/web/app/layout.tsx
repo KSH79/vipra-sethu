@@ -4,6 +4,8 @@ import { Inter } from "next/font/google";
 import Link from "next/link";
 import "./globals.css";
 import { TopNav } from "@/components/navigation/TopNav";
+import { cookies } from 'next/headers'
+import { createServerClient } from '@supabase/ssr'
 import { PostHogAnalyticsProvider } from "@/lib/analytics";
 import { Analytics } from '@vercel/analytics/react';
 
@@ -32,13 +34,29 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   // Disable analytics during development
   const isDevelopment = process.env.NODE_ENV === 'development';
+  const cookieStore = await cookies()
+  const supabase = createServerClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    {
+      cookies: {
+        getAll() {
+          return cookieStore.getAll()
+        },
+        // In a server component render, we cannot set cookies; middleware handles refresh
+        setAll() {},
+      },
+    }
+  )
+  const { data: { session } } = await supabase.auth.getSession()
+  const isAuthenticated = !!session?.user
   
   return (
     <html lang="en" className="scroll-smooth">
@@ -49,7 +67,7 @@ export default function RootLayout({
             Skip to main content
           </a>
           <div className="min-h-screen bg-ivory flex flex-col">
-            <TopNav />
+            <TopNav isAuthenticated={isAuthenticated} />
             <main id="main-content" className="flex-1">
               {children}
             </main>
@@ -115,7 +133,7 @@ export default function RootLayout({
               Skip to main content
             </a>
             <div className="min-h-screen bg-ivory flex flex-col">
-              <TopNav />
+              <TopNav isAuthenticated={isAuthenticated} />
               <main id="main-content" className="flex-1">
                 {children}
               </main>
