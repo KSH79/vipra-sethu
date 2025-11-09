@@ -63,120 +63,22 @@ export class TaxonomyService {
    * Search providers with clean taxonomy filters
    */
   async searchProviders(filters: ProviderFilters): Promise<SearchResult<ProviderWithTaxonomy>> {
-    const supabase = await createClient();
-    
-    try {
-      // Try RPC first
-      const params = {
-        p_text: filters.text || null,
-        p_category: filters.category_code || null,
-        p_languages: filters.languages || null,
-        p_sampradaya: filters.sampradaya_code || null,
-        p_lat: filters.lat || null,
-        p_lon: filters.lon || null,
-        p_radius_km: filters.radius_km || 15,
-        p_limit: filters.limit || 50,
-        p_offset: filters.offset || 0,
-      };
+    const params = new URLSearchParams()
+    if (filters.text) params.set('text', filters.text)
+    if (filters.category_code) params.set('category_code', filters.category_code)
+    if (filters.limit != null) params.set('limit', String(filters.limit))
+    if (filters.offset != null) params.set('offset', String(filters.offset))
+    // Note: location/language filters can be added later on server side
 
-      console.log('Calling search_providers RPC with params:', params);
-      const { data, error } = await supabase.rpc('search_providers', params);
-      
-      if (error) {
-        console.error('RPC error:', error);
-        throw error;
-      }
-      
-      // RPC now returns { providers, total_count, distance_km, text_similarity_score, text_rank } per row
-      const rows = (data || []) as Array<{
-        providers: ProviderWithTaxonomy;
-        total_count: bigint;
-        distance_km: number | null;
-        text_similarity_score: number | null;
-        text_rank: number | null;
-      }>;
-      
-      const providers = rows.map(row => ({
-        ...row.providers,
-        distance_km: row.distance_km ?? undefined,
-        text_similarity_score: row.text_similarity_score ?? undefined,
-        text_rank: row.text_rank ?? undefined,
-      }));
-      
-      const total = rows.length > 0 ? Number(rows[0].total_count) : 0;
-      
-      return {
-        data: providers,
-        total,
-        hasMore: (filters.offset || 0) + providers.length < total,
-        limit: filters.limit || 50,
-        offset: filters.offset || 0,
-      };
-    } catch (rpcError) {
-      console.warn('RPC failed, trying fallback query:', rpcError);
-      
-      // Fallback: Direct table query (simplified version)
-      try {
-        let query = supabase
-          .from('providers')
-          .select(`
-            *,
-            categories!inner(
-              code,
-              name
-            ),
-            sampradayas!inner(
-              code,
-              name
-            )
-          `, { count: 'exact' })
-          .eq('status', 'approved');
-
-        // Add text search if provided
-        if (filters.text) {
-          query = query.or(`name.ilike.%${filters.text}%,about.ilike.%${filters.text}%`);
-        }
-
-        // Add category filter
-        if (filters.category_code) {
-          query = query.eq('categories.code', filters.category_code);
-        }
-
-        // Add sampradaya filter
-        if (filters.sampradaya_code) {
-          query = query.eq('sampradayas.code', filters.sampradaya_code);
-        }
-
-        // Add pagination at the end
-        const offset = filters.offset || 0;
-        const limit = filters.limit || 50;
-        query = query.range(offset, offset + limit - 1);
-
-        const { data, error, count } = await query;
-
-        if (error) {
-          console.error('Fallback query also failed:', error);
-          throw new Error(`RPC failed: ${rpcError}. Fallback also failed: ${error.message}`);
-        }
-
-        // Transform data to match expected format
-        const providers = (data || []).map((provider: any) => ({
-          ...provider,
-          category: provider.categories,
-          sampradaya: provider.sampradayas,
-        }));
-
-        return {
-          data: providers,
-          total: count || providers.length,
-          hasMore: providers.length === (filters.limit || 50),
-          limit: filters.limit || 50,
-          offset: filters.offset || 0,
-        };
-      } catch (fallbackError) {
-        console.error('Both RPC and fallback failed:', fallbackError);
-        throw new Error(`Failed to search providers. RPC error: ${rpcError}. Fallback error: ${fallbackError}`);
-      }
+    const res = await fetch(`/api/providers/search?${params.toString()}`)
+    if (!res.ok) throw new Error('Failed to search providers')
+    const json = await res.json()
+    return {
+      data: (json.data || []) as ProviderWithTaxonomy[],
+      total: json.total || 0,
+      hasMore: ((filters.offset || 0) + (json.data?.length || 0)) < (json.total || 0),
+      limit: filters.limit || 50,
+      offset: filters.offset || 0,
     }
   }
 
@@ -184,29 +86,11 @@ export class TaxonomyService {
    * Get provider details with taxonomy names
    */
   async getProviderDetails(providerId: string): Promise<ProviderWithTaxonomy | null> {
-    const supabase = await createClient();
-    const { data, error } = await supabase.rpc('get_provider_details', {
-      provider_id: providerId,
-    });
-
-    if (error) {
-      console.error('Error fetching provider details:', error);
-      throw new Error('Failed to fetch provider details');
-    }
-
-    // Current RPC returns rows like: [{ get_provider_details: { provider: {...}, photos:[], rituals:[] } }]
-    if (!data) return null;
-    const row = Array.isArray(data) ? (data[0] as any) : (data as any);
-    const envelope = row?.get_provider_details ?? row;
-    const provider = envelope?.provider ?? envelope;
-    if (!provider) return null;
-
-    // Normalize field naming differences
-    if (provider.years_experience !== undefined && provider.experience_years === undefined) {
-      provider.experience_years = provider.years_experience;
-    }
-
-    return provider as ProviderWithTaxonomy;
+    const res = await fetch(`/api/providers/${providerId}`)
+    if (res.status === 404) return null
+    if (!res.ok) throw new Error('Failed to fetch provider details')
+    const json = await res.json()
+    return (json.data || null) as ProviderWithTaxonomy | null
   }
 
   /**

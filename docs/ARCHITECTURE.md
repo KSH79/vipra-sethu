@@ -2,7 +2,7 @@
 
 **Technical architecture and design decisions for Vipra Sethu**
 
-**Last Updated:** 2025-11-08
+**Last Updated:** 2025-11-09
 
 ---
 
@@ -195,8 +195,8 @@ infra/supabase/
 
 **provider_photos**
 - Photo metadata for provider profiles
-- Fields: provider_id, storage_path, uploaded_at
-- Actual files stored in Supabase Storage
+- Fields: provider_id, original_path, thumbnail_path, is_primary, uploaded_at
+- Actual files stored in Supabase Storage (private bucket)
 
 ### Relationships
 
@@ -268,13 +268,13 @@ Browser
 2. Next.js loads multi-step form with validation
 3. User fills Step 1: Name, email, phone, category, sampradaya
 4. User fills Step 2: Languages, experience, about
-5. User uploads photo (Step 3)
-   - Client uploads to Supabase Storage
-   - Returns storage path
+5. User optionally selects a photo (Step 3)
 6. User accepts terms and submits
-7. Server Action validates data with Zod schema
+7. Server validates data with Zod schema
 8. Inserts provider record (status='pending')
-9. Inserts photo metadata linking to provider
+9. If a photo file was provided:
+   - Server uploads original to Storage and generates a 512px WebP thumbnail (sharp)
+   - Stores `original_path` and `thumbnail_path` in `provider_photos` (is_primary=true)
 10. Redirects to success page
 11. Admin receives notification (future: email/webhook)
 
@@ -529,9 +529,8 @@ See individual ADR files in `docs/21-adr/` for full details.
 - No search analytics (can't see popular queries)
 
 **Photos:**
-- Single photo per provider (should support multiple)
-- No image optimization on upload (large files slow)
-- No thumbnail generation (loads full images)
+- Single primary photo per provider today (multi-photo gallery planned)
+- Backend generates optimized thumbnail on upload (WebP 512px)
 
 ### Planned Improvements
 

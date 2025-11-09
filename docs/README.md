@@ -69,6 +69,7 @@ The project is organized as a monorepo to keep all related code in one place.
   - `00-vision.md` to `20-risk-register.md`: The original product and technical planning documents.
   - `review.md`: A detailed review of the codebase's implementation status.
   - `to-do.md`: A prioritized checklist of development tasks.
+  - `MANUAL-TEST-CHECKLIST.md`: Manual testing steps before release
   - `README.md`: This file.
 
 ---

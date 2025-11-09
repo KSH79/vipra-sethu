@@ -2,7 +2,7 @@
 
 ## Vipra Sethu development plan and task tracking
 
-**Last Updated:** 08-Nov-2025
+**Last Updated:** 09-Nov-2025
 
 ---
 
@@ -122,19 +122,19 @@
 **These are the most impactful tasks selected from across all areas based on current MVP needs and dependencies:**
 
 - [ ] **Complete authentication integration** - Critical foundation that blocks all protected features and admin functionality
-- [ ] **Implement photo upload with signed URLs** - Essential for provider profiles, builds trust and enables visual verification
+- [x] **Implement photo upload with signed URLs** - Essential for provider profiles, builds trust and enables visual verification
 - [ ] **Build admin approval/rejection workflow** - Core business process needed for quality control and platform safety
 - [ ] **Deploy to Vercel production** - Required for real user testing and feedback collection before launch
-- [ ] **Add comprehensive error states and loading spinners** - Dramatically improves user experience during authentication and file uploads
+- [x] **Add comprehensive error states and loading spinners** - Dramatically improves user experience during authentication and file uploads
 - [ ] **Implement admin audit logging** - Essential for security, compliance, and tracking all provider approval decisions
 - [ ] **Set up Sentry error tracking** - Critical for monitoring production issues and maintaining platform reliability
-- [ ] **Create manual testing checklist** - Ensures quality before launch and prevents embarrassing bugs in production
-- [ ] **Add pagination to provider lists** - Improves performance and user experience as provider count grows
+- [x] **Create manual testing checklist** - Ensures quality before launch and prevents embarrassing bugs in production
+- [x] **Add pagination to provider lists** - Improves performance and user experience as provider count grows
 - [ ] **Build form validation and error handling** - Reduces user frustration and improves onboarding completion rates
 
 ---
 
-### 🎨 Product & Design
+### Product & Design
 
 #### ✅ Completed (Phase 0)
 
@@ -360,8 +360,8 @@
 
 #### 📋 Planned (Phase 2)
 
-- [ ] Playwright E2E setup
-- [ ] Test: Onboarding flow
+- [x] Playwright E2E setup
+- [x] Test: Onboarding flow
 - [ ] Test: Admin approval
 - [ ] Test: Search and filter
 - [ ] Test: Contact provider
@@ -418,8 +418,8 @@
 
 - [ ] Complete Supabase Auth integration
 - [ ] Implement magic link login/logout
-- [ ] Add photo upload validation
-- [ ] Generate signed URLs for photos
+- [x] Add photo upload validation
+- [x] Generate signed URLs for photos
 - [ ] Build admin rejection flow
 - [ ] Add audit logging
 

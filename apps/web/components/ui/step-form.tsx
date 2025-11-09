@@ -138,7 +138,7 @@ export function StepForm({
             type="submit"
             disabled={isSubmitting}
             className="ml-auto"
-            onClick={onSubmit}
+            aria-busy={isSubmitting}
           >
             {isSubmitting ? "Submitting..." : "Submit Profile"}
           </Button>
