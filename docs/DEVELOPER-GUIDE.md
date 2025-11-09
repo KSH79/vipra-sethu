@@ -553,6 +553,24 @@ git branch -m old-name new-name     # Renames local branch
 
 ### Stashing (Save Work Temporarily)
 
+Temporarily shelve local changes, switch branches, test, then restore or drop the stash.
+
+```bash
+git stash push -m "temp: switching to feature/xyz"
+git fetch origin feature/xyz
+git checkout -b feature/xyz --track origin/feature/xyz  #creates a local branch; starts  that branch at the remote branch’s current commit ; Sets upstream tracking to the remote branch => git pull knows which remote branch to pull from by default. git push knows where to push by default. git status shows how many commits you’re ahead/behind the remote
+```
+
+After testing (optional): return to main and restore or drop stash
+
+```bash
+git checkout main
+git stash list
+git stash pop           # applies most recent stash
+# If you don't need the stash:
+# git stash drop
+
+
 ```bash
 git stash                           # Saves current changes and cleans working directory
 git stash save "WIP: feature X"     # Stashes with descriptive message
