@@ -1,8 +1,15 @@
+
+### Admin Route Protection & Middleware
+
+- Middleware (`apps/web/middleware.ts`) uses `@supabase/ssr` with cookie adapters to refresh sessions and protect `/admin/*` routes.
+- Unauthenticated access to `/admin` redirects to `/login?redirectTo=/admin` (relative path to avoid malformed URLs).
+- Admin allowlist is enforced via `public.admins(user_email)`; middleware checks the current session's email against this table.
+- MFA checks are integrated (via Supabase MFA API) and can redirect to `/admin/mfa-verify` when needed.
 # Architecture
 
 **Technical architecture and design decisions for Vipra Sethu**
 
-**Last Updated:** 2025-11-09
+**Last Updated:** 2025-11-09 (Auth flow updated)
 
 ---
 
@@ -338,10 +345,11 @@ Browser
 ### Authentication
 
 **Magic Links (Passwordless)**
-- User enters email → Supabase sends magic link
-- Click link → authenticated session created
-- No passwords to forget or leak
-- Session stored in HTTP-only cookies (secure)
+- User enters email on `/login` → Supabase sends a magic link (OTP).
+- Magic link redirects back to `/auth/callback?code=...&next=<target>`.
+- The callback uses `@supabase/ssr` to `exchangeCodeForSession(code)` and attaches the resulting session cookies to the redirect response.
+- Safe redirect normalization only allows same-origin URLs and supports both relative and absolute `next` values.
+- Session is stored in HTTP-only cookies; middleware refreshes sessions.
 
 **MFA for Admins (TOTP)**
 - Admins must enable two-factor authentication
