@@ -3,27 +3,15 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { onboardSchema, type OnboardFormValues } from "@/lib/schemas/onboard";
 import { StepForm, Step } from "@/components/ui/step-form";
 import { Button } from "@/components/ui/Button";
 import { Upload, User, Briefcase, Camera } from "lucide-react";
 import { PageViewTracker } from "@/hooks/usePageView";
 import { analytics } from "@/lib/analytics";
 
-const schema = z.object({
-  name: z.string().min(2, "Name must be at least 2 characters"),
-  phone: z.string().min(10, "Please enter a valid phone number"),
-  whatsapp: z.string().optional(),
-  category: z.string().min(1, "Please select a category"),
-  languages: z.array(z.string()).min(1, "Please select at least one language"),
-  sampradaya: z.string().optional(),
-  serviceRadius: z.string().optional(),
-  photo: z.any().optional(),
-  termsAccepted: z.boolean().refine(val => val === true, "You must accept the terms")
-});
-
-type FormValues = z.infer<typeof schema>;
+type FormValues = OnboardFormValues;
 
 const categories = [
   { value: "purohit", label: "Vedic Purohit" },
@@ -63,8 +51,9 @@ export default function Onboard() {
   const [photoPreview, setPhotoPreview] = useState<string | null>(null);
   const [hasStarted, setHasStarted] = useState(false);
   
-  const { register, handleSubmit, watch, setValue, reset, formState: { errors } } = useForm<FormValues>({
-    resolver: zodResolver(schema),
+  const { register, handleSubmit, watch, setValue, reset, trigger, formState: { errors } } = useForm<FormValues>({
+    resolver: zodResolver(onboardSchema),
+    mode: 'onChange',
     defaultValues: {
       languages: [],
       termsAccepted: false
@@ -96,12 +85,21 @@ export default function Onboard() {
         }
       });
 
-      // Add languages as JSON string
-      formData.append('languages', JSON.stringify(data.languages));
+      // Add languages as CSV to match server expectation
+      formData.append('languages', (data.languages || []).join(','));
 
-      // Add photo if exists
-      const photoFile = (data as any).photo?.[0];
+      // Add photo if exists (read directly from DOM input to avoid RHF edge cases)
+      const inputEl = document.getElementById('photo-upload') as HTMLInputElement | null;
+      const photoFile = inputEl?.files?.[0] || (data as any).photo?.[0];
       if (photoFile) {
+        // Basic client-side validation
+        const allowed = ['image/jpeg','image/jpg','image/png','image/webp'];
+        if (!allowed.includes(photoFile.type)) {
+          throw new Error('Invalid photo type. Use JPEG, PNG, or WebP.');
+        }
+        if (photoFile.size > 5 * 1024 * 1024) {
+          throw new Error('Photo too large. Max 5MB.');
+        }
         formData.append('photo', photoFile);
       }
 
@@ -143,8 +141,15 @@ export default function Onboard() {
         // Clear draft on success
         try { localStorage.removeItem('onboardDraft'); } catch {}
       } else {
+        // Surface server error to the user
+        let serverMsg = 'Submission failed';
+        try {
+          const errJson = await response.json();
+          if (errJson?.error) serverMsg = errJson.error;
+        } catch {}
+        setErrorMsg(serverMsg);
         analytics.trackFormSubmission('onboarding', false, {
-          error: 'Submission failed',
+          error: serverMsg,
         });
       }
     } catch (error) {
@@ -167,11 +172,19 @@ export default function Onboard() {
     }
   };
 
-  const nextStep = () => {
+  const nextStep = async () => {
+    // Validate required fields for the current step before advancing
+    let fields: Array<keyof FormValues> = [];
+    if (currentStep === 0) fields = ['name', 'phone'];
+    if (currentStep === 1) fields = ['category', 'languages'];
+    if (currentStep === 2) fields = ['termsAccepted'];
+
+    const ok = await trigger(fields as any, { shouldFocus: true });
+    if (!ok) return; // stay on current step until valid
+
     if (currentStep < 2) {
       const nextStepNumber = currentStep + 1;
       setCurrentStep(nextStepNumber);
-      
       // Track step completion
       const stepNames = ['identity_contact', 'role_rituals', 'photo_terms'];
       analytics.trackOnboardingStep(stepNames[nextStepNumber], {
@@ -350,6 +363,7 @@ export default function Onboard() {
                       </label>
                       <select
                         {...register('category')}
+                        data-testid="category-select"
                         className="w-full h-10 rounded-xl border border-sandstone/30 px-3
                                focus:outline-none focus:ring-2 focus:ring-saffron/40"
                       >
@@ -380,6 +394,7 @@ export default function Onboard() {
                               type="checkbox"
                               checked={selectedLanguages?.includes(lang.value)}
                               onChange={() => handleLanguageToggle(lang.value)}
+                              data-testid={`lang-${lang.value}`}
                               className="rounded border-sandstone/30 text-saffron 
                                      focus:ring-2 focus:ring-saffron/40"
                             />
@@ -465,13 +480,17 @@ export default function Onboard() {
                             }
                           }}
                         />
-                        <label
-                          htmlFor="photo-upload"
+                        <button
+                          type="button"
+                          onClick={() => {
+                            const input = document.getElementById('photo-upload') as HTMLInputElement | null;
+                            input?.click();
+                          }}
                           className="inline-block mt-2 px-3 py-1 text-sm rounded-lg border border-sandstone/30 
                                  cursor-pointer hover:border-saffron/50 transition-colors"
                         >
                           Choose File
-                        </label>
+                        </button>
                         {photoPreview && (
                           <div className="mt-3">
                             <img src={photoPreview} alt="Selected preview" className="h-24 w-24 rounded-xl object-cover border" />
