@@ -17,6 +17,14 @@ export async function POST(req: NextRequest) {
       sampradaya_code: form.get('sampradaya') || null,
       status: 'pending_review',
     };
+    // Map optional service radius (string) to numeric km when provided
+    const serviceRadius = form.get('serviceRadius') as string | null
+    if (serviceRadius) {
+      const km = parseInt(serviceRadius, 10)
+      if (!Number.isNaN(km)) {
+        payload.service_radius_km = km
+      }
+    }
     // If a TEST_USER_ID is provided (local/E2E), set user_id to satisfy NOT NULL/FK
     const testUserId = process.env.TEST_USER_ID
     if (testUserId) {

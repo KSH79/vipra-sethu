@@ -2,7 +2,7 @@
 
 ## Vipra Sethu development plan and task tracking
 
-**Last Updated:** 10-Nov-2025 (Enhanced Provider Cards + deployment fix)
+**Last Updated:** 10-Nov-2025 (Phase 0 Master Data: schema, APIs, Admin UI)
 
 ---
 
@@ -190,6 +190,7 @@
 - [ ] Signed URL display for photos
 - [x] Pagination for provider list
 - [x] Enhanced Provider Card component on /providers (signed thumbnails, responsive grid)
+- [x] Admin Master Data managers (languages, categories/services, sampradayas, service radius, experience levels, sampradaya↔category, terms)
 - [ ] Form error handling
 
 #### 📋 Frontend - Planned (Phase 2)
@@ -283,6 +284,14 @@
 - [ ] Vercel Analytics enable
 - [ ] Production deployment
 - [x] Fix admin/actions import to unblock Vercel build
+
+## Phase 0 — Master Data Management
+
+- [x] DB schema and seeds for master data (languages, service radius, experience levels, terms, provider_terms_acceptance, sampradaya_categories)
+- [x] Governance fields (is_active, display_order, audit, soft delete) on categories and sampradayas
+- [x] Admin secure APIs for all master data types (CRUD, toggle active, soft delete)
+- [x] Public read endpoints for dropdowns (categories, sampradayas, languages, service radius, experience levels, terms, mappings)
+- [x] Admin UI: /admin/master-data landing and per-type managers
 - [ ] Custom domain setup
 
 #### 📋 Infrastructure - Planned (Phase 2)

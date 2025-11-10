@@ -2,6 +2,7 @@
 "use client";
 
 import { useEffect, useMemo, useState, useTransition } from "react";
+import Link from "next/link";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { Drawer } from "@/components/ui/Drawer";
@@ -226,8 +227,13 @@ export default function Admin() {
         <div className="container-custom max-w-6xl w-full space-y-6">
           {/* Header */}
           <div className="bg-white rounded-2xl p-6 shadow-sm">
-            <h1 className="title-large mb-2">Admin Dashboard</h1>
-            <p className="subtitle">Review and approve pending provider submissions</p>
+            <div className="flex items-start justify-between gap-3">
+              <div>
+                <h1 className="title-large mb-2">Admin Dashboard</h1>
+                <p className="subtitle">Review and approve pending provider submissions</p>
+              </div>
+              <Link href="/admin/master-data" className="inline-flex items-center rounded-md border border-slate-300 px-3 py-2 text-sm hover:bg-slate-50 whitespace-nowrap">Master Data →</Link>
+            </div>
 
             {/* KPI cards */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-5">

@@ -3,6 +3,8 @@
 import Link from "next/link";
 
 const cards = [
+  { href: "/admin/master-data/categories", title: "Categories / Services", desc: "Manage service categories", key: "categories" },
+  { href: "/admin/master-data/sampradayas", title: "Sampradayas", desc: "Manage traditions", key: "sampradayas" },
   { href: "/admin/master-data/languages", title: "Languages", desc: "Manage ISO 639-1 languages", key: "languages" },
   { href: "/admin/master-data/service-radius", title: "Service Radius", desc: "Distance options for providers", key: "service_radius" },
   { href: "/admin/master-data/experience-levels", title: "Experience Levels", desc: "Beginner / Intermediate / Expert", key: "experience" },
