@@ -1,0 +1,17 @@
+{
+  "common": {},
+  "admin": {
+    "dashboard": {},
+    "tabs": {},
+    "actions": {},
+    "pagination": {},
+    "masterData": {}
+  },
+  "providers": {
+    "listing": {},
+    "details": {}
+  },
+  "home": { "hero": {} },
+  "about": {},
+  "footer": {}
+}

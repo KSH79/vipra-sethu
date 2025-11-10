@@ -1,0 +1,103 @@
+{
+  "common": {
+    "home": "Home",
+    "about": "About",
+    "providers": "Providers",
+    "admin": "Admin",
+    "login": "Login",
+    "logout": "Logout",
+    "addListing": "Add Listing",
+    "search": "Search",
+    "filter": "Filter",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "view": "View",
+    "approve": "Approve",
+    "reject": "Reject",
+    "close": "Close",
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "allCategories": "All categories",
+    "searchPlaceholder": "Search name, category, location..."
+  },
+  "admin": {
+    "dashboard": {
+      "title": "Admin Dashboard",
+      "subtitle": "Review and approve pending provider submissions",
+      "pendingReview": "Pending Review",
+      "approvedThisMonth": "Approved (this month)",
+      "avgReviewTime": "Avg. Review Time",
+      "hours": "hrs"
+    },
+    "tabs": {
+      "pending": "Pending",
+      "approved": "Approved",
+      "rejected": "Rejected"
+    },
+    "actions": {
+      "view": "View",
+      "approve": "Approve",
+      "reject": "Reject",
+      "approveSuccess": "Provider approved successfully",
+      "rejectSuccess": "Provider rejected successfully",
+      "approveError": "Error approving provider",
+      "rejectError": "Error rejecting provider"
+    },
+    "pagination": {
+      "prev": "Prev",
+      "next": "Next",
+      "pageOf": "Page {current} of {total}"
+    },
+    "masterData": {
+      "title": "Master Data Management",
+      "categories": "Categories",
+      "sampradaya": "Sampradaya",
+      "languages": "Languages",
+      "serviceRadius": "Service Radius",
+      "experienceLevels": "Experience Levels",
+      "terms": "Terms & Conditions"
+    }
+  },
+  "providers": {
+    "listing": {
+      "title": "Find Service Providers",
+      "noResults": "No providers found",
+      "loadMore": "Load More"
+    },
+    "details": {
+      "phone": "Phone:",
+      "email": "Email:",
+      "location": "Location:",
+      "whatsapp": "WhatsApp:",
+      "languages": "Languages:",
+      "experience": "Experience:",
+      "about": "About:",
+      "serviceRadius": "Service radius:",
+      "availability": "Availability:",
+      "travel": "Travel:",
+      "expectations": "Expectations:",
+      "responseTime": "Response time:",
+      "status": "Status:",
+      "submittedOn": "Submitted {date}"
+    }
+  },
+  "home": {
+    "hero": {
+      "title": "Connect with Trusted Community Service Providers",
+      "subtitle": "Find culturally-aware priests, cooks, and caregivers in your community",
+      "cta": "Browse Providers"
+    }
+  },
+  "about": {
+    "title": "About Vipra Sethu",
+    "description": "Connecting communities with trusted service providers"
+  },
+  "footer": {
+    "terms": "Terms & Conditions",
+    "privacy": "Privacy Policy",
+    "copyright": "© {year} Vipra Sethu. All rights reserved."
+  }
+}

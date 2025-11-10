@@ -115,6 +115,22 @@
 
 ---
 
+## Milestone 2 — Internationalization (i18n)
+
+### Phase 1 — Database i18n Infrastructure (In Progress)
+
+- [x] Migration: add JSONB translation columns + GIN indexes to master data tables
+- [x] Data backfill: migrate existing English content to JSONB under `en`
+- [x] Rollback script for all changes
+- [x] Helpers and types for translations
+- [x] Update queries to include translated fields while keeping originals
+- [ ] Apply migration on all dev environments and validate
+- [ ] Documentation: examples in services and usage patterns
+
+Next: Phase 2 — next-intl setup, project structure, language selector, and string extraction (after Phase 1 merges).
+
+---
+
 ## Task List by Area
 
 ### 🎯 Top 10 Backlog (Next Priority Tasks)
@@ -282,7 +298,7 @@
 - [ ] Environment variables setup (Vercel)
 - [ ] Vercel Analytics enable
 - [ ] Production deployment
-- [x] Fix admin/actions import to unblock Vercel build
+- [x] Admin UI: /admin/master-data landing and per-type managers
 - [ ] Custom domain setup
 
 #### 📋 Infrastructure - Planned (Phase 2)

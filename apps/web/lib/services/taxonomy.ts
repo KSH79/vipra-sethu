@@ -44,6 +44,111 @@ export class TaxonomyService {
   }
 
   /**
+   * Get active languages with translated name (non-breaking)
+   */
+  async getLanguages(locale: SupportedLanguage = 'en'): Promise<Array<any>> {
+    const supabase = await createClient();
+    const { data, error } = await supabase
+      .from('languages')
+      .select('*')
+      .eq('is_active', true)
+      .is('deleted_at', null)
+      .order('display_order', { ascending: true })
+      .order('name', { ascending: true });
+
+    if (error) {
+      console.error('Error fetching languages:', error);
+      throw new Error('Failed to fetch languages');
+    }
+
+    const rows = (data as any[]) || [];
+    return rows.map((row) => ({
+      ...row,
+      translatedName: getTranslation(row?.name_translations as any, locale) || row?.name,
+    }));
+  }
+
+  /**
+   * Get active service radius options with translated fields (non-breaking)
+   */
+  async getServiceRadiusOptions(locale: SupportedLanguage = 'en'): Promise<Array<any>> {
+    const supabase = await createClient();
+    const { data, error } = await supabase
+      .from('service_radius_options')
+      .select('*')
+      .eq('is_active', true)
+      .is('deleted_at', null)
+      .order('display_order', { ascending: true })
+      .order('value_km', { ascending: true, nullsFirst: false });
+
+    if (error) {
+      console.error('Error fetching service radius options:', error);
+      throw new Error('Failed to fetch service radius options');
+    }
+
+    const rows = (data as any[]) || [];
+    return rows.map((row) => ({
+      ...row,
+      translatedName: getTranslation(row?.name_translations as any, locale) || row?.display_text,
+      translatedDescription: getTranslation(row?.description_translations as any, locale) || row?.description,
+    }));
+  }
+
+  /**
+   * Get active experience levels with translated fields (non-breaking)
+   */
+  async getExperienceLevels(locale: SupportedLanguage = 'en'): Promise<Array<any>> {
+    const supabase = await createClient();
+    const { data, error } = await supabase
+      .from('experience_levels')
+      .select('*')
+      .eq('is_active', true)
+      .is('deleted_at', null)
+      .order('display_order', { ascending: true })
+      .order('name', { ascending: true });
+
+    if (error) {
+      console.error('Error fetching experience levels:', error);
+      throw new Error('Failed to fetch experience levels');
+    }
+
+    const rows = (data as any[]) || [];
+    return rows.map((row) => ({
+      ...row,
+      translatedName: getTranslation(row?.name_translations as any, locale) || row?.name,
+      translatedDescription: getTranslation(row?.description_translations as any, locale) || row?.description,
+    }));
+  }
+
+  /**
+   * Get terms by optional type with translated content (non-breaking)
+   */
+  async getTerms(locale: SupportedLanguage = 'en', type?: string): Promise<Array<any>> {
+    const supabase = await createClient();
+    let query = supabase
+      .from('terms')
+      .select('*')
+      .is('deleted_at', null)
+      .order('type', { ascending: true })
+      .order('effective_date', { ascending: false })
+      .order('version', { ascending: false });
+
+    if (type) query = query.eq('type', type);
+
+    const { data, error } = await query;
+    if (error) {
+      console.error('Error fetching terms:', error);
+      throw new Error('Failed to fetch terms');
+    }
+
+    const rows = (data as any[]) || [];
+    return rows.map((row) => ({
+      ...row,
+      translatedContent: getTranslation(row?.content_translations as any, locale) || row?.content,
+    }));
+  }
+
+  /**
    * Get all active sampradayas for UI filters
    * Hotfix: Query table directly instead of RPC due to RPC 500s caused by
    * an RLS recursion bug on admins. Safe because sampradayas has public SELECT.
@@ -163,6 +268,10 @@ export const taxonomyService = new TaxonomyService();
 // Export convenience functions
 export const getCategories = () => taxonomyService.getCategories();
 export const getSampradayas = () => taxonomyService.getSampradayas();
+export const getLanguages = () => taxonomyService.getLanguages();
+export const getServiceRadiusOptions = () => taxonomyService.getServiceRadiusOptions();
+export const getExperienceLevels = () => taxonomyService.getExperienceLevels();
+export const getTerms = taxonomyService.getTerms.bind(taxonomyService);
 export const searchProviders = (filters: ProviderFilters) => taxonomyService.searchProviders(filters);
 export const getProviderDetails = (id: string) => taxonomyService.getProviderDetails(id);
 export const getProviderStats = () => taxonomyService.getProviderStats();
