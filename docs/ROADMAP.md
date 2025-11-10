@@ -2,7 +2,7 @@
 
 ## Vipra Sethu development plan and task tracking
 
-**Last Updated:** 09-Nov-2025 (Admin drawer + detail API tests added)
+**Last Updated:** 10-Nov-2025 (Enhanced Provider Cards + deployment fix)
 
 ---
 
@@ -184,11 +184,12 @@
 
 #### 📋 Frontend - Planned (Phase 1)
 
-- [ ] Login/logout UI
+- [x] Login/logout UI
 - [ ] Protected routes middleware
 - [ ] Photo upload with validation
 - [ ] Signed URL display for photos
-- [ ] Pagination for provider list
+- [x] Pagination for provider list
+- [x] Enhanced Provider Card component on /providers (signed thumbnails, responsive grid)
 - [ ] Form error handling
 
 #### 📋 Frontend - Planned (Phase 2)
@@ -281,6 +282,7 @@
 - [ ] Environment variables setup (Vercel)
 - [ ] Vercel Analytics enable
 - [ ] Production deployment
+- [x] Fix admin/actions import to unblock Vercel build
 - [ ] Custom domain setup
 
 #### 📋 Infrastructure - Planned (Phase 2)

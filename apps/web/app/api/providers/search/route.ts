@@ -40,18 +40,46 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ ok: false, error: 'Failed to fetch providers' }, { status: 500 })
     }
 
-    const providers = await Promise.all((data || []).map(async (p: any) => {
+    const list = data || []
+
+    // Batch fetch primary thumbnails for providers
+    const providerIds = list.map((p: any) => p.id)
+    let photoMap: Record<string, { thumbnail_path?: string|null; original_path?: string|null }> = {}
+    if (providerIds.length) {
+      const { data: photos } = await getAdmin()
+        .from('provider_photos')
+        .select('provider_id, thumbnail_path, original_path, is_primary')
+        .in('provider_id', providerIds)
+        .eq('is_primary', true)
+      for (const ph of (photos || []) as any[]) {
+        photoMap[ph.provider_id] = { thumbnail_path: ph.thumbnail_path, original_path: ph.original_path }
+      }
+    }
+
+    const providers = await Promise.all(list.map(async (p: any) => {
+      // Drawer algorithm (simplified for list): prefer signed thumbnail -> signed profile photo
       let signedUrl: string | null = null
+      let signedThumb: string | null = null
+      let signedOrig: string | null = null
+      const thumb = photoMap[p.id]?.thumbnail_path as string | undefined
+      const orig = photoMap[p.id]?.original_path as string | undefined
       try {
-        if (p.photo_url) {
+        if (thumb) {
+          signedThumb = await getSignedPhotoUrl(thumb)
+        } else if (p.photo_url) {
           signedUrl = await getSignedPhotoUrl(p.photo_url as string)
+        }
+        if (orig) {
+          signedOrig = await getSignedPhotoUrl(orig)
         }
       } catch {}
       return {
         ...p,
         category: p.categories,
         sampradaya: p.sampradayas,
-        photo_url: signedUrl || null,
+        photo_thumbnail_url: signedThumb || null,
+        photo_original_url: signedOrig || null,
+        photo_url: signedThumb || signedUrl || null,
       }
     }))
 
