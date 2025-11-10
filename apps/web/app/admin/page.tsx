@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/Button";
 import { Drawer } from "@/components/ui/Drawer";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { CheckCircle, XCircle, Eye, Clock, User, Briefcase, Phone, Mail, Globe } from "lucide-react";
-import { approveProvider, rejectProvider } from "./actions";
+import { approveProvider, rejectProvider } from "@/app/admin/actions";
 
 type ProviderRow = {
   id: string;

@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { searchProviders, getCategories } from "@/lib/services/taxonomy";
+import { ProviderCard } from "@/components/providers/ProviderCard";
 import { ProviderWithTaxonomy, Category } from "@/lib/types/taxonomy";
 import Link from "next/link";
 import { Search, Filter, X, ChevronDown } from "lucide-react";
@@ -207,9 +208,20 @@ export default function Providers() {
 
           {/* Loading State */}
           {loading && (
-            <div className="text-center py-12">
-              <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-saffron-600 border-r-transparent"></div>
-              <p className="mt-4 text-slate-600">Loading providers...</p>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {Array.from({ length: 9 }).map((_, i) => (
+                <div key={i} className="rounded-xl border border-gray-200 bg-white p-4 shadow-sm">
+                  <div className="flex items-start gap-4">
+                    <div className="h-20 w-20 rounded-xl bg-slate-200 animate-pulse" />
+                    <div className="flex-1 space-y-2">
+                      <div className="h-4 w-40 rounded bg-slate-200 animate-pulse" />
+                      <div className="h-3 w-24 rounded bg-slate-200 animate-pulse" />
+                      <div className="h-10 w-full rounded bg-slate-200 animate-pulse" />
+                      <div className="h-3 w-3/4 rounded bg-slate-200 animate-pulse" />
+                    </div>
+                  </div>
+                </div>
+              ))}
             </div>
           )}
 
@@ -230,43 +242,25 @@ export default function Providers() {
           {/* Providers Grid */}
           {!loading && !error && visibleProviders.length > 0 && (
             <div className="space-y-8">
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {visibleProviders.map((provider: ProviderWithTaxonomy) => (
-                  <Link
-                    key={provider.id}
-                    href={`/providers/${provider.id}`}
-                    className="bg-white rounded-lg border border-gray-200 p-6 hover:shadow-lg hover:border-saffron-200 transition-all duration-200 group"
-                  >
-                    <div className="space-y-3">
-                      <div>
-                        <h3 className="font-semibold text-lg text-slate-900 group-hover:text-saffron-600 transition-colors">
-                          {provider.name}
-                        </h3>
-                        <p className="text-sm text-slate-600">
-                          {provider.category_name || 'Service Provider'}
-                        </p>
-                      </div>
-
-                      {provider.about && (
-                        <p className="text-sm text-slate-600 line-clamp-2">
-                          {provider.about}
-                        </p>
-                      )}
-
-                      <div className="flex flex-wrap gap-2">
-                        {provider.languages && provider.languages.length > 0 && (
-                          <span className="text-xs px-2 py-1 bg-slate-100 text-slate-700 rounded">
-                            {provider.languages.join(', ')}
-                          </span>
-                        )}
-                        {provider.experience_years && (
-                          <span className="text-xs px-2 py-1 bg-green-100 text-green-700 rounded font-medium">
-                            {provider.experience_years}+ years
-                          </span>
-                        )}
-                      </div>
-                    </div>
-                  </Link>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                {visibleProviders.map((p: ProviderWithTaxonomy) => (
+                  <ProviderCard
+                    key={p.id}
+                    id={p.id}
+                    name={p.name}
+                    about={p.about}
+                    photo_thumbnail_url={(p as any).photo_thumbnail_url || undefined}
+                    photo_url={(p as any).photo_url || undefined}
+                    category_name={p.category_name}
+                    service_type={(p as any).service_type}
+                    languages={p.languages}
+                    experience_years={p.experience_years}
+                    location={(p as any).location_text || (p as any).location || undefined}
+                    is_approved={(p as any).is_approved}
+                    availability_status={(p as any).availability_status}
+                    rating={(p as any).rating}
+                    review_count={(p as any).review_count}
+                  />
                 ))}
               </div>
 
