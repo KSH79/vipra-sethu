@@ -21,7 +21,10 @@
     "error": "Error",
     "success": "Success",
     "allCategories": "All categories",
-    "searchPlaceholder": "Search name, category, location..."
+    "searchPlaceholder": "Search name, category, location...",
+    "refresh": "Refresh",
+    "na": "N/A",
+    "toggleMenu": "Toggle menu"
   },
   "admin": {
     "dashboard": {
@@ -51,14 +54,26 @@
       "next": "Next",
       "pageOf": "Page {current} of {total}"
     },
+    "empty": {
+      "noPendingTitle": "No pending approvals",
+      "noRecordsTitle": "No records",
+      "noPendingDesc": "All provider submissions have been reviewed. Check back later for new submissions.",
+      "noRecordsDesc": "No records match your current filters."
+    },
     "masterData": {
       "title": "Master Data Management",
-      "categories": "Categories",
+      "subtitle": "Create and manage reference data used across the platform.",
       "sampradaya": "Sampradaya",
       "languages": "Languages",
-      "serviceRadius": "Service Radius",
-      "experienceLevels": "Experience Levels",
-      "terms": "Terms & Conditions"
+      "languages_desc": "Manage ISO 639-1 languages",
+      "service_radius": "Service Radius",
+      "service_radius_desc": "Distance options for providers",
+      "experience": "Experience Levels",
+      "experience_desc": "Beginner / Intermediate / Expert",
+      "mapping": "Sampradaya ↔ Category",
+      "mapping_desc": "Applicability mapping",
+      "terms": "Terms & Policies",
+      "terms_desc": "Versioned legal content"
     }
   },
   "providers": {
@@ -86,18 +101,87 @@
   },
   "home": {
     "hero": {
-      "title": "Connect with Trusted Community Service Providers",
-      "subtitle": "Find culturally-aware priests, cooks, and caregivers in your community",
-      "cta": "Browse Providers"
+      "title": "A trusted, values-aligned community directory",
+      "subtitle": "Connect with verified purohits, cooks, and essential service providers in your community"
+    },
+    "search": {
+      "placeholder": "Find purohits, cooks, essentials…",
+      "aria": "Search for providers"
+    },
+    "quickChips": ["Purohit", "Cook", "Essentials", "Senior care", "Pilgrimage"],
+    "pillars": {
+      "verified": { "title": "Verified", "desc": "All providers are background-checked and verified" },
+      "community": { "title": "Community-aligned", "desc": "Values and practices aligned with traditional customs" },
+      "quality": { "title": "Quality-Focused", "desc": "Experienced professionals committed to excellence" }
+    },
+    "why": {
+      "title": "Why Vipra Sethu",
+      "subtitle": "Building trust through verification and community values"
+    },
+    "browse": {
+      "title": "Browse by Ritual",
+      "subtitle": "Find specialized providers for specific ceremonies and rituals"
+    },
+    "ritualChips": ["Upanayana", "Gruha Pravesha", "Shraddha", "Seemantha", "Namakarana", "Annaprashana"],
+    "cta": {
+      "title": "Add your listing",
+      "subtitle": "Join our community of <strong>500+ trusted service providers</strong>",
+      "button": "Get Started",
+      "note": "Free to list • Verified within 24-48 hours"
     }
+  },
+  "nav": {
+    "providers": "Providers",
+    "about": "About",
+    "admin": "Admin",
+    "addListing": "Add Listing",
+    "logout": "Logout"
   },
   "about": {
     "title": "About Vipra Sethu",
-    "description": "Connecting communities with trusted service providers"
+    "subtitle": "Your trusted community platform connecting you with verified service providers who understand and respect your cultural traditions. We bridge the gap between quality service and cultural authenticity.",
+    "faq": {
+      "title": "Frequently Asked Questions",
+      "subtitle": "Everything you need to know about Vipra Sethu",
+      "q1": "How does verification work?",
+      "a1": "We verify identity and service details before publishing. Additional proofs may be requested.",
+      "q2": "Is listing free?",
+      "a2": "Yes, listing is free. We may introduce premium placements in the future, clearly marked as such.",
+      "q3": "How long does approval take?",
+      "a3": "Most profiles are reviewed within 24–48 hours. You will receive a WhatsApp notification on approval."
+    },
+    "values": {
+      "title": "Our Values",
+      "subtitle": "The principles that guide everything we do",
+      "trust": { "title": "Trust First", "desc": "Every listing goes through identity and background verification before it appears in search results." },
+      "community": { "title": "Community-Centric", "desc": "We prioritize traditions, language, and community needs to enable the right match for every requirement." },
+      "quality": { "title": "Quality Listings", "desc": "Clear profiles with languages, traditions, experience and response time to make informed choices." }
+    },
+    "how": {
+      "title": "How Trust & Verification Work",
+      "subtitle": "Our rigorous process ensures quality and authenticity",
+      "steps": [
+        { "title": "Provider Onboarding", "desc": "Providers complete onboarding with identity and service details" },
+        { "title": "Verification Process", "desc": "Our team verifies information and may request additional proofs" },
+        { "title": "Profile Publication", "desc": "Approved profiles are published with a Verified badge" },
+        { "title": "Ongoing Quality", "desc": "Community feedback helps keep listings high-quality" }
+      ]
+    },
+    "policies": {
+      "title": "Policies",
+      "conduct": "Code of Conduct",
+      "privacy": "Privacy Policy",
+      "terms": "Terms of Service"
+    },
+    "contact": {
+      "title": "Contact",
+      "subtitle": "For questions, feedback, or support, reach out to us.",
+      "email": "support@viprasethu.example"
+    }
   },
   "footer": {
     "terms": "Terms & Conditions",
     "privacy": "Privacy Policy",
-    "copyright": "© {year} Vipra Sethu. All rights reserved."
+    "copyright": " Vipra Sethu. All rights reserved."
   }
 }

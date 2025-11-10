@@ -2,6 +2,8 @@
 "use client";
 
 import { useEffect, useMemo, useState, useTransition } from "react";
+import { useTranslations, useFormatter } from "next-intl";
+import { LanguageSelector } from "@/components/LanguageSelector";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { Drawer } from "@/components/ui/Drawer";
@@ -28,6 +30,14 @@ type ProviderRow = {
 type Category = { code: string; name: string }
 
 export default function Admin() {
+  const t = useTranslations("admin");
+  const tDash = useTranslations("admin.dashboard");
+  const tTabs = useTranslations("admin.tabs");
+  const tActions = useTranslations("admin.actions");
+  const tPag = useTranslations("admin.pagination");
+  const tCommon = useTranslations("common");
+  const tProv = useTranslations("providers.details");
+  const fmt = useFormatter();
   const [providers, setProviders] = useState<ProviderRow[]>([]);
   const [total, setTotal] = useState(0);
   const [categories, setCategories] = useState<Category[]>([]);
@@ -209,13 +219,7 @@ export default function Admin() {
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
-    return date.toLocaleDateString('en-IN', {
-      day: 'numeric',
-      month: 'short',
-      year: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit'
-    });
+    return fmt.dateTime(date, { dateStyle: 'medium', timeStyle: 'short' });
   };
 
   // Server-paginated list; filtering and pagination done via API
@@ -226,22 +230,27 @@ export default function Admin() {
         <div className="container-custom max-w-6xl w-full space-y-6">
           {/* Header */}
           <div className="bg-white rounded-2xl p-6 shadow-sm">
-            <h1 className="title-large mb-2">Admin Dashboard</h1>
-            <p className="subtitle">Review and approve pending provider submissions</p>
+            <div className="flex items-start justify-between gap-3">
+              <div>
+                <h1 className="title-large mb-2">{tDash("title")}</h1>
+                <p className="subtitle">{tDash("subtitle")}</p>
+              </div>
+              <LanguageSelector />
+            </div>
 
             {/* KPI cards */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-5">
               <div className="rounded-xl border border-gray-100 p-4 shadow-sm">
-                <p className="text-xs text-slate-500">Pending Review</p>
+                <p className="text-xs text-slate-500">{tDash("pendingReview")}</p>
                 <p className="mt-1 text-2xl font-bold text-slate-900">{metrics.pendingCount}</p>
               </div>
               <div className="rounded-xl border border-gray-100 p-4 shadow-sm">
-                <p className="text-xs text-slate-500">Approved (this month)</p>
+                <p className="text-xs text-slate-500">{tDash("approvedThisMonth")}</p>
                 <p className="mt-1 text-2xl font-bold text-slate-900">{metrics.approvedThisMonth}</p>
               </div>
               <div className="rounded-xl border border-gray-100 p-4 shadow-sm">
-                <p className="text-xs text-slate-500">Avg. Review Time</p>
-                <p className="mt-1 text-2xl font-bold text-slate-900">{metrics.avgReviewHours || 0} hrs</p>
+                <p className="text-xs text-slate-500">{tDash("avgReviewTime")}</p>
+                <p className="mt-1 text-2xl font-bold text-slate-900">{metrics.avgReviewHours || 0} {tDash("hours")}</p>
               </div>
             </div>
           </div>
@@ -257,7 +266,7 @@ export default function Admin() {
                       className={`px-3 py-1.5 text-sm rounded-lg ${activeTab===tab? 'bg-white text-slate-900 shadow-sm':'text-slate-600 hover:text-saffron'}`}
                       onClick={() => setActiveTab(tab)}
                     >
-                      {tab.charAt(0).toUpperCase()+tab.slice(1)}
+                      {tTabs(tab)}
                     </button>
                   ))}
                 </div>
@@ -266,7 +275,7 @@ export default function Admin() {
                     type="search"
                     value={search}
                     onChange={(e)=>{setSearch(e.target.value); setPage(1);}}
-                    placeholder="Search name, category, location"
+                    placeholder={tCommon("searchPlaceholder")}
                     className="h-10 w-56 rounded-xl border border-sandstone/30 px-3 focus:outline-none focus:ring-2 focus:ring-saffron/40"
                     aria-label="Search submissions"
                   />
@@ -276,7 +285,7 @@ export default function Admin() {
                     className="h-10 rounded-xl border border-sandstone/30 px-3 text-sm focus:outline-none focus:ring-2 focus:ring-saffron/40"
                     aria-label="Filter by category"
                   >
-                    <option value="">All categories</option>
+                    <option value="">{tCommon("allCategories")}</option>
                     {categories.map(c => (
                       <option key={c.code} value={c.code}>{c.name}</option>
                     ))}
@@ -328,7 +337,7 @@ export default function Admin() {
                         className="flex items-center gap-1"
                       >
                         <Eye className="h-4 w-4" />
-                        View
+                        {tActions("view")}
                       </Button>
                       
                       <form
@@ -344,7 +353,7 @@ export default function Admin() {
                           className="bg-green-700 hover:bg-green-800 text-white flex items-center gap-1"
                         >
                           <CheckCircle className="h-4 w-4" />
-                          Approve
+                          {tActions("approve")}
                         </Button>
                       </form>
                     </div>
@@ -352,21 +361,21 @@ export default function Admin() {
                 ))}
                 {/* Pagination */}
                 <div className="flex items-center justify-between p-4">
-                  <span className="text-sm text-slate-600">Page {page} of {totalPages}</span>
+                  <span className="text-sm text-slate-600">{tPag("pageOf", { current: page, total: totalPages })}</span>
                   <div className="flex gap-2">
-                    <Button variant="secondary" size="sm" disabled={page<=1} onClick={()=>setPage(p=>Math.max(1,p-1))}>Prev</Button>
-                    <Button variant="secondary" size="sm" disabled={page>=totalPages} onClick={()=>setPage(p=>Math.min(totalPages,p+1))}>Next</Button>
+                    <Button variant="secondary" size="sm" disabled={page<=1} onClick={()=>setPage(p=>Math.max(1,p-1))}>{tPag("prev")}</Button>
+                    <Button variant="secondary" size="sm" disabled={page>=totalPages} onClick={()=>setPage(p=>Math.min(totalPages,p+1))}>{tPag("next")}</Button>
                   </div>
                 </div>
               </div>
             ) : (
               <EmptyState
                 icon="📋"
-                title={activeTab === 'pending' ? 'No pending approvals' : `No ${activeTab} providers`}
+                title={activeTab === 'pending' ? t("empty.noPendingTitle") : t("empty.noRecordsTitle")}
                 description={activeTab === 'pending' 
-                  ? 'All provider submissions have been reviewed. Check back later for new submissions.' 
-                  : 'No records match your current filters.'}
-                action={<Button variant="secondary" onClick={retryLoad}>Refresh</Button>}
+                  ? t("empty.noPendingDesc") 
+                  : t("empty.noRecordsDesc")}
+                action={<Button variant="secondary" onClick={retryLoad}>{tCommon("refresh")}</Button>}
               />
             )}
           </div>
@@ -401,49 +410,49 @@ export default function Admin() {
                 })()}
               </div>
               <div>
-                <h2 className="title-large mb-1">{selectedProvider.name || 'N/A'}</h2>
+                <h2 className="title-large mb-1">{selectedProvider.name || tCommon("na")}</h2>
                 <div className="flex flex-wrap items-center gap-2">
-                  <Badge variant="default">{(categories.find(c=>c.code===selectedProvider.category_code)?.name) || selectedProvider.category_code || 'N/A'}</Badge>
-                  <Badge variant="secondary">{selectedProvider.sampradaya || 'N/A'}</Badge>
+                  <Badge variant="default">{(categories.find(c=>c.code===selectedProvider.category_code)?.name) || selectedProvider.category_code || tCommon("na")}</Badge>
+                  <Badge variant="secondary">{selectedProvider.sampradaya || tCommon("na")}</Badge>
                 </div>
               </div>
             </div>
 
             {/* Details list */}
             <div className="grid grid-cols-1 gap-3 text-sm">
-              <div className="flex items-center gap-2"><Phone className="h-4 w-4 text-slate-500" /><span className="font-medium w-40 inline-block">Phone:</span><span>{selectedProvider.phone || 'N/A'}</span></div>
-              <div className="flex items-center gap-2"><Mail className="h-4 w-4 text-slate-500" /><span className="font-medium w-40 inline-block">Email:</span><span>{detail?.email || 'N/A'}</span></div>
-              <div className="flex items-center gap-2"><Globe className="h-4 w-4 text-slate-500" /><span className="font-medium w-40 inline-block">Location:</span><span>{detail?.location_text || 'N/A'}</span></div>
-              <div className="flex items-center gap-2"><User className="h-4 w-4 text-slate-500" /><span className="font-medium w-40 inline-block">WhatsApp:</span><span>{detail?.whatsapp || 'N/A'}</span></div>
-              <div className="flex items-center gap-2"><User className="h-4 w-4 text-slate-500" /><span className="font-medium w-40 inline-block">Languages:</span><span>{(detail?.languages && detail.languages.length>0) ? detail.languages.join(', ') : 'N/A'}</span></div>
-              <div className="flex items-center gap-2"><Briefcase className="h-4 w-4 text-slate-500" /><span className="font-medium w-40 inline-block">Experience:</span><span>{detail?.years_experience ?? selectedProvider.experience ?? 'N/A'}</span></div>
+              <div className="flex items-center gap-2"><Phone className="h-4 w-4 text-slate-500" /><span className="font-medium w-40 inline-block">{tProv("phone")}</span><span>{selectedProvider.phone || tCommon("na")}</span></div>
+              <div className="flex items-center gap-2"><Mail className="h-4 w-4 text-slate-500" /><span className="font-medium w-40 inline-block">{tProv("email")}</span><span>{detail?.email || tCommon("na")}</span></div>
+              <div className="flex items-center gap-2"><Globe className="h-4 w-4 text-slate-500" /><span className="font-medium w-40 inline-block">{tProv("location")}</span><span>{detail?.location_text || tCommon("na")}</span></div>
+              <div className="flex items-center gap-2"><User className="h-4 w-4 text-slate-500" /><span className="font-medium w-40 inline-block">{tProv("whatsapp")}</span><span>{detail?.whatsapp || tCommon("na")}</span></div>
+              <div className="flex items-center gap-2"><User className="h-4 w-4 text-slate-500" /><span className="font-medium w-40 inline-block">{tProv("languages")}</span><span>{(detail?.languages && detail.languages.length>0) ? detail.languages.join(', ') : tCommon("na")}</span></div>
+              <div className="flex items-center gap-2"><Briefcase className="h-4 w-4 text-slate-500" /><span className="font-medium w-40 inline-block">{tProv("experience")}</span><span>{detail?.years_experience ?? selectedProvider.experience ?? tCommon("na")}</span></div>
               <div>
-                <span className="font-medium inline-block w-40">About:</span>
-                <p className="mt-1 text-slate-700">{detail?.about || 'N/A'}</p>
+                <span className="font-medium inline-block w-40">{tProv("about")}</span>
+                <p className="mt-1 text-slate-700">{detail?.about || tCommon("na")}</p>
               </div>
-              <div className="flex items-center gap-2"><User className="h-4 w-4 text-slate-500" /><span className="font-medium w-40 inline-block">Service radius:</span><span>{detail?.service_radius_km != null ? `${detail.service_radius_km} km` : 'N/A'}</span></div>
+              <div className="flex items-center gap-2"><User className="h-4 w-4 text-slate-500" /><span className="font-medium w-40 inline-block">{tProv("serviceRadius")}</span><span>{detail?.service_radius_km != null ? `${detail.service_radius_km} km` : tCommon("na")}</span></div>
               <div>
-                <span className="font-medium inline-block w-40">Availability:</span>
-                <p className="mt-1 text-slate-700">{detail?.availability_notes || 'N/A'}</p>
-              </div>
-              <div>
-                <span className="font-medium inline-block w-40">Travel:</span>
-                <p className="mt-1 text-slate-700">{detail?.travel_notes || 'N/A'}</p>
+                <span className="font-medium inline-block w-40">{tProv("availability")}</span>
+                <p className="mt-1 text-slate-700">{detail?.availability_notes || tCommon("na")}</p>
               </div>
               <div>
-                <span className="font-medium inline-block w-40">Expectations:</span>
-                <p className="mt-1 text-slate-700">{(detail?.expectations && detail.expectations.length>0) ? detail.expectations.join(', ') : 'N/A'}</p>
+                <span className="font-medium inline-block w-40">{tProv("travel")}</span>
+                <p className="mt-1 text-slate-700">{detail?.travel_notes || tCommon("na")}</p>
               </div>
-              <div className="flex items-center gap-2"><User className="h-4 w-4 text-slate-500" /><span className="font-medium w-40 inline-block">Response time:</span><span>{detail?.response_time_hours != null ? `${detail.response_time_hours} hrs` : 'N/A'}</span></div>
               <div>
-                <span className="font-medium inline-block w-40">Rejection reason:</span>
-                <p className="mt-1 text-slate-700">{detail?.rejection_reason || 'N/A'}</p>
+                <span className="font-medium inline-block w-40">{tProv("expectations")}</span>
+                <p className="mt-1 text-slate-700">{(detail?.expectations && detail.expectations.length>0) ? detail.expectations.join(', ') : tCommon("na")}</p>
+              </div>
+              <div className="flex items-center gap-2"><User className="h-4 w-4 text-slate-500" /><span className="font-medium w-40 inline-block">{tProv("responseTime")}</span><span>{detail?.response_time_hours != null ? `${detail.response_time_hours} ${tDash("hours")}` : tCommon("na")}</span></div>
+              <div>
+                <span className="font-medium inline-block w-40">{t("dashboard.rejectionReason", { default: "Rejection reason:" })}</span>
+                <p className="mt-1 text-slate-700">{detail?.rejection_reason || tCommon("na")}</p>
               </div>
             </div>
 
             {/* Status at the bottom */}
             <div className="pt-2 text-sm text-slate-600">
-              <p>Status: <Badge variant="default">{selectedProvider.status || 'N/A'}</Badge></p>
+              <p>{tProv("status")} <Badge variant="default">{selectedProvider.status || tCommon("na")}</Badge></p>
             </div>
 
             {/* Actions */}
@@ -453,7 +462,7 @@ export default function Admin() {
                 onClick={() => setIsDrawerOpen(false)}
                 className="flex-1"
               >
-                Close
+                {tCommon("close")}
               </Button>
               <form
                 onSubmit={(e) => {
@@ -469,7 +478,7 @@ export default function Admin() {
                   className="w-full text-red-600 hover:text-red-700 hover:bg-red-50"
                 >
                   <XCircle className="h-4 w-4 mr-1" />
-                  Reject
+                  {tActions("reject")}
                 </Button>
               </form>
               <form
@@ -485,7 +494,7 @@ export default function Admin() {
                   className="w-full bg-green-700 hover:bg-green-800 text-white"
                 >
                   <CheckCircle className="h-4 w-4 mr-1" />
-                  Approve
+                  {tActions("approve")}
                 </Button>
               </form>
             </div>

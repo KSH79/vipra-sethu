@@ -1,5 +1,5 @@
 
-> @app/web@0.1.0 build C:\dev\vipra-sethu\apps\web
+> @app/web@0.1.0 build /Users/koni/Documents/vipra-sethu/apps/web
 > next build
 
   ▲ Next.js 14.2.5
@@ -24,7 +24,6 @@ Import trace for requested module:
 ../../node_modules/.pnpm/require-in-the-middle@7.5.2/node_modules/require-in-the-middle/index.js
 Critical dependency: require function is used in a way in which dependencies cannot be statically extracted
 
-   Linting and checking validity of types ...
 Import trace for requested module:
 ../../node_modules/.pnpm/require-in-the-middle@7.5.2/node_modules/require-in-the-middle/index.js
 ../../node_modules/.pnpm/@opentelemetry+instrumentation@0.204.0_@opentelemetry+api@1.9.0/node_modules/@opentelemetry/instrumentation/build/esm/platform/node/instrumentation.js
@@ -63,56 +62,92 @@ Import trace for requested module:
 ../../node_modules/.pnpm/@sentry+nextjs@10.22.0_@opentelemetry+context-async-hooks@2.2.0_@opentelemetry+api@1.9.0__@op_msebhpteyzw5kolgu4thekeypm/node_modules/@sentry/nextjs/build/cjs/index.server.js
 ./app/api/test-sentry-error/route.ts
 
+   Linting and checking validity of types ...
    Collecting page data ...
-   Generating static pages (0/18) ...
+(node:28757) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:28758) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:28761) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:28754) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:28755) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:28759) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:28762) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:28760) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:28756) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+   Generating static pages (0/31) ...
+   Generating static pages (7/31) 
 API /providers/search error: q [Error]: Dynamic server usage: Route /api/providers/search couldn't be rendered statically because it used `request.url`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
-    at W (C:\dev\vipra-sethu\node_modules\.pnpm\next@14.2.5_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._mu7p5g73d3ddrcspm6sp2zyruu\node_modules\next\dist\compiled\next-server\app-route.runtime.prod.js:6:21106)
-    at Object.get (C:\dev\vipra-sethu\node_modules\.pnpm\next@14.2.5_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._mu7p5g73d3ddrcspm6sp2zyruu\node_modules\next\dist\compiled\next-server\app-route.runtime.prod.js:6:28459)
-    at c (C:\dev\vipra-sethu\apps\web\.next\server\app\api\providers\search\route.js:1:982)
-    at C:\dev\vipra-sethu\node_modules\.pnpm\next@14.2.5_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._mu7p5g73d3ddrcspm6sp2zyruu\node_modules\next\dist\compiled\next-server\app-route.runtime.prod.js:6:36264
-    at C:\dev\vipra-sethu\node_modules\.pnpm\next@14.2.5_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._mu7p5g73d3ddrcspm6sp2zyruu\node_modules\next\dist\server\lib\trace\tracer.js:140:36
-    at NoopContextManager.with (C:\dev\vipra-sethu\node_modules\.pnpm\@opentelemetry+api@1.9.0\node_modules\@opentelemetry\api\build\src\context\NoopContextManager.js:25:19)
-    at ContextAPI.with (C:\dev\vipra-sethu\node_modules\.pnpm\@opentelemetry+api@1.9.0\node_modules\@opentelemetry\api\build\src\api\context.js:60:46)
-    at NoopTracer.startActiveSpan (C:\dev\vipra-sethu\node_modules\.pnpm\@opentelemetry+api@1.9.0\node_modules\@opentelemetry\api\build\src\trace\NoopTracer.js:65:31)
-    at ProxyTracer.startActiveSpan (C:\dev\vipra-sethu\node_modules\.pnpm\@opentelemetry+api@1.9.0\node_modules\@opentelemetry\api\build\src\trace\ProxyTracer.js:36:24)
-    at C:\dev\vipra-sethu\node_modules\.pnpm\next@14.2.5_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._mu7p5g73d3ddrcspm6sp2zyruu\node_modules\next\dist\server\lib\trace\tracer.js:122:103 {
+    at W (/Users/koni/Documents/vipra-sethu/node_modules/.pnpm/next@14.2.5_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._mu7p5g73d3ddrcspm6sp2zyruu/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:21106)
+    at Object.get (/Users/koni/Documents/vipra-sethu/node_modules/.pnpm/next@14.2.5_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._mu7p5g73d3ddrcspm6sp2zyruu/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:28459)
+    at c (/Users/koni/Documents/vipra-sethu/apps/web/.next/server/app/api/providers/search/route.js:1:1129)
+    at /Users/koni/Documents/vipra-sethu/node_modules/.pnpm/next@14.2.5_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._mu7p5g73d3ddrcspm6sp2zyruu/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:36264
+    at /Users/koni/Documents/vipra-sethu/node_modules/.pnpm/next@14.2.5_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._mu7p5g73d3ddrcspm6sp2zyruu/node_modules/next/dist/server/lib/trace/tracer.js:140:36
+    at NoopContextManager.with (/Users/koni/Documents/vipra-sethu/node_modules/.pnpm/@opentelemetry+api@1.9.0/node_modules/@opentelemetry/api/build/src/context/NoopContextManager.js:25:19)
+    at ContextAPI.with (/Users/koni/Documents/vipra-sethu/node_modules/.pnpm/@opentelemetry+api@1.9.0/node_modules/@opentelemetry/api/build/src/api/context.js:60:46)
+    at NoopTracer.startActiveSpan (/Users/koni/Documents/vipra-sethu/node_modules/.pnpm/@opentelemetry+api@1.9.0/node_modules/@opentelemetry/api/build/src/trace/NoopTracer.js:65:31)
+    at ProxyTracer.startActiveSpan (/Users/koni/Documents/vipra-sethu/node_modules/.pnpm/@opentelemetry+api@1.9.0/node_modules/@opentelemetry/api/build/src/trace/ProxyTracer.js:36:24)
+    at /Users/koni/Documents/vipra-sethu/node_modules/.pnpm/next@14.2.5_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._mu7p5g73d3ddrcspm6sp2zyruu/node_modules/next/dist/server/lib/trace/tracer.js:122:103 {
   description: "Route /api/providers/search couldn't be rendered statically because it used `request.url`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
   digest: 'DYNAMIC_SERVER_USAGE'
 }
-   Generating static pages (4/18) 
-   Generating static pages (8/18) 
-   Generating static pages (13/18) 
- ✓ Generating static pages (18/18)
+   Generating static pages (15/31) 
+   Generating static pages (23/31) 
+ ✓ Generating static pages (31/31)
    Finalizing page optimization ...
    Collecting build traces ...
 
-Route (app)                              Size     First Load JS
-┌ ○ /                                    5.87 kB         160 kB
-├ ○ /_not-found                          872 B            88 kB
-├ ○ /about                               8.25 kB         109 kB
-├ ○ /admin                               7.97 kB         155 kB
-├ ○ /admin/mfa-setup                     2.41 kB         191 kB
-├ ○ /admin/mfa-verify                    2.04 kB         190 kB
-├ ƒ /api/onboard                         0 B                0 B
-├ ƒ /api/providers/[id]                  0 B                0 B
-├ ƒ /api/providers/search                0 B                0 B
-├ ƒ /api/test-sentry-error               0 B                0 B
-├ ƒ /auth/callback                       0 B                0 B
-├ ○ /login                               4.6 kB          136 kB
-├ ○ /onboard                             30.1 kB         177 kB
-├ ○ /providers                           3.61 kB         136 kB
-├ ƒ /providers/[id]                      12.2 kB         151 kB
-├ ○ /providers/debug                     1.78 kB         127 kB
-├ ○ /test-analytics                      4.23 kB         151 kB
-└ ○ /test-sentry                         6.64 kB         101 kB
-+ First Load JS shared by all            87.1 kB
-  ├ chunks/178-af8f20e38ac50440.js       31.5 kB
-  ├ chunks/7d37ea12-ed526e8ad001da53.js  53.6 kB
-  └ other shared chunks (total)          1.99 kB
+Route (app)                                        Size     First Load JS
+┌ ƒ /                                              5.79 kB         173 kB
+├ ƒ /_not-found                                    872 B            88 kB
+├ ƒ /about                                         8.55 kB         109 kB
+├ ƒ /admin                                         8.39 kB         116 kB
+├ ƒ /admin/master-data                             911 B           109 kB
+├ ƒ /admin/master-data/experience-levels           2.5 kB         89.6 kB
+├ ƒ /admin/master-data/languages                   2.44 kB        89.6 kB
+├ ƒ /admin/master-data/service-radius              2.44 kB        89.6 kB
+├ ƒ /admin/mfa-setup                               2.41 kB         191 kB
+├ ƒ /admin/mfa-verify                              2.04 kB         190 kB
+├ ƒ /api/admin/master-data/experience-levels       0 B                0 B
+├ ƒ /api/admin/master-data/experience-levels/[id]  0 B                0 B
+├ ƒ /api/admin/master-data/languages               0 B                0 B
+├ ƒ /api/admin/master-data/languages/[code]        0 B                0 B
+├ ƒ /api/admin/master-data/sampradaya-categories   0 B                0 B
+├ ƒ /api/admin/master-data/service-radius          0 B                0 B
+├ ƒ /api/admin/master-data/service-radius/[id]     0 B                0 B
+├ ƒ /api/admin/master-data/terms                   0 B                0 B
+├ ƒ /api/admin/master-data/terms/[id]              0 B                0 B
+├ ƒ /api/admin/providers/[id]                      0 B                0 B
+├ ƒ /api/master-data/experience-levels             0 B                0 B
+├ ƒ /api/master-data/languages                     0 B                0 B
+├ ƒ /api/master-data/service-radius                0 B                0 B
+├ ƒ /api/onboard                                   0 B                0 B
+├ ƒ /api/providers/[id]                            0 B                0 B
+├ ƒ /api/providers/search                          0 B                0 B
+├ ƒ /api/test-sentry-error                         0 B                0 B
+├ ƒ /auth/callback                                 0 B                0 B
+├ ƒ /auth/logout                                   0 B                0 B
+├ ƒ /login                                         4.6 kB          136 kB
+├ ƒ /onboard                                       30 kB           177 kB
+├ ƒ /providers                                     5.77 kB         137 kB
+├ ƒ /providers/[id]                                13 kB           151 kB
+├ ƒ /providers/debug                               2.31 kB         127 kB
+├ ƒ /test-analytics                                4.19 kB         151 kB
+└ ƒ /test-sentry                                   6.64 kB         101 kB
++ First Load JS shared by all                      87.1 kB
+  ├ chunks/178-2b0087109cc91d34.js                 31.5 kB
+  ├ chunks/7d37ea12-282692a144eb93cd.js            53.6 kB
+  └ other shared chunks (total)                    1.99 kB
 
 
-ƒ Middleware                             56.7 kB
+ƒ Middleware                                       56 kB
 
-○  (Static)   prerendered as static content
 ƒ  (Dynamic)  server-rendered on demand
 

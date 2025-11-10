@@ -5,6 +5,8 @@ import { Menu, Plus, Search, X } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
+import { useTranslations } from "next-intl";
+import { LanguageSelector } from "@/components/LanguageSelector";
 
 /**
  * Top navigation bar with logo, search, and links
@@ -13,6 +15,8 @@ export function TopNav({ isAuthenticated = false }: { isAuthenticated?: boolean 
   const pathname = usePathname();
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const tNav = useTranslations("nav");
+  const tCommon = useTranslations("common");
 
   useEffect(() => {
     const handleScroll = () => {
@@ -23,9 +27,9 @@ export function TopNav({ isAuthenticated = false }: { isAuthenticated?: boolean 
   }, []);
 
   const navLinks = [
-    { href: "/providers", label: "Providers" },
-    { href: "/about", label: "About" },
-    { href: "/admin", label: "Admin" },
+    { href: "/providers", label: tNav("providers") },
+    { href: "/about", label: tNav("about") },
+    { href: "/admin", label: tNav("admin") },
   ];
 
   const isProvidersPage = pathname === "/providers";
@@ -85,7 +89,7 @@ export function TopNav({ isAuthenticated = false }: { isAuthenticated?: boolean 
               href="/onboard"
               className="inline-flex items-center px-3 py-1.5 text-sm rounded-full bg-saffron text-white hover:opacity-90 transition-opacity"
             >
-              Add Listing
+              {tNav("addListing")}
             </Link>
             {isAuthenticated && (
               <form action="/auth/logout" method="post">
@@ -93,17 +97,18 @@ export function TopNav({ isAuthenticated = false }: { isAuthenticated?: boolean 
                   type="submit"
                   className="text-sm text-slate-600 hover:text-saffron transition-colors"
                 >
-                  Logout
+                  {tNav("logout")}
                 </button>
               </form>
             )}
+            <LanguageSelector />
           </nav>
 
           {/* Mobile Menu Button */}
           <button
             className="md:hidden ml-auto p-2 text-slate-600 hover:text-saffron transition-colors"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            aria-label="Toggle menu"
+            aria-label={tCommon("toggleMenu", { default: "Toggle menu" })}
           >
             <Menu className="h-6 w-6" />
           </button>
@@ -133,7 +138,7 @@ export function TopNav({ isAuthenticated = false }: { isAuthenticated?: boolean 
                 className="inline-flex items-center justify-center px-3 py-1.5 text-sm rounded-full bg-saffron text-white"
                 onClick={() => setMobileMenuOpen(false)}
               >
-                Add Listing
+                {tNav("addListing")}
               </Link>
               {isAuthenticated && (
                 <form action="/auth/logout" method="post">
@@ -142,7 +147,7 @@ export function TopNav({ isAuthenticated = false }: { isAuthenticated?: boolean 
                     className="px-3 py-2 rounded-md text-sm font-medium text-slate-600 hover:bg-sandstone/10 text-left"
                     onClick={() => setMobileMenuOpen(false)}
                   >
-                    Logout
+                    {tNav("logout")}
                   </button>
                 </form>
               )}

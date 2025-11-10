@@ -2,7 +2,7 @@
 
 import { useState, useTransition } from 'react';
 import { useLocale } from 'next-intl';
-import { locales, localeNames, type Locale } from '@/lib/i18n/config';
+import { locales, localeNames, type Locale } from '@/lib/i18n/constants';
 import { setUserLocale } from '@/lib/i18n/actions';
 
 export function LanguageSelector() {
