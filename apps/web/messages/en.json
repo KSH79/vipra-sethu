@@ -26,6 +26,42 @@
     "na": "N/A",
     "toggleMenu": "Toggle menu"
   },
+  "auth": {
+    "login": {
+      "title": "Welcome Back",
+      "subtitle": "Sign in to access your account",
+      "emailLabel": "Email address",
+      "emailPlaceholder": "Enter your email",
+      "send": "Send magic link",
+      "sending": "Sending magic link...",
+      "success": {
+        "magicLinkSent": "Check your email for the magic link!"
+      },
+      "error": {
+        "generic": "Something went wrong. Please try again."
+      },
+      "info": {
+        "line1": "We'll send you a magic link to sign in.",
+        "line2": "No password required!"
+      }
+    },
+    "mfa": {
+      "setup": {
+        "unauthorized": "You are not authorized to set up MFA",
+        "checkFailed": "Failed to check eligibility for MFA setup",
+        "errorTitle": "Setup Error",
+        "returnToDashboard": "Return to Dashboard",
+        "title": "MFA Setup",
+        "checkingEligibility": "Checking eligibility for MFA setup..."
+      },
+      "verify": {
+        "noFactor": "No MFA factor found. Please set up two-factor authentication first.",
+        "checkFailed": "Failed to check authentication status",
+        "errorTitleAuth": "Authentication Error",
+        "returnToLogin": "Return to Login"
+      }
+    }
+  },
   "admin": {
     "dashboard": {
       "title": "Admin Dashboard",
@@ -63,7 +99,10 @@
     "masterData": {
       "title": "Master Data Management",
       "subtitle": "Create and manage reference data used across the platform.",
+      "categories": "Categories",
+      "categories_desc": "Manage service categories",
       "sampradaya": "Sampradaya",
+      "sampradaya_desc": "Manage sampradayas",
       "languages": "Languages",
       "languages_desc": "Manage ISO 639-1 languages",
       "service_radius": "Service Radius",
@@ -75,28 +114,349 @@
       "terms": "Terms & Policies",
       "terms_desc": "Versioned legal content"
     }
+    ,
+    "masterDataPages": {
+      "languages": {
+        "title": "Languages",
+        "subtitle": "Manage ISO 639-1 languages used across the platform.",
+        "add": "Add Language",
+        "searchPlaceholder": "Search by code, name or native name",
+        "includeInactive": "Include inactive",
+        "includeDeleted": "Include deleted",
+        "apply": "Apply",
+        "columns": {
+          "code": "Code",
+          "name": "Name",
+          "native": "Native",
+          "order": "Order",
+          "active": "Active",
+          "actions": "Actions"
+        },
+        "loading": "Loading…",
+        "empty": "No languages found",
+        "active": "Active",
+        "inactive": "Inactive",
+        "edit": "Edit",
+        "delete": "Delete",
+        "editTitle": "Edit Language",
+        "addTitle": "Add Language",
+        "form": {
+          "code": "Code",
+          "codePlaceholder": "e.g., kn",
+          "name": "Name",
+          "namePlaceholder": "e.g., Kannada",
+          "nativeName": "Native Name",
+          "nativeNamePlaceholder": "e.g., ಕನ್ನಡ",
+          "description": "Description",
+          "displayOrder": "Display Order",
+          "active": "Active"
+        },
+        "cancel": "Cancel",
+        "saving": "Saving…",
+        "save": "Save"
+      }
+      ,
+      "experienceLevels": {
+        "title": "Experience Levels",
+        "subtitle": "Manage experience buckets used across the platform.",
+        "add": "Add Level",
+        "searchPlaceholder": "Search by name or range",
+        "includeInactive": "Include inactive",
+        "includeDeleted": "Include deleted",
+        "apply": "Apply",
+        "columns": {
+          "name": "Name",
+          "range": "Range (years)",
+          "order": "Order",
+          "active": "Active",
+          "actions": "Actions"
+        },
+        "loading": "Loading…",
+        "empty": "No levels found",
+        "active": "Active",
+        "inactive": "Inactive",
+        "edit": "Edit",
+        "delete": "Delete",
+        "editTitle": "Edit Level",
+        "addTitle": "Add Level",
+        "form": {
+          "name": "Name",
+          "namePlaceholder": "e.g., Expert",
+          "minYears": "Min years",
+          "maxYears": "Max years",
+          "description": "Description",
+          "displayOrder": "Display Order",
+          "active": "Active"
+        },
+        "cancel": "Cancel",
+        "saving": "Saving…",
+        "save": "Save",
+        "confirmDelete": "Soft delete level?"
+      },
+      "serviceRadius": {
+        "title": "Service Radius",
+        "subtitle": "Manage distance options for provider listings.",
+        "add": "Add Option",
+        "searchPlaceholder": "Search by text or value",
+        "includeInactive": "Include inactive",
+        "includeDeleted": "Include deleted",
+        "apply": "Apply",
+        "columns": {
+          "valueKm": "Value (km)",
+          "display": "Display",
+          "order": "Order",
+          "active": "Active",
+          "actions": "Actions"
+        },
+        "loading": "Loading…",
+        "empty": "No options found",
+        "active": "Active",
+        "inactive": "Inactive",
+        "edit": "Edit",
+        "delete": "Delete",
+        "editTitle": "Edit Option",
+        "addTitle": "Add Option",
+        "form": {
+          "valueKm": "Value (km)",
+          "valueKmPlaceholder": "e.g., 15 (leave blank for non-numeric)",
+          "displayText": "Display Text",
+          "displayTextPlaceholder": "e.g., 30+ km or Entire city",
+          "description": "Description",
+          "displayOrder": "Display Order",
+          "active": "Active"
+        },
+        "cancel": "Cancel",
+        "saving": "Saving…",
+        "save": "Save",
+        "confirmDelete": "Soft delete option?"
+      },
+      "categories": {
+        "title": "Categories",
+        "subtitle": "Manage service categories used across the platform.",
+        "add": "Add Category",
+        "searchPlaceholder": "Search by code, name or description",
+        "includeInactive": "Include inactive",
+        "includeDeleted": "Include deleted",
+        "apply": "Apply",
+        "columns": {
+          "code": "Code",
+          "name": "Name",
+          "description": "Description",
+          "order": "Order",
+          "active": "Active",
+          "actions": "Actions"
+        },
+        "loading": "Loading…",
+        "empty": "No categories found",
+        "active": "Active",
+        "inactive": "Inactive",
+        "edit": "Edit",
+        "delete": "Delete",
+        "editTitle": "Edit Category",
+        "addTitle": "Add Category",
+        "form": {
+          "code": "Code",
+          "codePlaceholder": "e.g., PUROHIT",
+          "name": "Name",
+          "namePlaceholder": "e.g., Purohit",
+          "description": "Description",
+          "displayOrder": "Display Order",
+          "active": "Active"
+        },
+        "cancel": "Cancel",
+        "saving": "Saving…",
+        "save": "Save",
+        "confirmDelete": "Soft delete category?"
+      },
+      "sampradayas": {
+        "title": "Sampradayas",
+        "subtitle": "Manage sampradayas used across the platform.",
+        "add": "Add Sampradaya",
+        "searchPlaceholder": "Search by code, name or description",
+        "includeInactive": "Include inactive",
+        "includeDeleted": "Include deleted",
+        "apply": "Apply",
+        "columns": {
+          "code": "Code",
+          "name": "Name",
+          "description": "Description",
+          "order": "Order",
+          "active": "Active",
+          "actions": "Actions"
+        },
+        "loading": "Loading…",
+        "empty": "No sampradayas found",
+        "active": "Active",
+        "inactive": "Inactive",
+        "edit": "Edit",
+        "delete": "Delete",
+        "editTitle": "Edit Sampradaya",
+        "addTitle": "Add Sampradaya",
+        "form": {
+          "code": "Code",
+          "codePlaceholder": "e.g., SMPRDYA",
+          "name": "Name",
+          "namePlaceholder": "e.g., Smartha",
+          "description": "Description",
+          "displayOrder": "Display Order",
+          "active": "Active"
+        },
+        "cancel": "Cancel",
+        "saving": "Saving…",
+        "save": "Save",
+        "confirmDelete": "Soft delete sampradaya?"
+      },
+      "mapping": {
+        "title": "Sampradaya ↔ Category",
+        "subtitle": "Manage applicability mapping between sampradayas and categories.",
+        "add": "Add Mapping",
+        "searchPlaceholder": "Search by sampradaya or category code",
+        "includeInactive": "Include inactive",
+        "includeDeleted": "Include deleted",
+        "apply": "Apply",
+        "columns": {
+          "sampradaya": "Sampradaya",
+          "category": "Category",
+          "applicable": "Applicable",
+          "order": "Order",
+          "active": "Active",
+          "actions": "Actions"
+        },
+        "loading": "Loading…",
+        "empty": "No mappings found",
+        "applicable": "Applicable",
+        "notApplicable": "Not applicable",
+        "active": "Active",
+        "inactive": "Inactive",
+        "edit": "Edit",
+        "delete": "Delete",
+        "editTitle": "Edit Mapping",
+        "addTitle": "Add Mapping",
+        "form": {
+          "sampradayaCode": "Sampradaya Code",
+          "sampradayaCodePlaceholder": "e.g., SMPRDYA",
+          "categoryCode": "Category Code",
+          "categoryCodePlaceholder": "e.g., PUROHIT",
+          "isApplicable": "Applicable",
+          "displayOrder": "Display Order",
+          "active": "Active"
+        },
+        "cancel": "Cancel",
+        "saving": "Saving…",
+        "save": "Save",
+        "confirmDelete": "Soft delete mapping?"
+      }
+      ,
+      "terms": {
+        "title": "Terms & Policies",
+        "subtitle": "Manage versioned legal content.",
+        "add": "Add Entry",
+        "searchPlaceholder": "Search by title or version",
+        "includeInactive": "Include inactive",
+        "includeDeleted": "Include deleted",
+        "apply": "Apply",
+        "columns": {
+          "title": "Title",
+          "version": "Version",
+          "active": "Active",
+          "actions": "Actions"
+        },
+        "loading": "Loading…",
+        "empty": "No entries found",
+        "active": "Active",
+        "inactive": "Inactive",
+        "edit": "Edit",
+        "delete": "Delete",
+        "editTitle": "Edit Entry",
+        "addTitle": "Add Entry",
+        "form": {
+          "title": "Title",
+          "titlePlaceholder": "e.g., Privacy Policy",
+          "version": "Version",
+          "versionPlaceholder": "e.g., v1.0",
+          "content": "Content",
+          "active": "Active"
+        },
+        "cancel": "Cancel",
+        "saving": "Saving…",
+        "save": "Save",
+        "confirmDelete": "Soft delete entry?"
+      }
+    }
   },
   "providers": {
     "listing": {
-      "title": "Find Service Providers",
+      "title": "Find Trusted Service Providers",
+      "subtitle": "Connect with verified purohits, cooks, and essential services in your community",
+      "searchPlaceholder": "Search by name, category, or description...",
+      "sort": {
+        "newest": "Newest First",
+        "experience": "Most Experienced",
+        "name": "Name (A-Z)"
+      },
+      "clear": "Clear",
       "noResults": "No providers found",
-      "loadMore": "Load More"
+      "results": {
+        "showing": "Showing <strong>{visible}</strong> of <strong>{total}</strong> providers",
+        "filteredCount": "{displayed} of {total} total"
+      },
+      "error": {
+        "title": "Error loading providers",
+        "retry": "Retry"
+      },
+      "loadMoreWithCount": "Load More ({remaining} remaining)",
+      "empty": {
+        "title": "No providers found",
+        "adjustFilters": "Try adjusting your search or filters to find what you're looking for.",
+        "noProviders": "There are no providers available at the moment."
+      },
+      "clearAllFilters": "Clear All Filters"
     },
     "details": {
-      "phone": "Phone:",
-      "email": "Email:",
-      "location": "Location:",
-      "whatsapp": "WhatsApp:",
-      "languages": "Languages:",
-      "experience": "Experience:",
-      "about": "About:",
-      "serviceRadius": "Service radius:",
-      "availability": "Availability:",
-      "travel": "Travel:",
-      "expectations": "Expectations:",
-      "responseTime": "Response time:",
-      "status": "Status:",
-      "submittedOn": "Submitted {date}"
+      "breadcrumb": { "providers": "Providers" },
+      "unknownProvider": "Unknown Provider",
+      "actions": {
+        "goBack": "Go Back",
+        "whatsapp": "WhatsApp",
+        "call": "Call"
+      },
+      "errors": {
+        "loadFailed": "Failed to load provider details"
+      },
+      "notFound": {
+        "title": "Provider not found",
+        "description": "This provider could not be loaded."
+      },
+      "badges": { "verified": "Verified" },
+      "labels": {
+        "serviceProvider": "Service Provider",
+        "years": "{years} years",
+        "location": "Location",
+        "languages": "Languages",
+        "notSpecified": "Not specified",
+        "noDescription": "No description available.",
+        "availableWithin": "Available within {km} km{notes}",
+        "contactForAvailability": "Please contact for availability",
+        "typicalResponse": "Typically responds within {hours} hours",
+        "contactToDiscuss": "Contact {name} to discuss specific rituals and ceremonies",
+        "contactNotAvailable": "Contact information not available",
+        "respondsIn": "Responds in ~{hours} hours",
+        "kmAway": "{km} km away"
+      },
+      "sections": {
+        "about": "About",
+        "whatToExpect": "What to Expect",
+        "serviceDetails": "Service Details",
+        "serviceArea": "Service Area",
+        "responseTime": "Response Time",
+        "ritualsServices": "Rituals & Services",
+        "contact": "Contact"
+      },
+      "footerCta": {
+        "title": "Looking for more providers?",
+        "subtitle": "Explore our directory of verified professionals",
+        "button": "Browse All Providers"
+      }
     }
   },
   "home": {
@@ -180,8 +540,13 @@
     }
   },
   "footer": {
-    "terms": "Terms & Conditions",
-    "privacy": "Privacy Policy",
-    "copyright": " Vipra Sethu. All rights reserved."
+    "brand": "Vipra Sethu",
+    "strapline": "Building community through trust",
+    "listYourService": "List your service",
+    "about": "About",
+    "conduct": "Code of Conduct",
+    "privacy": "Privacy",
+    "contact": "Contact",
+    "copyright": "© 2025 Vipra Sethu. Building community through trust and tradition."
   }
 }

@@ -6,10 +6,13 @@ import { ProviderCard } from "@/components/providers/ProviderCard";
 import { ProviderWithTaxonomy, Category } from "@/lib/types/taxonomy";
 import Link from "next/link";
 import { Search, Filter, X, ChevronDown } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 type SortOption = 'newest' | 'experience' | 'name';
 
 export default function Providers() {
+  const t = useTranslations("providers.listing");
+  const tCommon = useTranslations("common");
   const [allProviders, setAllProviders] = useState<ProviderWithTaxonomy[]>([]);
   const [displayedProviders, setDisplayedProviders] = useState<ProviderWithTaxonomy[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
@@ -106,12 +109,8 @@ export default function Providers() {
       <section className="py-12 md:py-16 bg-gradient-to-br from-saffron-50 via-ivory to-gold-50">
         <div className="container-custom">
           <div className="text-center space-y-4">
-            <h1 className="text-3xl md:text-4xl font-bold text-slate-900">
-              Find Trusted Service Providers
-            </h1>
-            <p className="text-base md:text-lg text-slate-600 max-w-2xl mx-auto">
-              Connect with verified purohits, cooks, and essential services in your community
-            </p>
+            <h1 className="text-3xl md:text-4xl font-bold text-slate-900">{t("title")}</h1>
+            <p className="text-base md:text-lg text-slate-600 max-w-2xl mx-auto">{t("subtitle")}</p>
           </div>
         </div>
       </section>
@@ -127,7 +126,7 @@ export default function Providers() {
                 <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-400" />
                 <input
                   type="text"
-                  placeholder="Search by name, category, or description..."
+                  placeholder={t("searchPlaceholder")}
                   value={searchText}
                   onChange={(e) => setSearchText(e.target.value)}
                   className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-saffron-500 focus:border-transparent"
@@ -145,7 +144,7 @@ export default function Providers() {
                       onChange={(e) => setSelectedCategory(e.target.value)}
                       className="w-full pl-10 pr-10 py-2.5 border border-gray-300 rounded-lg appearance-none bg-white focus:ring-2 focus:ring-saffron-500 focus:border-transparent"
                     >
-                      <option value="">All Categories</option>
+                      <option value="">{tCommon("allCategories")}</option>
                       {categories.map((category) => (
                         <option key={category.code} value={category.code}>
                           {category.name}
@@ -164,9 +163,9 @@ export default function Providers() {
                       onChange={(e) => setSortBy(e.target.value as SortOption)}
                       className="w-full pl-4 pr-10 py-2.5 border border-gray-300 rounded-lg appearance-none bg-white focus:ring-2 focus:ring-saffron-500 focus:border-transparent"
                     >
-                      <option value="newest">Newest First</option>
-                      <option value="experience">Most Experienced</option>
-                      <option value="name">Name (A-Z)</option>
+                      <option value="newest">{t("sort.newest")}</option>
+                      <option value="experience">{t("sort.experience")}</option>
+                      <option value="name">{t("sort.name")}</option>
                     </select>
                     <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 pointer-events-none" />
                   </div>
@@ -179,7 +178,7 @@ export default function Providers() {
                     className="flex items-center gap-2 px-4 py-2.5 text-sm font-medium text-slate-700 bg-white border border-gray-300 rounded-lg hover:bg-slate-50 transition-colors"
                   >
                     <X className="h-4 w-4" />
-                    Clear
+                    {t("clear")}
                   </button>
                 )}
               </div>
@@ -188,18 +187,20 @@ export default function Providers() {
               <div className="flex items-center justify-between text-sm">
                 <p className="text-slate-600">
                   {displayedProviders.length === 0 ? (
-                    'No providers found'
+                    t("noResults")
                   ) : (
                     <>
-                      Showing <span className="font-medium text-slate-900">{visibleProviders.length}</span> of{' '}
-                      <span className="font-medium text-slate-900">{displayedProviders.length}</span> provider
-                      {displayedProviders.length !== 1 ? 's' : ''}
+                      {t.rich("results.showing", {
+                        strong: (chunks) => <span className="font-medium text-slate-900">{chunks}</span>,
+                        visible: String(visibleProviders.length),
+                        total: String(displayedProviders.length),
+                      })}
                     </>
                   )}
                 </p>
                 {hasActiveFilters && (
                   <p className="text-slate-500">
-                    {displayedProviders.length} of {allProviders.length} total
+                    {t("results.filteredCount", { displayed: displayedProviders.length, total: allProviders.length })}
                   </p>
                 )}
               </div>
@@ -228,13 +229,13 @@ export default function Providers() {
           {/* Error State */}
           {error && !loading && (
             <div className="bg-red-50 border border-red-200 rounded-lg p-6 max-w-2xl mx-auto">
-              <h3 className="text-red-800 font-medium mb-2">Error loading providers</h3>
+              <h3 className="text-red-800 font-medium mb-2">{t("error.title")}</h3>
               <p className="text-red-700 text-sm mb-3">{error}</p>
               <button
                 onClick={loadData}
                 className="px-4 py-2 text-sm rounded-lg border border-red-200 bg-white hover:bg-red-50 transition-colors"
               >
-                Retry
+                {t("error.retry")}
               </button>
             </div>
           )}
@@ -271,7 +272,7 @@ export default function Providers() {
                     onClick={loadMore}
                     className="px-8 py-3 bg-saffron-600 text-white font-medium rounded-lg hover:bg-saffron-700 transition-colors shadow-sm hover:shadow-md"
                   >
-                    Load More ({displayedProviders.length - displayCount} remaining)
+                    {t("loadMoreWithCount", { remaining: displayedProviders.length - displayCount })}
                   </button>
                 </div>
               )}
@@ -285,18 +286,18 @@ export default function Providers() {
                 <div className="h-16 w-16 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4">
                   <Search className="h-8 w-8 text-slate-400" />
                 </div>
-                <h3 className="text-lg font-semibold text-slate-900 mb-2">No providers found</h3>
+                <h3 className="text-lg font-semibold text-slate-900 mb-2">{t("empty.title")}</h3>
                 <p className="text-slate-600 mb-6">
                   {hasActiveFilters 
-                    ? "Try adjusting your search or filters to find what you're looking for."
-                    : "There are no providers available at the moment."}
+                    ? t("empty.adjustFilters")
+                    : t("empty.noProviders")}
                 </p>
                 {hasActiveFilters && (
                   <button
                     onClick={clearFilters}
                     className="px-6 py-2 bg-saffron-600 text-white font-medium rounded-lg hover:bg-saffron-700 transition-colors"
                   >
-                    Clear All Filters
+                    {t("clearAllFilters")}
                   </button>
                 )}
               </div>

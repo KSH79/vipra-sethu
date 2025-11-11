@@ -8,6 +8,8 @@ import { cookies } from 'next/headers'
 import { createServerClient } from '@supabase/ssr'
 import { PostHogAnalyticsProvider } from "@/lib/analytics";
 import { Analytics } from '@vercel/analytics/react';
+import { getTranslations, getMessages } from 'next-intl/server';
+import { NextIntlClientProvider } from 'next-intl';
 
 // Import Sentry configurations
 import '@/sentry.client.config'
@@ -57,11 +59,14 @@ export default async function RootLayout({
   )
   const { data: { session } } = await supabase.auth.getSession()
   const isAuthenticated = !!session?.user
+  const tFooter = await getTranslations('footer')
+  const messages = await getMessages()
   
   return (
     <html lang="en" className="scroll-smooth">
       <body className={inter.className}>
-        {!isDevelopment && <PostHogAnalyticsProvider>
+        <NextIntlClientProvider messages={messages} locale="en">
+          {!isDevelopment && <PostHogAnalyticsProvider>
           {/* Skip link for accessibility */}
           <a href="#main-content" className="skip-link">
             Skip to main content
@@ -82,10 +87,10 @@ export default async function RootLayout({
                     </div>
                     <div>
                       <span className="font-display font-bold text-lg text-slate-900 block">
-                        Vipra Sethu
+                        {tFooter('brand')}
                       </span>
                       <span className="text-xs text-slate-500">
-                        Building community through trust
+                        {tFooter('strapline')}
                       </span>
                     </div>
                   </div>
@@ -93,37 +98,37 @@ export default async function RootLayout({
                   <nav className="flex flex-wrap justify-center gap-6 text-sm">
                     <Link href="/onboard" 
                           className="text-slate-600 hover:text-saffron-600 font-medium transition-colors">
-                      List your service
+                      {tFooter('listYourService')}
                     </Link>
                     <Link href="/about" 
                           className="text-slate-600 hover:text-saffron-600 font-medium transition-colors">
-                      About
+                      {tFooter('about')}
                     </Link>
                     <Link href="/conduct" 
                           className="text-slate-600 hover:text-saffron-600 font-medium transition-colors">
-                      Code of Conduct
+                      {tFooter('conduct')}
                     </Link>
                     <Link href="/privacy" 
                           className="text-slate-600 hover:text-saffron-600 font-medium transition-colors">
-                      Privacy
+                      {tFooter('privacy')}
                     </Link>
                     <Link href="/contact" 
                           className="text-slate-600 hover:text-saffron-600 font-medium transition-colors">
-                      Contact
+                      {tFooter('contact')}
                     </Link>
                   </nav>
                 </div>
                 
                 <div className="pt-6 border-t border-gray-200 text-center">
                   <p className="text-sm text-slate-600">
-                    © 2025 Vipra Sethu. Building community through trust and tradition.
+                    {tFooter('copyright')}
                   </p>
                 </div>
               </div>
             </footer>
           </div>
           {!isDevelopment && <Analytics />}
-        </PostHogAnalyticsProvider>}
+          </PostHogAnalyticsProvider>}
         
         {/* Development mode - no analytics */}
         {isDevelopment && (
@@ -148,10 +153,10 @@ export default async function RootLayout({
                       </div>
                       <div>
                         <span className="font-display font-bold text-lg text-slate-900 block">
-                          Vipra Sethu
+                          {tFooter('brand')}
                         </span>
                         <span className="text-xs text-slate-500">
-                          Building community through trust
+                          {tFooter('strapline')}
                         </span>
                       </div>
                     </div>
@@ -159,30 +164,30 @@ export default async function RootLayout({
                     <nav className="flex flex-wrap justify-center gap-6 text-sm">
                       <Link href="/onboard" 
                             className="text-slate-600 hover:text-saffron-600 font-medium transition-colors">
-                        List your service
+                        {tFooter('listYourService')}
                       </Link>
                       <Link href="/about" 
                             className="text-slate-600 hover:text-saffron-600 font-medium transition-colors">
-                        About
+                        {tFooter('about')}
                       </Link>
                       <Link href="/conduct" 
                             className="text-slate-600 hover:text-saffron-600 font-medium transition-colors">
-                        Code of Conduct
+                        {tFooter('conduct')}
                       </Link>
                       <Link href="/privacy" 
                             className="text-slate-600 hover:text-saffron-600 font-medium transition-colors">
-                        Privacy
+                        {tFooter('privacy')}
                       </Link>
                       <Link href="/contact" 
                             className="text-slate-600 hover:text-saffron-600 font-medium transition-colors">
-                        Contact
+                        {tFooter('contact')}
                       </Link>
                     </nav>
                   </div>
                   
                   <div className="pt-6 border-t border-gray-200 text-center">
                     <p className="text-sm text-slate-600">
-                      © 2025 Vipra Sethu. Building community through trust and tradition.
+                      {tFooter('copyright')}
                     </p>
                   </div>
                 </div>
@@ -190,6 +195,7 @@ export default async function RootLayout({
             </div>
           </>
         )}
+        </NextIntlClientProvider>
       </body>
     </html>
   );

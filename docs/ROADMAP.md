@@ -117,6 +117,8 @@
 
 ## Milestone 2 — Internationalization (i18n)
 
+Status: Phase 2 (App i18n with next-intl) — COMPLETE. Phase 1 — remaining validation/docs pending (see below).
+
 ### Phase 1 — Database i18n Infrastructure (In Progress)
 
 - [x] Migration: add JSONB translation columns + GIN indexes to master data tables

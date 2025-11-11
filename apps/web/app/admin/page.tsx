@@ -3,7 +3,7 @@
 
 import { useEffect, useMemo, useState, useTransition } from "react";
 import { useTranslations, useFormatter } from "next-intl";
-import { LanguageSelector } from "@/components/LanguageSelector";
+import Link from "next/link";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { Drawer } from "@/components/ui/Drawer";
@@ -235,7 +235,11 @@ export default function Admin() {
                 <h1 className="title-large mb-2">{tDash("title")}</h1>
                 <p className="subtitle">{tDash("subtitle")}</p>
               </div>
-              <LanguageSelector />
+              <Link href="/admin/master-data">
+                <Button variant="secondary" size="sm">
+                  {t("masterData.title")}
+                </Button>
+              </Link>
             </div>
 
             {/* KPI cards */}

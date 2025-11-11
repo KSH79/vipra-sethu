@@ -7,7 +7,9 @@ const cards = [
   { href: "/admin/master-data/languages", title: "Languages", desc: "Manage ISO 639-1 languages", key: "languages" },
   { href: "/admin/master-data/service-radius", title: "Service Radius", desc: "Distance options for providers", key: "service_radius" },
   { href: "/admin/master-data/experience-levels", title: "Experience Levels", desc: "Beginner / Intermediate / Expert", key: "experience" },
-  { href: "/admin/master-data/sampradaya-categories", title: "Sampradaya ↔ Category", desc: "Applicability mapping", key: "mapping" },
+  { href: "/admin/master-data/categories", title: "Categories", desc: "Manage service categories", key: "categories" },
+  { href: "/admin/master-data/sampradayas", title: "Sampradayas", desc: "Manage sampradayas", key: "sampradaya" },
+  { href: "/admin/master-data/mapping", title: "Sampradaya ↔ Category", desc: "Applicability mapping", key: "mapping" },
   { href: "/admin/master-data/terms", title: "Terms & Policies", desc: "Versioned legal content", key: "terms" },
 ];
 
