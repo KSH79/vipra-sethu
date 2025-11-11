@@ -1,4 +1,5 @@
 import { createClient } from '@/lib/supabaseClient';
+import { getTranslation, type SupportedLanguage } from '@/lib/translations/db-helpers';
 import { 
   Category, 
   Sampradaya, 
@@ -20,7 +21,7 @@ export class TaxonomyService {
    * Hotfix: Query table directly instead of RPC due to RPC 500s caused by
    * an RLS recursion bug on admins. Safe because categories has public SELECT.
    */
-  async getCategories(): Promise<Category[]> {
+  async getCategories(locale: SupportedLanguage = 'en'): Promise<Category[]> {
     const supabase = await createClient();
     const { data, error } = await supabase
       .from('categories')
@@ -34,7 +35,12 @@ export class TaxonomyService {
       throw new Error('Failed to fetch categories');
     }
 
-    return (data as Category[]) || [];
+    const rows = (data as any[]) || [];
+    return rows.map((row) => ({
+      ...(row as Category),
+      translatedName: getTranslation(row?.name_translations as any, locale) || row?.name,
+      translatedDescription: getTranslation(row?.description_translations as any, locale) || row?.description,
+    }));
   }
 
   /**
@@ -42,7 +48,7 @@ export class TaxonomyService {
    * Hotfix: Query table directly instead of RPC due to RPC 500s caused by
    * an RLS recursion bug on admins. Safe because sampradayas has public SELECT.
    */
-  async getSampradayas(): Promise<Sampradaya[]> {
+  async getSampradayas(locale: SupportedLanguage = 'en'): Promise<Sampradaya[]> {
     const supabase = await createClient();
     const { data, error } = await supabase
       .from('sampradayas')
@@ -56,7 +62,12 @@ export class TaxonomyService {
       throw new Error('Failed to fetch sampradayas');
     }
 
-    return (data as Sampradaya[]) || [];
+    const rows = (data as any[]) || [];
+    return rows.map((row) => ({
+      ...(row as Sampradaya),
+      translatedName: getTranslation(row?.name_translations as any, locale) || row?.name,
+      translatedDescription: getTranslation(row?.description_translations as any, locale) || row?.description,
+    }));
   }
 
   /**
