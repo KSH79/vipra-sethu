@@ -18,9 +18,21 @@ export async function GET(req: NextRequest) {
     const { data, error } = await query
     if (error) throw error
     const rows = (data as any[]) || []
+    const isKn = locale === 'kn'
+    const mapCatKn = (code?: string) => {
+      switch ((code || '').toLowerCase()) {
+        case 'purohit': return 'ವೈದಿಕ ಪುರೋಹಿತ'
+        case 'cook': return 'ಅಡುಗೆಯವರು'
+        case 'essentials': return 'ಅಗತ್ಯಗಳು'
+        case 'seniorcare': return 'ವರಿಷ್ಠ ಆರೈಕೆ'
+        case 'pilgrimage': return 'ತೀರ್ಥಯಾತ್ರೆ ಮಾರ್ಗದರ್ಶಿ'
+        case 'other': return 'ಇತರೆ'
+        default: return undefined
+      }
+    }
     const categories = rows.map((row) => ({
       code: row.code,
-      name: getTranslation(row?.name_translations as any, locale) || row?.name || '',
+      name: (isKn ? (mapCatKn(row.code) || getTranslation(row?.name_translations as any, locale)) : getTranslation(row?.name_translations as any, locale)) || row?.name || '',
     }))
     return NextResponse.json({ ok: true, categories })
   } catch (e: any) {
