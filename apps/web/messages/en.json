@@ -52,13 +52,15 @@
         "errorTitle": "Setup Error",
         "returnToDashboard": "Return to Dashboard",
         "title": "MFA Setup",
-        "checkingEligibility": "Checking eligibility for MFA setup..."
+        "checkingEligibility": "Checking eligibility for MFA setup...",
+        "redirectError": "MFA setup completed, but failed to redirect. Please try refreshing the page."
       },
       "verify": {
         "noFactor": "No MFA factor found. Please set up two-factor authentication first.",
         "checkFailed": "Failed to check authentication status",
         "errorTitleAuth": "Authentication Error",
-        "returnToLogin": "Return to Login"
+        "returnToLogin": "Return to Login",
+        "redirectError": "Verification completed, but failed to redirect. Please try refreshing the page."
       }
     }
   },
@@ -69,7 +71,18 @@
       "pendingReview": "Pending Review",
       "approvedThisMonth": "Approved (this month)",
       "avgReviewTime": "Avg. Review Time",
-      "hours": "hrs"
+      "hours": "hrs",
+      "aria": {
+        "searchSubmissions": "Search submissions",
+        "filterByCategory": "Filter by category"
+      },
+      "submittedOn": "Submitted {date}",
+      "alt": {
+        "providerPhoto": "Provider photo"
+      },
+      "labels": {
+        "noPhoto": "No Photo"
+      }
     },
     "tabs": {
       "pending": "Pending",
