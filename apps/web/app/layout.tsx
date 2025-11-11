@@ -1,6 +1,6 @@
 
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Noto_Sans_Kannada } from "next/font/google";
 import Link from "next/link";
 import "./globals.css";
 import { TopNav } from "@/components/navigation/TopNav";
@@ -17,6 +17,7 @@ import '@/sentry.server.config'
 import '@/sentry.edge.config'
 
 const inter = Inter({ subsets: ["latin"] });
+const notoKannada = Noto_Sans_Kannada({ subsets: ["kannada"], weight: ["400","500","700"] });
 
 export const metadata: Metadata = {
   title: "Vipra Sethu - Trusted Community Directory",
@@ -64,7 +65,7 @@ export default async function RootLayout({
   
   return (
     <html lang="en" className="scroll-smooth">
-      <body className={inter.className}>
+      <body className={`${inter.className} ${notoKannada.className}`}>
         <NextIntlClientProvider messages={messages} locale="en">
           {!isDevelopment && <PostHogAnalyticsProvider>
           {/* Skip link for accessibility */}

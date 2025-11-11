@@ -73,10 +73,10 @@ Goal: Backend returns translated data and Kannada content is populated. App rema
 - Master data: ensure Kannada values for categories, sampradayas, experience levels, service radius, languages; terms content as available
 
 **High-Level Tasks:**
-- [ ] Prepare export of `en.json` for translators; create `kn.json` skeleton
+- [x] Prepare export of `en.json` for translators; create `kn.json` skeleton
 - [ ] Populate `kn.json` (professional translation recommended) and review with native speakers
 - [ ] Populate DB JSONB Kannada fields via Admin UI or migration script
-- [ ] Load Kannada font (Noto Sans Kannada) and verify rendering/spacing
+- [x] Load Kannada font (Noto Sans Kannada) and verify rendering/spacing
 - [ ] Create scripts: translation coverage (UI + DB), missing key finder, export/import helpers
 - [ ] QA pass with native speakers; iterate
 
@@ -88,6 +88,9 @@ Goal: Backend returns translated data and Kannada content is populated. App rema
 - Visual: temporarily force `kn` to validate rendering and layout
 - Functional: search/filters/forms with Kannada values
 - Coverage: report % translated in UI and DB; ensure fallbacks when missing
+
+**Notes:**
+- Seed script added: `infra/supabase/seed_kn_master_data.sql` (idempotent, updates JSONB 'kn' where missing)
 
 ---
 
