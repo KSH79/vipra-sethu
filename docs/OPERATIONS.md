@@ -2,7 +2,30 @@
 
 **Running, monitoring, and troubleshooting Vipra Sethu**
 
-**Last Updated:** 08-Nov-2025
+**Last Updated:** 11-Nov-2025
+
+---
+
+## Auth URLs & Redirects
+
+**Summary:** No hardcoded `localhost` in runtime auth code. Origins are resolved dynamically, so magic link/login flows work across local, preview, and production.
+
+**Implementation details:**
+
+- Login magic link
+  - `app/login/page.tsx` uses `window.location.origin` to set `emailRedirectTo`:
+    - `${window.location.origin}/auth/callback?next=...`
+- Auth callback route
+  - `app/auth/callback/route.ts` parses `origin` from `request.url` and validates `next` URL is same-origin before redirecting.
+- Supabase config (local)
+  - `supabase/config.toml` contains `site_url = "http://127.0.0.1:3000"` for local dev only; production and preview use Supabase Dashboard settings.
+- Tests & docs
+  - References to `http://localhost:3000` exist only in tests and documentation; not used at runtime.
+
+**Operational notes:**
+
+- Ensure Supabase Auth → URL Configuration includes the production domain and any Vercel preview wildcard as needed.
+- No need to set a static site URL in code; dynamic origin handling supports multiple environments.
 
 ---
 

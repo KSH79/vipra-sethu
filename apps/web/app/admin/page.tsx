@@ -14,9 +14,10 @@ import { approveProvider, rejectProvider } from "./actions";
 type ProviderRow = {
   id: string;
   name: string;
-  category?: string;
+  category?: string | { code: string; name: string } | null;
   category_code?: string;
-  sampradaya?: string;
+  sampradaya?: string | { code: string; name: string } | null;
+  sampradaya_code?: string;
   phone?: string;
   email?: string;
   location?: string;
@@ -307,8 +308,17 @@ export default function Admin() {
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-3 mb-2">
                         <h3 className="font-medium text-slate-900 truncate">{provider.name}</h3>
-                        <Badge variant="default">{(categories.find(c=>c.code===provider.category_code)?.name) || provider.category || provider.category_code}</Badge>
-                        {provider.sampradaya && (<Badge variant="secondary">{provider.sampradaya}</Badge>)}
+                        <Badge variant="default">{
+                          (categories.find(c=>c.code===provider.category_code)?.name)
+                          || (typeof provider.category === 'object' ? provider.category?.name : provider.category)
+                          || provider.category_code
+                        }</Badge>
+                        {(provider.sampradaya || provider.sampradaya_code) && (
+                          <Badge variant="secondary">{
+                            (typeof provider.sampradaya === 'object' ? provider.sampradaya?.name : provider.sampradaya)
+                            || provider.sampradaya_code
+                          }</Badge>
+                        )}
                       </div>
                       
                       <div className="flex items-center gap-4 text-sm text-slate-600">
@@ -344,22 +354,24 @@ export default function Admin() {
                         {tActions("view")}
                       </Button>
                       
-                      <form
-                        onSubmit={(e) => {
-                          e.preventDefault();
-                          handleApprove(provider.id);
-                        }}
-                      >
-                        <Button
-                          type="submit"
-                          size="sm"
-                          disabled={isLoading}
-                          className="bg-green-700 hover:bg-green-800 text-white flex items-center gap-1"
+                      {(['pending','pending_review'].includes(provider.status)) && (
+                        <form
+                          onSubmit={(e) => {
+                            e.preventDefault();
+                            handleApprove(provider.id);
+                          }}
                         >
-                          <CheckCircle className="h-4 w-4" />
-                          {tActions("approve")}
-                        </Button>
-                      </form>
+                          <Button
+                            type="submit"
+                            size="sm"
+                            disabled={isLoading}
+                            className="bg-green-700 hover:bg-green-800 text-white flex items-center gap-1"
+                          >
+                            <CheckCircle className="h-4 w-4" />
+                            {tActions("approve")}
+                          </Button>
+                        </form>
+                      )}
                     </div>
                   </div>
                 ))}
@@ -416,8 +428,17 @@ export default function Admin() {
               <div>
                 <h2 className="title-large mb-1">{selectedProvider.name || tCommon("na")}</h2>
                 <div className="flex flex-wrap items-center gap-2">
-                  <Badge variant="default">{(categories.find(c=>c.code===selectedProvider.category_code)?.name) || selectedProvider.category_code || tCommon("na")}</Badge>
-                  <Badge variant="secondary">{selectedProvider.sampradaya || tCommon("na")}</Badge>
+                  <Badge variant="default">{
+                    (categories.find(c=>c.code===selectedProvider.category_code)?.name)
+                    || (typeof selectedProvider.category === 'object' ? selectedProvider.category?.name : (selectedProvider as any).category as string | undefined)
+                    || selectedProvider.category_code
+                    || tCommon("na")
+                  }</Badge>
+                  <Badge variant="secondary">{
+                    (typeof selectedProvider.sampradaya === 'object' ? selectedProvider.sampradaya?.name : (selectedProvider as any).sampradaya as string | undefined)
+                    || selectedProvider.sampradaya_code
+                    || tCommon("na")
+                  }</Badge>
                 </div>
               </div>
             </div>
@@ -468,39 +489,43 @@ export default function Admin() {
               >
                 {tCommon("close")}
               </Button>
-              <form
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  handleReject(selectedProvider.id);
-                }}
-                className="flex-1"
-              >
-                <Button
-                  type="submit"
-                  variant="secondary"
-                  disabled={isLoading}
-                  className="w-full text-red-600 hover:text-red-700 hover:bg-red-50"
-                >
-                  <XCircle className="h-4 w-4 mr-1" />
-                  {tActions("reject")}
-                </Button>
-              </form>
-              <form
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  handleApprove(selectedProvider.id);
-                }}
-                className="flex-1"
-              >
-                <Button
-                  type="submit"
-                  disabled={isLoading}
-                  className="w-full bg-green-700 hover:bg-green-800 text-white"
-                >
-                  <CheckCircle className="h-4 w-4 mr-1" />
-                  {tActions("approve")}
-                </Button>
-              </form>
+              {(['pending','pending_review'].includes(selectedProvider.status)) && (
+                <>
+                  <form
+                    onSubmit={(e) => {
+                      e.preventDefault();
+                      handleReject(selectedProvider.id);
+                    }}
+                    className="flex-1"
+                  >
+                    <Button
+                      type="submit"
+                      variant="secondary"
+                      disabled={isLoading}
+                      className="w-full text-red-600 hover:text-red-700 hover:bg-red-50"
+                    >
+                      <XCircle className="h-4 w-4 mr-1" />
+                      {tActions("reject")}
+                    </Button>
+                  </form>
+                  <form
+                    onSubmit={(e) => {
+                      e.preventDefault();
+                      handleApprove(selectedProvider.id);
+                    }}
+                    className="flex-1"
+                  >
+                    <Button
+                      type="submit"
+                      disabled={isLoading}
+                      className="w-full bg-green-700 hover:bg-green-800 text-white"
+                    >
+                      <CheckCircle className="h-4 w-4 mr-1" />
+                      {tActions("approve")}
+                    </Button>
+                  </form>
+                </>
+              )}
             </div>
           </div>
         )}
