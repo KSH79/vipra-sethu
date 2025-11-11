@@ -6,8 +6,10 @@ import { MFAVerification } from '@/components/auth/MFAVerification';
 import { checkMFAStatus, getTOTPFactor } from '@/lib/auth/mfa';
 import { createClient } from '@/lib/supabaseClient';
 import { analytics } from '@/lib/analytics';
+import { useTranslations } from 'next-intl';
 
 function MFAVerifyContent() {
+  const t = useTranslations('admin.mfa');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [factorId, setFactorId] = useState('');
@@ -42,7 +44,7 @@ function MFAVerifyContent() {
         const factor = await getTOTPFactor();
         
         if (!factor) {
-          setError('No MFA factor found. Please set up two-factor authentication first.');
+          setError(t('verify.noFactor'));
           return;
         }
 
@@ -57,7 +59,7 @@ function MFAVerifyContent() {
 
       } catch (err) {
         console.error('Error checking MFA status:', err);
-        setError('Failed to check authentication status');
+        setError(t('verify.checkFailed'));
       } finally {
         setLoading(false);
       }
@@ -114,13 +116,13 @@ function MFAVerifyContent() {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
             </div>
-            <h2 className="text-xl font-semibold text-gray-900 mb-2">Authentication Error</h2>
+            <h2 className="text-xl font-semibold text-gray-900 mb-2">{t('verify.errorTitleAuth')}</h2>
             <p className="text-sm text-gray-600 mb-4">{error}</p>
             <button
               onClick={() => router.push('/login')}
               className="w-full px-4 py-2 bg-saffron text-white rounded-lg hover:bg-saffron-600 transition-colors"
             >
-              Return to Login
+              {t('verify.returnToLogin')}
             </button>
           </div>
         </div>

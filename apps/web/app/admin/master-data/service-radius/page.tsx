@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import { useTranslations } from "next-intl";
 
 type Item = {
   id: string;
@@ -15,6 +16,7 @@ type Item = {
 };
 
 export default function ServiceRadiusManager() {
+  const t = useTranslations("admin.masterDataPages.serviceRadius");
   const [items, setItems] = useState<Item[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -93,7 +95,7 @@ export default function ServiceRadiusManager() {
   }
 
   async function onDelete(id: string) {
-    if (!confirm(`Soft delete option?`)) return;
+    if (!confirm(t("confirmDelete"))) return;
     const res = await fetch(`/api/admin/master-data/service-radius/${encodeURIComponent(id)}`, { method: "DELETE" });
     const json = await res.json();
     if (!json.ok) return alert(json.error || "Delete failed");
@@ -132,10 +134,10 @@ export default function ServiceRadiusManager() {
     <div className="mx-auto max-w-6xl px-6 py-8">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-semibold text-slate-900">Service Radius</h1>
-          <p className="mt-1 text-slate-600">Manage distance options for provider listings.</p>
+          <h1 className="text-2xl font-semibold text-slate-900">{t("title")}</h1>
+          <p className="mt-1 text-slate-600">{t("subtitle")}</p>
         </div>
-        <button onClick={openCreate} className="rounded-md bg-saffron-700 px-3 py-2 text-white text-sm font-medium hover:bg-saffron-800">Add Option</button>
+        <button onClick={openCreate} className="rounded-md bg-saffron-700 px-3 py-2 text-white text-sm font-medium hover:bg-saffron-800">{t("add")}</button>
       </div>
 
       {/* Filters */}
@@ -143,18 +145,18 @@ export default function ServiceRadiusManager() {
         <input
           value={q}
           onChange={(e) => setQ(e.target.value)}
-          placeholder="Search by text or value"
+          placeholder={t("searchPlaceholder")}
           className="w-64 rounded-md border border-slate-300 px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-saffron-500"
         />
         <label className="flex items-center gap-2 text-sm text-slate-700">
           <input type="checkbox" checked={includeInactive} onChange={(e) => setIncludeInactive(e.target.checked)} />
-          Include inactive
+          {t("includeInactive")}
         </label>
         <label className="flex items-center gap-2 text-sm text-slate-700">
           <input type="checkbox" checked={includeDeleted} onChange={(e) => setIncludeDeleted(e.target.checked)} />
-          Include deleted
+          {t("includeDeleted")}
         </label>
-        <button onClick={load} className="rounded-md border border-slate-300 px-3 py-2 text-sm hover:bg-slate-50">Apply</button>
+        <button onClick={load} className="rounded-md border border-slate-300 px-3 py-2 text-sm hover:bg-slate-50">{t("apply")}</button>
       </div>
 
       {/* Table */}
@@ -162,22 +164,22 @@ export default function ServiceRadiusManager() {
         <table className="min-w-full text-left text-sm">
           <thead className="bg-slate-50 text-slate-700">
             <tr>
-              <th className="px-4 py-2">Value (km)</th>
-              <th className="px-4 py-2">Display</th>
-              <th className="px-4 py-2">Order</th>
-              <th className="px-4 py-2">Active</th>
-              <th className="px-4 py-2">Actions</th>
+              <th className="px-4 py-2">{t("columns.valueKm")}</th>
+              <th className="px-4 py-2">{t("columns.display")}</th>
+              <th className="px-4 py-2">{t("columns.order")}</th>
+              <th className="px-4 py-2">{t("columns.active")}</th>
+              <th className="px-4 py-2">{t("columns.actions")}</th>
             </tr>
           </thead>
           <tbody>
             {loading && (
-              <tr><td colSpan={5} className="px-4 py-8 text-center text-slate-500">Loading…</td></tr>
+              <tr><td colSpan={5} className="px-4 py-8 text-center text-slate-500">{t("loading")}</td></tr>
             )}
             {error && !loading && (
               <tr><td colSpan={5} className="px-4 py-8 text-center text-red-600">{error}</td></tr>
             )}
             {!loading && !error && filtered.length === 0 && (
-              <tr><td colSpan={5} className="px-4 py-8 text-center text-slate-500">No options found</td></tr>
+              <tr><td colSpan={5} className="px-4 py-8 text-center text-slate-500">{t("empty")}</td></tr>
             )}
             {filtered.map((row) => (
               <tr key={row.id} className="border-t border-slate-100">
@@ -186,13 +188,13 @@ export default function ServiceRadiusManager() {
                 <td className="px-4 py-2 text-slate-600">{row.display_order}</td>
                 <td className="px-4 py-2">
                   <button onClick={() => onToggleActive(row)} className={`rounded-full px-2 py-0.5 text-xs ring-1 ${row.is_active ? 'bg-green-50 text-green-700 ring-green-200' : 'bg-slate-50 text-slate-600 ring-slate-200'}`}>
-                    {row.is_active ? 'Active' : 'Inactive'}
+                    {row.is_active ? t("active") : t("inactive")}
                   </button>
                 </td>
                 <td className="px-4 py-2">
                   <div className="flex items-center gap-2">
-                    <button onClick={() => openEdit(row)} className="rounded-md border border-slate-300 px-2 py-1 text-xs hover:bg-slate-50">Edit</button>
-                    <button onClick={() => onDelete(row.id)} className="rounded-md border border-red-300 text-red-700 px-2 py-1 text-xs hover:bg-red-50">Delete</button>
+                    <button onClick={() => openEdit(row)} className="rounded-md border border-slate-300 px-2 py-1 text-xs hover:bg-slate-50">{t("edit")}</button>
+                    <button onClick={() => onDelete(row.id)} className="rounded-md border border-red-300 text-red-700 px-2 py-1 text-xs hover:bg-red-50">{t("delete")}</button>
                   </div>
                 </td>
               </tr>
@@ -206,38 +208,38 @@ export default function ServiceRadiusManager() {
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
           <div className="w-full max-w-lg rounded-xl bg-white p-6 shadow-lg">
             <div className="flex items-center justify-between">
-              <h2 className="text-lg font-semibold text-slate-900">{editing ? 'Edit Option' : 'Add Option'}</h2>
+              <h2 className="text-lg font-semibold text-slate-900">{editing ? t("editTitle") : t("addTitle")}</h2>
               <button onClick={() => setShowForm(false)} className="text-slate-500 hover:text-slate-700">✕</button>
             </div>
             <div className="mt-4 grid grid-cols-1 gap-4">
               <div>
-                <label className="block text-sm text-slate-700">Value (km)</label>
-                <input type="number" value={form.value_km === null || form.value_km === undefined ? '' : Number(form.value_km)} onChange={(e)=>setForm(f=>({...f, value_km: e.target.value === '' ? null : Number(e.target.value)}))} className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:ring-2 focus:ring-saffron-500" placeholder="e.g., 15 (leave blank for non-numeric)" />
+                <label className="block text-sm text-slate-700">{t("form.valueKm")}</label>
+                <input type="number" value={form.value_km === null || form.value_km === undefined ? '' : Number(form.value_km)} onChange={(e)=>setForm(f=>({...f, value_km: e.target.value === '' ? null : Number(e.target.value)}))} className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:ring-2 focus:ring-saffron-500" placeholder={t("form.valueKmPlaceholder")} />
               </div>
               <div>
-                <label className="block text-sm text-slate-700">Display Text</label>
-                <input value={String(form.display_text || '')} onChange={(e)=>setForm(f=>({...f, display_text:e.target.value}))} className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:ring-2 focus:ring-saffron-500" placeholder="e.g., 30+ km or Entire city" />
+                <label className="block text-sm text-slate-700">{t("form.displayText")}</label>
+                <input value={String(form.display_text || '')} onChange={(e)=>setForm(f=>({...f, display_text:e.target.value}))} className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:ring-2 focus:ring-saffron-500" placeholder={t("form.displayTextPlaceholder")} />
               </div>
               <div>
-                <label className="block text-sm text-slate-700">Description</label>
+                <label className="block text-sm text-slate-700">{t("form.description")}</label>
                 <textarea value={String(form.description || '')} onChange={(e)=>setForm(f=>({...f, description:e.target.value}))} className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:ring-2 focus:ring-saffron-500" rows={3} />
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm text-slate-700">Display Order</label>
+                  <label className="block text-sm text-slate-700">{t("form.displayOrder")}</label>
                   <input type="number" value={Number(form.display_order || 0)} onChange={(e)=>setForm(f=>({...f, display_order:Number(e.target.value)}))} className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:ring-2 focus:ring-saffron-500" />
                 </div>
                 <div className="flex items-end">
                   <label className="flex items-center gap-2 text-sm text-slate-700">
                     <input type="checkbox" checked={!!form.is_active} onChange={(e)=>setForm(f=>({...f, is_active:e.target.checked}))} />
-                    Active
+                    {t("form.active")}
                   </label>
                 </div>
               </div>
             </div>
             <div className="mt-6 flex items-center justify-end gap-3">
-              <button onClick={()=>setShowForm(false)} className="rounded-md border border-slate-300 px-3 py-2 text-sm hover:bg-slate-50">Cancel</button>
-              <button disabled={saving} onClick={onSave} className="rounded-md bg-saffron-700 px-3 py-2 text-white text-sm font-medium hover:bg-saffron-800 disabled:opacity-60">{saving ? 'Saving…' : 'Save'}</button>
+              <button onClick={()=>setShowForm(false)} className="rounded-md border border-slate-300 px-3 py-2 text-sm hover:bg-slate-50">{t("cancel")}</button>
+              <button disabled={saving} onClick={onSave} className="rounded-md bg-saffron-700 px-3 py-2 text-white text-sm font-medium hover:bg-saffron-800 disabled:opacity-60">{saving ? t("saving") : t("save")}</button>
             </div>
           </div>
         </div>

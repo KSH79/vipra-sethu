@@ -6,8 +6,10 @@ import { MFASetup } from '@/components/auth/MFASetup';
 import { checkMFAStatus, shouldRequireMFA } from '@/lib/auth/mfa';
 import { createClient } from '@/lib/supabaseClient';
 import { analytics } from '@/lib/analytics';
+import { useTranslations } from 'next-intl';
 
 function MFASetupContent() {
+  const t = useTranslations('admin.mfa');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [canSetup, setCanSetup] = useState(false);
@@ -30,7 +32,7 @@ function MFASetupContent() {
         const shouldHaveMFA = await shouldRequireMFA();
         
         if (!shouldHaveMFA) {
-          setError('You are not authorized to set up MFA');
+          setError(t('setup.unauthorized'));
           return;
         }
 
@@ -54,7 +56,7 @@ function MFASetupContent() {
 
       } catch (err) {
         console.error('Error checking MFA eligibility:', err);
-        setError('Failed to check eligibility for MFA setup');
+        setError(t('setup.checkFailed'));
       } finally {
         setLoading(false);
       }
@@ -108,13 +110,13 @@ function MFASetupContent() {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
             </div>
-            <h2 className="text-xl font-semibold text-gray-900 mb-2">Setup Error</h2>
+            <h2 className="text-xl font-semibold text-gray-900 mb-2">{t('setup.errorTitle')}</h2>
             <p className="text-sm text-gray-600 mb-4">{error}</p>
             <button
               onClick={() => router.push('/admin')}
               className="w-full px-4 py-2 bg-saffron text-white rounded-lg hover:bg-saffron-600 transition-colors"
             >
-              Return to Dashboard
+              {t('setup.returnToDashboard')}
             </button>
           </div>
         </div>
@@ -127,10 +129,8 @@ function MFASetupContent() {
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
         <div className="max-w-md w-full p-6 bg-white rounded-lg border border-gray-200">
           <div className="text-center">
-            <h2 className="text-xl font-semibold text-gray-900 mb-2">MFA Setup</h2>
-            <p className="text-sm text-gray-600 mb-4">
-              Checking eligibility for MFA setup...
-            </p>
+            <h2 className="text-xl font-semibold text-gray-900 mb-2">{t('setup.title')}</h2>
+            <p className="text-sm text-gray-600 mb-4">{t('setup.checkingEligibility')}</p>
           </div>
         </div>
       </div>

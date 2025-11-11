@@ -6,44 +6,16 @@ import { Search, Shield, Heart, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { Chip } from "@/components/ui/Chip";
 import { PageViewTracker } from "@/hooks/usePageView";
+import { useTranslations } from "next-intl";
 
 export default function Home() {
-  const quickChips = [
-    "Purohit",
-    "Cook", 
-    "Essentials",
-    "Senior care",
-    "Pilgrimage"
-  ];
-
-  const ritualChips = [
-    "Upanayana",
-    "Gruha Pravesha", 
-    "Shraddha",
-    "Seemantha",
-    "Namakarana",
-    "Annaprashana"
-  ];
-
+  const t = useTranslations("home");
+  const quickChips = t.raw("quickChips") as string[];
+  const ritualChips = t.raw("ritualChips") as string[];
   const trustPillars = [
-    {
-      title: "Verified",
-      description: "All providers are background-checked and verified",
-      icon: Shield,
-      color: "text-green-600 bg-green-50"
-    },
-    {
-      title: "Community-aligned", 
-      description: "Values and practices aligned with traditional customs",
-      icon: Heart,
-      color: "text-saffron-600 bg-saffron-50"
-    },
-    {
-      title: "Quality-Focused",
-      description: "Experienced professionals committed to excellence",
-      icon: Sparkles,
-      color: "text-gold-600 bg-gold-50"
-    }
+    { title: t("pillars.verified.title"), description: t("pillars.verified.desc"), icon: Shield, color: "text-green-600 bg-green-50" },
+    { title: t("pillars.community.title"), description: t("pillars.community.desc"), icon: Heart, color: "text-saffron-600 bg-saffron-50" },
+    { title: t("pillars.quality.title"), description: t("pillars.quality.desc"), icon: Sparkles, color: "text-gold-600 bg-gold-50" },
   ];
 
   return (
@@ -53,12 +25,10 @@ export default function Home() {
       <section className="py-12 md:py-20">
         <div className="container-custom text-center space-y-8">
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-slate-900 max-w-4xl mx-auto leading-tight">
-            A trusted, values-aligned community directory
+            {t("hero.title")}
           </h1>
           
-          <p className="text-base md:text-lg text-slate-600 max-w-2xl mx-auto">
-            Connect with verified purohits, cooks, and essential service providers in your community
-          </p>
+          <p className="text-base md:text-lg text-slate-600 max-w-2xl mx-auto">{t("hero.subtitle")}</p>
 
           {/* Enhanced Search Input - 56px height */}
           <div className="max-w-2xl mx-auto">
@@ -72,8 +42,8 @@ export default function Home() {
                          focus:outline-none focus:border-saffron-500 focus:shadow-2xl
                          focus:scale-[1.02]
                          transition-all duration-300"
-                placeholder="Find purohits, cooks, essentials…"
-                aria-label="Search for providers"
+                placeholder={t("search.placeholder")}
+                aria-label={t("search.aria")}
               />
             </div>
           </div>
@@ -99,10 +69,8 @@ export default function Home() {
       <section className="py-16 md:py-24 bg-white">
         <div className="container-custom">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">Why Vipra Sethu</h2>
-            <p className="text-base md:text-lg text-slate-600 max-w-2xl mx-auto">
-              Building trust through verification and community values
-            </p>
+            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">{t("why.title")}</h2>
+            <p className="text-base md:text-lg text-slate-600 max-w-2xl mx-auto">{t("why.subtitle")}</p>
           </div>
           
           <div className="grid md:grid-cols-3 gap-8 md:gap-12">
@@ -131,10 +99,8 @@ export default function Home() {
       <section className="py-12 md:py-16">
         <div className="container-custom">
           <div className="text-center mb-10">
-            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">Browse by Ritual</h2>
-            <p className="text-base md:text-lg text-slate-600 max-w-2xl mx-auto">
-              Find specialized providers for specific ceremonies and rituals
-            </p>
+            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">{t("browse.title")}</h2>
+            <p className="text-base md:text-lg text-slate-600 max-w-2xl mx-auto">{t("browse.subtitle")}</p>
           </div>
           
           <div className="flex flex-wrap justify-center gap-3">
@@ -159,20 +125,20 @@ export default function Home() {
         <div className="container-custom">
           <div className="max-w-2xl mx-auto text-center p-8 md:p-12 rounded-3xl space-y-4 md:space-y-6
                        bg-white/80 backdrop-blur-sm shadow-xl border border-saffron-100">
-            <h3 className="text-2xl md:text-3xl font-bold text-slate-900">Add your listing</h3>
+            <h3 className="text-2xl md:text-3xl font-bold text-slate-900">{t("cta.title")}</h3>
             <p className="text-base md:text-lg text-slate-600 mb-1 md:mb-2">
-              Join our community of <span className="font-semibold text-saffron-600">500+ trusted service providers</span>
+              {t.rich("cta.subtitle", {
+                strong: (chunks) => <span className="font-semibold text-saffron-600">{chunks}</span>
+              })}
             </p>
             <Link href="/onboard" className="inline-block mt-1 md:mt-2">
               <Button className="h-12 px-8 text-base font-semibold rounded-xl
                                hover:scale-105 hover:shadow-xl
                                transition-all duration-200">
-                Get Started
+                {t("cta.button")}
               </Button>
             </Link>
-            <p className="text-sm text-slate-500 mt-2">
-              Free to list • Verified within 24-48 hours
-            </p>
+            <p className="text-sm text-slate-500 mt-2">{t("cta.note")}</p>
           </div>
         </div>
       </section>

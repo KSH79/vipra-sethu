@@ -8,12 +8,14 @@ import { Button } from '@/components/ui/Button'
 import { Input } from '@/components/ui/Input'
 import { Card } from '@/components/ui/Card'
 import { Mail, AlertCircle } from 'lucide-react'
+import { useTranslations } from 'next-intl'
 
 /**
  * Inner component that uses useSearchParams
  * Wrapped in Suspense to prevent build errors
  */
 function LoginContent() {
+  const t = useTranslations('auth.login')
   const [email, setEmail] = useState('')
   const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState('')
@@ -42,10 +44,10 @@ function LoginContent() {
       if (error) {
         setError(error.message)
       } else {
-        setMessage('Check your email for the magic link!')
+        setMessage(t('success.magicLinkSent'))
       }
     } catch (err) {
-      setError('Something went wrong. Please try again.')
+      setError(t('error.generic'))
     } finally {
       setLoading(false)
     }
@@ -55,12 +57,8 @@ function LoginContent() {
     <div className="min-h-screen flex items-center justify-center bg-saffron-50 px-4">
       <Card className="w-full max-w-md p-8">
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-ivory-900 mb-2">
-            Welcome Back
-          </h1>
-          <p className="text-ivory-600">
-            Sign in to access your account
-          </p>
+          <h1 className="text-3xl font-bold text-ivory-900 mb-2">{t('title')}</h1>
+          <p className="text-ivory-600">{t('subtitle')}</p>
         </div>
 
         {initialMessage && (
@@ -90,14 +88,14 @@ function LoginContent() {
               htmlFor="email" 
               className="block text-sm font-medium text-ivory-700 mb-2"
             >
-              Email address
+              {t('emailLabel')}
             </label>
             <Input
               id="email"
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="Enter your email"
+              placeholder={t('emailPlaceholder')}
               required
               disabled={loading}
               className="w-full"
@@ -109,15 +107,15 @@ function LoginContent() {
             disabled={loading || !email}
             className="w-full"
           >
-            {loading ? 'Sending magic link...' : 'Send magic link'}
+            {loading ? t('sending') : t('send')}
           </Button>
         </form>
 
         <div className="mt-6 text-center text-sm text-ivory-600">
           <p>
-            We'll send you a magic link to sign in.
+            {t('info.line1')}
             <br />
-            No password required!
+            {t('info.line2')}
           </p>
         </div>
       </Card>
