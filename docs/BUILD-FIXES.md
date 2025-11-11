@@ -1,5 +1,13 @@
 # Build Fixes Changelog
 
+## Date: November 11, 2025
+
+### Issues Fixed
+
+- Admin Dashboard UX
+  - Approve button now shows only for providers in `pending` or `pending_review` status (both list and drawer).
+  - Provider detail Drawer taxonomy badges (category/sampradaya) now handle object-or-string shapes introduced by i18n, preventing React child errors and ensuring localized names display.
+
 ## Date: November 8, 2025
 
 ### Issues Fixed

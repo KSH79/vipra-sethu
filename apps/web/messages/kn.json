@@ -68,21 +68,22 @@
     "dashboard": {
       "title": "ನಿರ್ವಾಹಕ ಡ್ಯಾಶ್ಬೋರ್ಡ್",
       "subtitle": "ಬಾಕಿ ಇರುವ ಪೂರೈಕೆದಾರರ ಸಲ್ಲಿಕೆಗಳನ್ನು ಪರಿಶೀಲಿಸಿ ಮತ್ತು ಅನುಮೋದಿಸಿ",
-      "pendingReview": "ಪರಿಶೀಲನೆ ಬಾಕಿ ಇದೆ",
-      "approvedThisMonth": "ಅನುಮೋದಿಸಲಾಗಿದೆ (ಈ ತಿಂಗಳು)",
-      "avgReviewTime": "ಸರಾಸರಿ ಪರಿಶೀಲನೆ ಸಮಯ",
-      "hours": "ಗಂಟೆಗಳು",
+      "pendingReview": "ಪರಿಶೀಲನೆ ಬಾಕಿ",
+      "approvedThisMonth": "ಈ ತಿಂಗಳಲ್ಲಿ ಅನುಮೋದಿಸಲಾಗಿದೆ",
+      "avgReviewTime": "ಸರಾಸರಿ ಪರಿಶೀಲನಾ ಸಮಯ",
+      "hours": "ಗಂ",
       "aria": {
         "searchSubmissions": "ಸಲ್ಲಿಕೆಗಳನ್ನು ಹುಡುಕಿ",
-        "filterByCategory": "ವರ್ಗದ ಮೂಲಕ ಫಿಲ್ಟರ್ ಮಾಡಿ"
+        "filterByCategory": "ವರ್ಗದಿಂದ ಫಿಲ್ಟರ್ ಮಾಡಿ"
       },
-      "submittedOn": "{date} ರಂದು ಸಲ್ಲಿಸಲಾಗಿದೆ",
+      "submittedOn": "ಸಲ್ಲಿಸಲಾಗಿದೆ {date}",
       "alt": {
         "providerPhoto": "ಪೂರೈಕೆದಾರರ ಫೋಟೋ"
       },
       "labels": {
         "noPhoto": "ಫೋಟೋ ಇಲ್ಲ"
-      }
+      },
+      "rejectionReason": "ನಿರಾಕರಣೆಯ ಕಾರಣ:"
     },
     "tabs": {
       "pending": "ಬಾಕಿ ಇದೆ",
@@ -442,6 +443,19 @@
       "badges": {
         "verified": "ಪರಿಶೀಲಿಸಲಾಗಿದೆ"
       },
+      "phone": "ಫೋನ್",
+      "email": "ಇಮೇಲ್",
+      "location": "ಸ್ಥಳ",
+      "whatsapp": "ವಾಟ್ಸ್ಯಾಪ್",
+      "languages": "ಭಾಷೆಗಳು",
+      "experience": "ಅನುಭವ",
+      "about": "ಬಗ್ಗೆ",
+      "serviceRadius": "ಸೇವಾ ವ್ಯಾಪ್ತಿ",
+      "availability": "ಲಭ್ಯತೆ",
+      "travel": "ಪ್ರಯಾಣ",
+      "expectations": "ಎದುರುನೋಟ",
+      "responseTime": "ಪ್ರತಿಕ್ರಿಯೆ ಸಮಯ",
+      "status": "ಸ್ಥಿತಿ",
       "labels": {
         "serviceProvider": "ಸೇವಾ ಪೂರೈಕೆದಾರ",
         "years": "ವರ್ಷಗಳು",

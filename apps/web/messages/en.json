@@ -82,7 +82,8 @@
       },
       "labels": {
         "noPhoto": "No Photo"
-      }
+      },
+      "rejectionReason": "Rejection reason:"
     },
     "tabs": {
       "pending": "Pending",
@@ -441,6 +442,19 @@
         "description": "This provider could not be loaded."
       },
       "badges": { "verified": "Verified" },
+      "phone": "Phone",
+      "email": "Email",
+      "location": "Location",
+      "whatsapp": "WhatsApp",
+      "languages": "Languages",
+      "experience": "Experience",
+      "about": "About",
+      "serviceRadius": "Service radius",
+      "availability": "Availability",
+      "travel": "Travel",
+      "expectations": "Expectations",
+      "responseTime": "Response time",
+      "status": "Status",
       "labels": {
         "serviceProvider": "Service Provider",
         "years": "{years} years",
