@@ -64,25 +64,26 @@ Import trace for requested module:
 
    Linting and checking validity of types ...
    Collecting page data ...
-(node:30372) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(node:32034) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
 (Use `node --trace-deprecation ...` to show where the warning was created)
-(node:30371) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(node:32038) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
 (Use `node --trace-deprecation ...` to show where the warning was created)
-(node:30370) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(node:32041) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
 (Use `node --trace-deprecation ...` to show where the warning was created)
-(node:30369) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(node:32036) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
 (Use `node --trace-deprecation ...` to show where the warning was created)
-(node:30366) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(node:32039) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
 (Use `node --trace-deprecation ...` to show where the warning was created)
-(node:30365) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(node:32042) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
 (Use `node --trace-deprecation ...` to show where the warning was created)
-(node:30367) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(node:32037) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
 (Use `node --trace-deprecation ...` to show where the warning was created)
-(node:30364) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(node:32035) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
 (Use `node --trace-deprecation ...` to show where the warning was created)
-(node:30368) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(node:32040) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
 (Use `node --trace-deprecation ...` to show where the warning was created)
-   Generating static pages (0/37) ...
+   Generating static pages (0/40) ...
+   Generating static pages (10/40) 
 API /providers/search error: q [Error]: Dynamic server usage: Route /api/providers/search couldn't be rendered statically because it used `request.url`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
     at W (/Users/koni/Documents/vipra-sethu/node_modules/.pnpm/next@14.2.5_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._mu7p5g73d3ddrcspm6sp2zyruu/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:21106)
     at Object.get (/Users/koni/Documents/vipra-sethu/node_modules/.pnpm/next@14.2.5_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._mu7p5g73d3ddrcspm6sp2zyruu/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:28459)
@@ -97,28 +98,28 @@ API /providers/search error: q [Error]: Dynamic server usage: Route /api/provide
   description: "Route /api/providers/search couldn't be rendered statically because it used `request.url`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
   digest: 'DYNAMIC_SERVER_USAGE'
 }
-   Generating static pages (9/37) 
-   Generating static pages (18/37) 
-   Generating static pages (27/37) 
- ✓ Generating static pages (37/37)
+   Generating static pages (20/40) 
+   Generating static pages (30/40) 
+ ✓ Generating static pages (40/40)
    Finalizing page optimization ...
    Collecting build traces ...
 
 Route (app)                                        Size     First Load JS
-┌ ƒ /                                              5.79 kB         173 kB
+┌ ƒ /                                              5.79 kB         174 kB
 ├ ƒ /_not-found                                    872 B            88 kB
 ├ ƒ /about                                         7.88 kB         123 kB
-├ ƒ /admin                                         8.39 kB         116 kB
-├ ƒ /admin/master-data                             911 B           109 kB
+├ ƒ /admin                                         8.01 kB         123 kB
+├ ƒ /admin/master-data                             943 B           109 kB
 ├ ƒ /admin/master-data/categories                  2.34 kB         104 kB
 ├ ƒ /admin/master-data/experience-levels           2.49 kB         104 kB
 ├ ƒ /admin/master-data/languages                   2.4 kB          104 kB
 ├ ƒ /admin/master-data/mapping                     2.35 kB         104 kB
 ├ ƒ /admin/master-data/sampradayas                 2.34 kB         104 kB
 ├ ƒ /admin/master-data/service-radius              2.4 kB          104 kB
-├ ƒ /admin/master-data/terms                       2.11 kB         103 kB
+├ ƒ /admin/master-data/terms                       2.11 kB         104 kB
 ├ ƒ /admin/mfa-setup                               2.44 kB         205 kB
-├ ƒ /admin/mfa-verify                              2.07 kB         204 kB
+├ ƒ /admin/mfa-verify                              2.07 kB         205 kB
+├ ƒ /api/admin/categories                          0 B                0 B
 ├ ƒ /api/admin/master-data/categories              0 B                0 B
 ├ ƒ /api/admin/master-data/categories/[code]       0 B                0 B
 ├ ƒ /api/admin/master-data/experience-levels       0 B                0 B
@@ -132,6 +133,8 @@ Route (app)                                        Size     First Load JS
 ├ ƒ /api/admin/master-data/service-radius/[id]     0 B                0 B
 ├ ƒ /api/admin/master-data/terms                   0 B                0 B
 ├ ƒ /api/admin/master-data/terms/[id]              0 B                0 B
+├ ○ /api/admin/metrics                             0 B                0 B
+├ ƒ /api/admin/providers                           0 B                0 B
 ├ ƒ /api/admin/providers/[id]                      0 B                0 B
 ├ ƒ /api/master-data/experience-levels             0 B                0 B
 ├ ƒ /api/master-data/languages                     0 B                0 B
@@ -143,8 +146,8 @@ Route (app)                                        Size     First Load JS
 ├ ƒ /auth/callback                                 0 B                0 B
 ├ ƒ /auth/logout                                   0 B                0 B
 ├ ƒ /login                                         4.54 kB         150 kB
-├ ƒ /onboard                                       30 kB           177 kB
-├ ƒ /providers                                     5.7 kB          151 kB
+├ ƒ /onboard                                       29.6 kB         191 kB
+├ ƒ /providers                                     5.7 kB          152 kB
 ├ ƒ /providers/[id]                                13 kB           166 kB
 ├ ƒ /providers/debug                               2.31 kB         127 kB
 ├ ƒ /test-analytics                                4.19 kB         151 kB
@@ -155,7 +158,8 @@ Route (app)                                        Size     First Load JS
   └ other shared chunks (total)                    1.99 kB
 
 
-ƒ Middleware                                       56 kB
+ƒ Middleware                                       56.2 kB
 
+○  (Static)   prerendered as static content
 ƒ  (Dynamic)  server-rendered on demand
 

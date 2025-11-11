@@ -49,7 +49,7 @@ export function TopNav({ isAuthenticated = false }: { isAuthenticated?: boolean 
               <span className="text-white font-bold text-xs">VS</span>
             </div>
             <span className="font-display font-semibold tracking-tight text-slate-900">
-              Vipra Sethu
+              {tNav("brand")}
             </span>
           </Link>
 

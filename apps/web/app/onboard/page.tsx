@@ -10,40 +10,16 @@ import { Button } from "@/components/ui/Button";
 import { Upload, User, Briefcase, Camera } from "lucide-react";
 import { PageViewTracker } from "@/hooks/usePageView";
 import { analytics } from "@/lib/analytics";
+import { useTranslations } from "next-intl";
 
 type FormValues = OnboardFormValues;
 
-const categories = [
-  { value: "purohit", label: "Vedic Purohit" },
-  { value: "cook", label: "Cook" },
-  { value: "essentials", label: "Essentials" },
-  { value: "senior-care", label: "Senior Care" },
-  { value: "pilgrimage", label: "Pilgrimage Guide" },
-  { value: "other", label: "Other" }
-];
-
-const languages = [
-  { value: "kannada", label: "Kannada" },
-  { value: "tamil", label: "Tamil" },
-  { value: "telugu", label: "Telugu" },
-  { value: "sanskrit", label: "Sanskrit" },
-  { value: "hindi", label: "Hindi" },
-  { value: "english", label: "English" },
-  { value: "tulu", label: "Tulu" },
-  { value: "konkani", label: "Konkani" },
-  { value: "malayalam", label: "Malayalam" },
-  { value: "marathi", label: "Marathi" }
-];
-
-const sampradayas = [
-  { value: "madhwa", label: "Madhwa" },
-  { value: "smarta", label: "Smarta" },
-  { value: "vaishnava", label: "Vaishnava" },
-  { value: "shaivite", label: "Shaivite" },
-  { value: "other", label: "Other" }
-];
+const categories = ["purohit", "cook", "essentials", "seniorCare", "pilgrimage", "other"] as const;
+const languages = ["kannada","tamil","telugu","sanskrit","hindi","english","tulu","konkani","malayalam","marathi"] as const;
+const sampradayas = ["madhwa","smarta","vaishnava","shaivite","other"] as const;
 
 export default function Onboard() {
+  const t = useTranslations("onboard");
   const [currentStep, setCurrentStep] = useState(0);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -142,7 +118,7 @@ export default function Onboard() {
         try { localStorage.removeItem('onboardDraft'); } catch {}
       } else {
         // Surface server error to the user
-        let serverMsg = 'Submission failed';
+        let serverMsg = t('errors.serverPrefix');
         try {
           const errJson = await response.json();
           if (errJson?.error) serverMsg = errJson.error;
@@ -154,7 +130,7 @@ export default function Onboard() {
       }
     } catch (error) {
       console.error('Submission error:', error);
-      setErrorMsg('Something went wrong while submitting. Please try again.');
+      setErrorMsg(t('errors.submitGeneric'));
       analytics.trackFormSubmission('onboarding', false, {
         error: error instanceof Error ? error.message : 'Unknown error',
       });
@@ -252,25 +228,22 @@ export default function Onboard() {
               <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
             </svg>
           </div>
-          <h2 className="title-large">Submitted for Review</h2>
-          <p className="subtitle">
-            Thank you for your submission! Our team will review your profile within 24-48 hours. 
-            You'll receive a confirmation once your profile is approved.
-          </p>
+          <h2 className="title-large">{t('submitted.title')}</h2>
+          <p className="subtitle">{t('submitted.subtitle')}</p>
           <div className="space-y-2 text-sm text-slate-600">
-            <p>What happens next:</p>
+            <p>{t('submitted.nextTitle')}</p>
             <ul className="text-left space-y-1">
-              <li>• Our team verifies your information</li>
-              <li>• Background check is completed</li>
-              <li>• Profile is approved and listed</li>
-              <li>• You'll receive WhatsApp confirmation</li>
+              <li>• {t('submitted.nextItems.verify')}</li>
+              <li>• {t('submitted.nextItems.bgCheck')}</li>
+              <li>• {t('submitted.nextItems.approved')}</li>
+              <li>• {t('submitted.nextItems.whatsapp')}</li>
             </ul>
           </div>
           <Button 
             onClick={() => window.location.href = '/'}
             className="w-full"
           >
-            Back to Home
+            {t('submitted.backToHome')}
           </Button>
         </div>
       </div>
@@ -282,35 +255,29 @@ export default function Onboard() {
       <PageViewTracker />
       <div className="container-custom max-w-2xl">
         <div className="text-center mb-8">
-          <h1 className="title-large mb-2">Join Our Community</h1>
-          <p className="subtitle">
-            Become a verified service provider and connect with your community
-          </p>
+          <h1 className="title-large mb-2">{t('title')}</h1>
+          <p className="subtitle">{t('subtitle')}</p>
         </div>
 
         {errorMsg && (
-          <div className="mb-4 rounded-xl border border-red-200 bg-red-50 text-red-700 px-4 py-3 text-sm">
-            {errorMsg}
-          </div>
+          <div className="mb-4 rounded-xl border border-red-200 bg-red-50 text-red-700 px-4 py-3 text-sm">{errorMsg}</div>
         )}
         <form onSubmit={handleSubmit(onSubmit)}>
           <StepForm 
             steps={[
               {
-                title: "Identity & Contact",
-                description: "Your basic information",
+                title: t('steps.identity.title'),
+                description: t('steps.identity.desc'),
                 stepNumber: 1,
                 children: (
                   <div className="space-y-4">
                     <div>
-                      <label className="block text-sm font-medium text-slate-900 mb-1">
-                        Full Name *
-                      </label>
+                      <label className="block text-sm font-medium text-slate-900 mb-1">{t('fields.name.label')}</label>
                       <input
                         {...register('name')}
                         className="w-full h-10 rounded-xl border border-sandstone/30 px-3
                                focus:outline-none focus:ring-2 focus:ring-saffron/40"
-                        placeholder="Enter your full name"
+                        placeholder={t('fields.name.placeholder')}
                       />
                       {errors.name && (
                         <p className="text-xs text-red-600 mt-1">{errors.name.message}</p>
@@ -318,15 +285,13 @@ export default function Onboard() {
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium text-slate-900 mb-1">
-                        Phone Number *
-                      </label>
+                      <label className="block text-sm font-medium text-slate-900 mb-1">{t('fields.phone.label')}</label>
                       <input
                         {...register('phone')}
                         type="tel"
                         className="w-full h-10 rounded-xl border border-sandstone/30 px-3
                                focus:outline-none focus:ring-2 focus:ring-saffron/40"
-                        placeholder="+91 98765 43210"
+                        placeholder={t('fields.phone.placeholder')}
                       />
                       {errors.phone && (
                         <p className="text-xs text-red-600 mt-1">{errors.phone.message}</p>
@@ -334,43 +299,37 @@ export default function Onboard() {
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium text-slate-900 mb-1">
-                        WhatsApp Number (optional)
-                      </label>
+                      <label className="block text-sm font-medium text-slate-900 mb-1">{t('fields.whatsapp.label')}</label>
                       <input
                         {...register('whatsapp')}
                         type="tel"
                         className="w-full h-10 rounded-xl border border-sandstone/30 px-3
                                focus:outline-none focus:ring-2 focus:ring-saffron/40"
-                        placeholder="+91 98765 43210"
+                        placeholder={t('fields.phone.placeholder')}
                       />
-                      <p className="text-xs text-slate-500 mt-1">
-                        Leave empty to use phone number
-                      </p>
+                      <p className="text-xs text-slate-500 mt-1">{t('fields.whatsapp.note')}</p>
                     </div>
                   </div>
                 )
               },
               {
-                title: "Role & Rituals",
-                description: "Your services and expertise",
+                title: t('steps.role.title'),
+                description: t('steps.role.desc'),
                 stepNumber: 2,
                 children: (
                   <div className="space-y-4">
                     <div>
-                      <label className="block text-sm font-medium text-slate-900 mb-1">
-                        Service Category *
-                      </label>
+                      <label className="block text-sm font-medium text-slate-900 mb-1">{t('fields.category.label')}</label>
                       <select
                         {...register('category')}
                         data-testid="category-select"
                         className="w-full h-10 rounded-xl border border-sandstone/30 px-3
                                focus:outline-none focus:ring-2 focus:ring-saffron/40"
                       >
-                        <option value="">Select a category</option>
+                        <option value="">{t('fields.category.placeholder')}</option>
                         {categories.map(cat => (
-                          <option key={cat.value} value={cat.value}>
-                            {cat.label}
+                          <option key={cat} value={cat}>
+                            {t(`options.categories.${cat}` as any)}
                           </option>
                         ))}
                       </select>
@@ -380,25 +339,23 @@ export default function Onboard() {
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium text-slate-900 mb-1">
-                        Languages * (select all that apply)
-                      </label>
+                      <label className="block text-sm font-medium text-slate-900 mb-1">{t('fields.languages.label')}</label>
                       <div className="grid grid-cols-2 gap-2">
                         {languages.map(lang => (
                           <label
-                            key={lang.value}
+                            key={lang}
                             className="flex items-center gap-2 p-2 rounded-lg border border-sandstone/30 cursor-pointer
                                    hover:border-saffron/50 transition-colors"
                           >
                             <input
                               type="checkbox"
-                              checked={selectedLanguages?.includes(lang.value)}
-                              onChange={() => handleLanguageToggle(lang.value)}
-                              data-testid={`lang-${lang.value}`}
+                              checked={selectedLanguages?.includes(lang)}
+                              onChange={() => handleLanguageToggle(lang)}
+                              data-testid={`lang-${lang}`}
                               className="rounded border-sandstone/30 text-saffron 
                                      focus:ring-2 focus:ring-saffron/40"
                             />
-                            <span className="text-sm">{lang.label}</span>
+                            <span className="text-sm">{t(`options.languages.${lang}` as any)}</span>
                           </label>
                         ))}
                       </div>
@@ -408,62 +365,52 @@ export default function Onboard() {
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium text-slate-900 mb-1">
-                        Sampradaya/Tradition (optional)
-                      </label>
+                      <label className="block text-sm font-medium text-slate-900 mb-1">{t('fields.sampradaya.label')}</label>
                       <select
                         {...register('sampradaya')}
                         className="w-full h-10 rounded-xl border border-sandstone/30 px-3
                                focus:outline-none focus:ring-2 focus:ring-saffron/40"
                       >
-                        <option value="">Select tradition</option>
+                        <option value="">{t('fields.sampradaya.placeholder')}</option>
                         {sampradayas.map(sam => (
-                          <option key={sam.value} value={sam.value}>
-                            {sam.label}
+                          <option key={sam} value={sam}>
+                            {t(`options.sampradayas.${sam}` as any)}
                           </option>
                         ))}
                       </select>
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium text-slate-900 mb-1">
-                        Service Radius (optional)
-                      </label>
+                      <label className="block text-sm font-medium text-slate-900 mb-1">{t('fields.serviceRadius.label')}</label>
                       <select
                         {...register('serviceRadius')}
                         className="w-full h-10 rounded-xl border border-sandstone/30 px-3
                                focus:outline-none focus:ring-2 focus:ring-saffron/40"
                       >
-                        <option value="">Select service area</option>
-                        <option value="5">Within 5 km</option>
-                        <option value="10">Within 10 km</option>
-                        <option value="25">Within 25 km</option>
-                        <option value="50">Within 50 km</option>
-                        <option value="city">Within city</option>
-                        <option value="any">Willing to travel anywhere</option>
+                        <option value="">{t('fields.serviceRadius.placeholder')}</option>
+                        <option value="5">{t('fields.serviceRadius.options.w5')}</option>
+                        <option value="10">{t('fields.serviceRadius.options.w10')}</option>
+                        <option value="25">{t('fields.serviceRadius.options.w25')}</option>
+                        <option value="50">{t('fields.serviceRadius.options.w50')}</option>
+                        <option value="city">{t('fields.serviceRadius.options.city')}</option>
+                        <option value="any">{t('fields.serviceRadius.options.any')}</option>
                       </select>
                     </div>
                   </div>
                 )
               },
               {
-                title: "Photo & Terms",
-                description: "Complete your profile",
+                title: t('steps.photo.title'),
+                description: t('steps.photo.desc'),
                 stepNumber: 3,
                 children: (
                   <div className="space-y-4">
                     <div>
-                      <label className="block text-sm font-medium text-slate-900 mb-1">
-                        Profile Photo (optional)
-                      </label>
+                      <label className="block text-sm font-medium text-slate-900 mb-1">{t('upload.photoLabel')}</label>
                       <div className="border-2 border-dashed border-sandstone/30 rounded-xl p-6 text-center">
                         <Upload className="h-8 w-8 text-sandstone/70 mx-auto mb-2" />
-                        <p className="text-sm text-slate-600 mb-1">
-                          Click to upload or drag and drop
-                        </p>
-                        <p className="text-xs text-slate-500">
-                          PNG, JPG up to 5MB
-                        </p>
+                        <p className="text-sm text-slate-600 mb-1">{t('upload.cta')}</p>
+                        <p className="text-xs text-slate-500">{t('upload.help')}</p>
                         <input
                           {...register('photo')}
                           type="file"
@@ -489,11 +436,11 @@ export default function Onboard() {
                           className="inline-block mt-2 px-3 py-1 text-sm rounded-lg border border-sandstone/30 
                                  cursor-pointer hover:border-saffron/50 transition-colors"
                         >
-                          Choose File
+                          {t('upload.chooseFile')}
                         </button>
                         {photoPreview && (
                           <div className="mt-3">
-                            <img src={photoPreview} alt="Selected preview" className="h-24 w-24 rounded-xl object-cover border" />
+                            <img src={photoPreview} alt={t('upload.previewAlt')} className="h-24 w-24 rounded-xl object-cover border" />
                           </div>
                         )}
                       </div>
@@ -508,10 +455,11 @@ export default function Onboard() {
                                  focus:ring-2 focus:ring-saffron/40"
                         />
                         <span className="text-sm text-slate-700">
-                          I agree to the <a href="/conduct" className="text-saffron hover:underline">Code of Conduct</a>, 
-                          <a href="/privacy" className="text-saffron hover:underline"> Privacy Policy</a>, 
-                          and <a href="/terms" className="text-saffron hover:underline">Terms of Service</a>. 
-                          I understand that my information will be verified before listing.
+                          {t.rich('terms.label', {
+                            conduct: (chunks) => <a href="/conduct" className="text-saffron hover:underline">{t('terms.conduct')}</a>,
+                            privacy: (chunks) => <a href="/privacy" className="text-saffron hover:underline">{t('terms.privacy')}</a>,
+                            terms: (chunks) => <a href="/terms" className="text-saffron hover:underline">{t('terms.termsOfService')}</a>,
+                          })}
                         </span>
                       </label>
                       {errors.termsAccepted && (

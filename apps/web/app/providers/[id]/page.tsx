@@ -67,8 +67,8 @@ export default function ProviderDetail() {
     if (navigator.share) {
       try {
         await navigator.share({
-          title: provider.name || 'Service Provider',
-          text: `${provider.name || 'Service Provider'} - ${provider.category_name || 'Service Provider'}`,
+          title: provider.name || t("labels.serviceProvider"),
+          text: `${provider.name || t("labels.serviceProvider")} - ${provider.category_name || t("labels.serviceProvider")}`,
           url: window.location.href,
         });
       } catch (err) {
@@ -304,9 +304,9 @@ export default function ProviderDetail() {
                     {t("labels.contactToDiscuss", { name: provider.name?.split(' ')[0] || t("unknownProvider") })}
                   </p>
                   <div className="flex flex-wrap gap-2 justify-center">
-                    <span className="px-4 py-2 bg-white text-slate-700 rounded-full text-sm font-medium shadow-sm">Traditional Ceremonies</span>
-                    <span className="px-4 py-2 bg-white text-slate-700 rounded-full text-sm font-medium shadow-sm">Puja Services</span>
-                    <span className="px-4 py-2 bg-white text-slate-700 rounded-full text-sm font-medium shadow-sm">Custom Rituals</span>
+                    <span className="px-4 py-2 bg-white text-slate-700 rounded-full text-sm font-medium shadow-sm">{t("chips.traditionalCeremonies")}</span>
+                    <span className="px-4 py-2 bg-white text-slate-700 rounded-full text-sm font-medium shadow-sm">{t("chips.pujaServices")}</span>
+                    <span className="px-4 py-2 bg-white text-slate-700 rounded-full text-sm font-medium shadow-sm">{t("chips.customRituals")}</span>
                   </div>
                 </div>
               </div>
