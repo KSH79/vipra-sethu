@@ -4,26 +4,31 @@ import { useState, useTransition } from 'react';
 import { useLocale } from 'next-intl';
 import { locales, localeNames, type Locale } from '@/lib/i18n/constants';
 import { setUserLocale } from '@/lib/i18n/actions';
+import { useRouter } from 'next/navigation';
 
 export function LanguageSelector() {
   const currentLocale = useLocale() as Locale;
   const [isPending, startTransition] = useTransition();
   const [isOpen, setIsOpen] = useState(false);
+  const router = useRouter();
 
   function handleLocaleChange(locale: Locale) {
     startTransition(async () => {
       await setUserLocale(locale);
       setIsOpen(false);
-      window.location.reload();
+      router.refresh();
     });
   }
 
   return (
-    <div className="relative">
+    <div className="relative" data-testid="language-selector">
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="flex items-center gap-2 px-3 py-2 rounded-md hover:bg-gray-100 transition-colors"
         disabled={isPending}
+        aria-haspopup="listbox"
+        aria-expanded={isOpen}
+        aria-label="Change language"
       >
         <span className="text-sm font-medium">{localeNames[currentLocale]}</span>
         <svg className={`w-4 h-4 transition-transform ${isOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -32,7 +37,7 @@ export function LanguageSelector() {
       </button>
 
       {isOpen && (
-        <div className="absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-50">
+        <div className="absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-50" role="listbox">
           <div className="py-1">
             {locales.map((locale) => (
               <button
@@ -40,6 +45,9 @@ export function LanguageSelector() {
                 onClick={() => handleLocaleChange(locale)}
                 className={`w-full text-left px-4 py-2 text-sm hover:bg-gray-100 transition-colors ${currentLocale === locale ? 'bg-gray-50 font-medium' : ''}`}
                 disabled={isPending}
+                role="option"
+                aria-selected={currentLocale === locale}
+                data-testid={`language-${locale}`}
               >
                 {localeNames[locale]}
                 {currentLocale === locale && <span className="ml-2 text-green-600">✓</span>}

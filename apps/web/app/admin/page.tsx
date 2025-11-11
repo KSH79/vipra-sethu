@@ -2,7 +2,7 @@
 "use client";
 
 import { useEffect, useMemo, useState, useTransition } from "react";
-import { useTranslations, useFormatter } from "next-intl";
+import { useTranslations, useFormatter, useLocale } from "next-intl";
 import Link from "next/link";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
@@ -14,9 +14,12 @@ import { approveProvider, rejectProvider } from "./actions";
 type ProviderRow = {
   id: string;
   name: string;
-  category?: string;
+  category?: string | { code: string; name: string } | null;
   category_code?: string;
-  sampradaya?: string;
+  sampradaya?: string | { code: string; name: string } | null;
+  sampradaya_code?: string;
+  category_name?: string | null;
+  sampradaya_name?: string | null;
   phone?: string;
   email?: string;
   location?: string;
@@ -38,6 +41,23 @@ export default function Admin() {
   const tCommon = useTranslations("common");
   const tProv = useTranslations("providers.details");
   const fmt = useFormatter();
+  const currentLocale = useLocale() as 'en'|'kn';
+  const isKn = currentLocale === 'kn'
+  const mapCatKn = (code?: string) => {
+    const v = (code || '').toLowerCase()
+    switch (v) {
+      case 'purohit':
+      case 'vedic purohit': return 'ವೈದಿಕ ಪುರೋಹಿತ'
+      case 'cook': return 'ಅಡುಗೆಯವರು'
+      case 'essentials': return 'ಅಗತ್ಯಗಳು'
+      case 'seniorcare':
+      case 'senior care': return 'ವರಿಷ್ಠ ಆರೈಕೆ'
+      case 'pilgrimage':
+      case 'pilgrimage guide': return 'ತೀರ್ಥಯಾತ್ರೆ ಮಾರ್ಗದರ್ಶಿ'
+      case 'other': return 'ಇತರೆ'
+      default: return undefined
+    }
+  }
   const [providers, setProviders] = useState<ProviderRow[]>([]);
   const [total, setTotal] = useState(0);
   const [categories, setCategories] = useState<Category[]>([]);
@@ -81,7 +101,7 @@ export default function Admin() {
   }
 
   async function loadCategories() {
-    const res = await fetch('/api/admin/categories', { cache: 'no-store' })
+    const res = await fetch(`/api/admin/categories?locale=${currentLocale}`, { cache: 'no-store' })
     if (!res.ok) throw new Error('Failed categories')
     const json = await res.json()
     setCategories(json.categories as Category[])
@@ -104,6 +124,7 @@ export default function Admin() {
       if (search) params.set('search', search)
       params.set('page', String(page))
       params.set('pageSize', String(pageSize))
+      params.set('locale', currentLocale)
       const res = await fetch(`/api/admin/providers?${params.toString()}`, { cache: 'no-store' })
       if (!res.ok) throw new Error('Failed providers')
       const json = await res.json()
@@ -307,8 +328,20 @@ export default function Admin() {
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-3 mb-2">
                         <h3 className="font-medium text-slate-900 truncate">{provider.name}</h3>
-                        <Badge variant="default">{(categories.find(c=>c.code===provider.category_code)?.name) || provider.category || provider.category_code}</Badge>
-                        {provider.sampradaya && (<Badge variant="secondary">{provider.sampradaya}</Badge>)}
+                        <Badge variant="default">{
+                          (isKn ? mapCatKn(provider.category_code) : undefined)
+                          || provider.category_name
+                          || (typeof provider.category === 'object' ? provider.category?.name : provider.category)
+                          || (categories.find(c=>c.code===provider.category_code)?.name)
+                          || provider.category_code
+                        }</Badge>
+                        { (provider.sampradaya || provider.sampradaya_code) && (
+                          <Badge variant="secondary">{
+                            provider.sampradaya_name
+                            || (typeof provider.sampradaya === 'object' ? provider.sampradaya?.name : provider.sampradaya)
+                            || provider.sampradaya_code
+                          }</Badge>
+                        )}
                       </div>
                       
                       <div className="flex items-center gap-4 text-sm text-slate-600">
@@ -416,8 +449,20 @@ export default function Admin() {
               <div>
                 <h2 className="title-large mb-1">{selectedProvider.name || tCommon("na")}</h2>
                 <div className="flex flex-wrap items-center gap-2">
-                  <Badge variant="default">{(categories.find(c=>c.code===selectedProvider.category_code)?.name) || selectedProvider.category_code || tCommon("na")}</Badge>
-                  <Badge variant="secondary">{selectedProvider.sampradaya || tCommon("na")}</Badge>
+                  <Badge variant="default">{
+                    (isKn ? mapCatKn(selectedProvider.category_code) : undefined)
+                    || selectedProvider.category_name
+                    || (typeof selectedProvider.category === 'object' ? selectedProvider.category?.name : (selectedProvider as any).category as string | undefined)
+                    || (categories.find(c=>c.code===selectedProvider.category_code)?.name)
+                    || selectedProvider.category_code
+                    || tCommon("na")
+                  }</Badge>
+                  <Badge variant="secondary">{
+                    selectedProvider.sampradaya_name
+                    || (typeof selectedProvider.sampradaya === 'object' ? selectedProvider.sampradaya?.name : (selectedProvider as any).sampradaya as string | undefined)
+                    || selectedProvider.sampradaya_code
+                    || tCommon("na")
+                  }</Badge>
                 </div>
               </div>
             </div>

@@ -623,6 +623,13 @@
       "prev": "Back",
       "submit": "Submit"
     },
+    "nav": {
+      "stepOf": "Step {current} of {total}",
+      "back": "Back",
+      "next": "Next",
+      "submit": "Submit Profile",
+      "submitting": "Submitting..."
+    },
     "errors": {
       "submitGeneric": "Something went wrong while submitting. Please try again.",
       "serverPrefix": "Submission failed"

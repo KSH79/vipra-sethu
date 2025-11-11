@@ -24,12 +24,19 @@ export async function GET(req: NextRequest) {
         status,
         category_code,
         sampradaya_code,
+        created_at,
         photo_url,
         categories:categories(code,name,name_translations),
         sampradayas:sampradayas(code,name,name_translations)
       `, { count: 'exact' })
 
-    if (status) query = query.eq('status', status)
+    if (status) {
+      if (status === 'pending_review') {
+        query = query.in('status', ['pending_review', 'pending'])
+      } else {
+        query = query.eq('status', status)
+      }
+    }
     if (category) query = query.eq('category_code', category)
     if (search) query = query.or(`name.ilike.%${search}%,about.ilike.%${search}%`)
 
@@ -39,10 +46,58 @@ export async function GET(req: NextRequest) {
     const providers = (data || []).map((p: any) => {
       const cat = p?.categories
       const samp = p?.sampradayas
+      const mapCatKn = (code?: string) => {
+        switch ((code || '').toLowerCase()) {
+          case 'purohit': return 'ವೈದಿಕ ಪುರೋಹಿತ'
+          case 'cook': return 'ಅಡುಗೆಯವರು'
+          case 'essentials': return 'ಅಗತ್ಯಗಳು'
+          case 'seniorcare': return 'ವರಿಷ್ಠ ಆರೈಕೆ'
+          case 'pilgrimage': return 'ತೀರ್ಥಯಾತ್ರೆ ಮಾರ್ಗದರ್ಶಿ'
+          case 'other': return 'ಇತರೆ'
+          default: return undefined
+        }
+      }
+      const mapSampKn = (code?: string) => {
+        switch ((code || '').toLowerCase()) {
+          case 'madhwa': return 'ಮಾಧ್ವ'
+          case 'smarta': return 'ಸ್ಮಾರ್ತ'
+          case 'vaishnava': return 'ವೈಷ್ಣವ'
+          case 'shaivite': return 'ಶೈವ'
+          case 'other': return 'ಇತರೆ'
+          default: return undefined
+        }
+      }
+      const mapCatEnNameToKn = (name?: string) => {
+        const n = (name || '').toLowerCase()
+        switch (n) {
+          case 'vedic purohit': return 'ವೈದಿಕ ಪುರೋಹಿತ'
+          case 'cook': return 'ಅಡುಗೆಯವರು'
+          case 'essentials': return 'ಅಗತ್ಯಗಳು'
+          case 'senior care':
+          case 'seniorcare': return 'ವರಿಷ್ಠ ಆರೈಕೆ'
+          case 'pilgrimage guide':
+          case 'pilgrimage': return 'ತೀರ್ಥಯಾತ್ರೆ ಮಾರ್ಗದರ್ಶಿ'
+          case 'other': return 'ಇತರೆ'
+          default: return undefined
+        }
+      }
+      const isKn = locale === 'kn'
       return {
         ...p,
-        category: cat ? { code: cat.code, name: getTranslation(cat?.name_translations as any, locale) || cat?.name || '' } : null,
-        sampradaya: samp ? { code: samp.code, name: getTranslation(samp?.name_translations as any, locale) || samp?.name || '' } : null,
+        submittedAt: p?.created_at || null,
+        category: cat ? { code: cat.code, name: (isKn ? (mapCatKn(cat?.code) || mapCatEnNameToKn(p?.category_code) || getTranslation(cat?.name_translations as any, locale)) : getTranslation(cat?.name_translations as any, locale)) || cat?.name || '' } : null,
+        sampradaya: samp ? { code: samp.code, name: (isKn ? (mapSampKn(samp?.code) || getTranslation(samp?.name_translations as any, locale)) : getTranslation(samp?.name_translations as any, locale)) || samp?.name || '' } : null,
+        category_name: (() => {
+          const byJoin = cat ? ((isKn ? (mapCatKn(cat?.code) || getTranslation(cat?.name_translations as any, locale)) : getTranslation(cat?.name_translations as any, locale)) || cat?.name) : undefined
+          const byCode = isKn ? mapCatKn(p?.category_code) : undefined
+          const byCodeEn = isKn ? mapCatEnNameToKn(p?.category_code) : undefined
+          return byJoin || byCode || byCodeEn || null
+        })(),
+        sampradaya_name: (() => {
+          const byJoin = samp ? ((isKn ? (mapSampKn(samp?.code) || getTranslation(samp?.name_translations as any, locale)) : getTranslation(samp?.name_translations as any, locale)) || samp?.name) : undefined
+          const byCode = isKn ? mapSampKn(p?.sampradaya_code) : undefined
+          return byJoin || byCode || null
+        })(),
       }
     })
 

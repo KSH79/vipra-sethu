@@ -1,5 +1,27 @@
 # Build Fixes Changelog
 
+## Date: November 10, 2025
+
+### Issues Fixed
+
+- Admin Dashboard i18n and data fixes
+  - Pending count, approved this month, and average review hours now computed from Supabase (`/api/admin/metrics`).
+  - Providers API (`/api/admin/providers`) returns `submittedAt`, localized `category`/`sampradaya` objects, and explicit `category_name`/`sampradaya_name` fields. Robust Kannada fallbacks by code and English label variants. Status filter treats `pending_review` and `pending` equivalently for listing.
+  - Categories API adds Kannada fallbacks by code when JSONB translations are missing.
+  - Admin UI prefers API-provided localized names and adds client-side Kannada fallback for badges.
+
+- Onboarding stepper i18n
+  - `components/ui/step-form.tsx` uses `next-intl` (`onboard.nav`) for Back/Next/Submit and "Step X of Y".
+  - Messages updated in `messages/en.json` and `messages/kn.json`.
+
+- Footer locale wiring
+  - `app/layout.tsx` reads `locale` cookie, sets `<html lang>` and `NextIntlClientProvider` correctly, and resolves footer translations accordingly.
+
+### Notes
+
+- Addressed 400s in providers API by removing non-existent selected columns.
+- Preserved Vercel compatibility; build passes locally with `pnpm build`.
+
 ## Date: November 8, 2025
 
 ### Issues Fixed

@@ -2,7 +2,7 @@
 
 ## Vipra Sethu development plan and task tracking
 
-**Last Updated:** 10-Nov-2025 (Enhanced Provider Cards + deployment fix)
+**Last Updated:** 10-Nov-2025 (Admin Dashboard + Onboarding i18n fixes)
 
 ---
 
@@ -104,6 +104,88 @@ Goal: Backend returns translated data and Kannada content is populated. App rema
 - [x] Noto Sans Kannada loaded; Kannada renders correctly with no layout issues
 - [ ] Unit/integration/E2E tests passing; performance acceptable (to be finalized)
 - [x] Documentation updated (backend translation patterns, translation process/tools)
+
+---
+
+## Milestone 5: Full Multilingual Launch
+
+### Phase 6: Language Selector & User Preference
+**Branch:** `feature/language-selector-active`
+
+**Analysis Summary:**
+- The language selector exists and is wired to a server action that sets a `locale` cookie and updates `profiles.preferred_language` when authenticated. UI is basic and desktop-only (present in `TopNav`); mobile nav doesn’t render it.
+- Server action `setUserLocale` currently sets a cookie; for this milestone we will make it a session-only cookie and remove profile updates.
+- Locale detection for APIs: helper `getLocaleFromRequest` reads `?locale` then cookie, else default `en` (used in master-data/provider APIs). Good.
+- App layout now reads `locale` cookie and passes it to `NextIntlClientProvider` and `<html lang>`. Footer translations respect locale.
+- Middleware focuses on auth/admin; no explicit locale handling. No automatic cookie initialization when missing.
+
+**Current State:**
+- Language selector component: `apps/web/components/LanguageSelector.tsx`
+  - Uses `useLocale()` from `next-intl`, calls `setUserLocale(locale)`, then reloads window.
+  - Desktop dropdown in `TopNav`. Not included in mobile menu.
+- User preference storage:
+  - Cookie: `locale`
+  - Database: `profiles.preferred_language` updated if authenticated
+- Locale detection flow:
+  - APIs: `lib/i18n/locale-server.ts` → query param > cookie > default
+  - UI: `app/layout.tsx` sets `NextIntlClientProvider` with `locale="en"` and `html lang="en"` (needs fix)
+  - `lib/i18n/config.ts` returns default locale; `lib/i18n/request.ts` exists but not wired into layout
+- Backend translation support: Verified in Milestone 4A/4B and working via API locale parameter
+
+**High-Level Tasks:**
+- [x] Refactor i18n provider wiring in `app/layout.tsx`
+  - Use `getLocale()` and `getMessages()` from `next-intl/server`
+  - Set `<html lang={locale}>` and pass `locale={locale}` into `NextIntlClientProvider`
+- [ ] Consolidate `lib/i18n/config.ts` and `lib/i18n/request.ts`
+  - Implement `getUserLocale()` to read `cookies().get('locale')`; fallback to `defaultLocale`. No browser Accept-Language.
+  - Ensure server-side message loading respects cookie.
+- [ ] Adjust `setUserLocale`
+  - Set session cookie (no `maxAge`) with `sameSite: 'lax'`, `path: '/'`; add `secure` in production
+  - Remove profile update (no persistence beyond current browser session)
+- [ ] Enhance LanguageSelector UX
+  - Use `router.refresh()` instead of full reload
+  - Add ARIA labels/data-testids, loading state, and include in mobile menu
+  - Show English/Kannada labels with clear current selection
+- [ ] Optional: Middleware default cookie not needed (default to English if missing)
+- [ ] Add settings UI (optional)
+  - Surface preferred language in a settings/profile page using same action
+- [ ] Tests
+  - Unit: `setUserLocale` validation and cookie behavior
+  - Integration: API calls with locale and profile update path
+  - E2E: language switching/persistence/anonymous vs authenticated flows
+  - Visual regression: key pages in both languages
+
+**Files to Modify:**
+- `apps/web/app/layout.tsx`
+- `apps/web/components/LanguageSelector.tsx`
+- `apps/web/components/navigation/TopNav.tsx` (mobile placement)
+- `apps/web/lib/i18n/actions.ts`
+- `apps/web/lib/i18n/config.ts` and/or `apps/web/lib/i18n/request.ts` (consolidate to cookie-aware)
+- `apps/web/middleware.ts` (optional cookie default)
+- Settings page (if available) for preference control
+
+**Testing Strategy:**
+- E2E:
+  - Anonymous user switches to Kannada; persists during the current browser session (tab/app lifetime)
+  - No profile persistence; new sessions default to English
+  - Admin dashboard and provider flows render in chosen language
+- Integration:
+  - Verify APIs return translated data for both locales
+  - Verify cookie-only behavior; no profile updates
+- Unit:
+  - Validate allowed locales; cookie option correctness
+- Visual regression:
+  - Home, Providers list/detail, Admin dashboard in en/kn
+
+---
+
+### Milestone 5 Completion Criteria:
+- [ ] Users can switch between English and Kannada
+- [ ] Entire application works in both languages
+- [ ] Preference persists during the current browser session (session cookie only)
+- [ ] All key user and admin journeys tested in both languages
+- [ ] Performance acceptable (<1s switch time; stable layout)
+- [ ] Ready for production launch
 
 ## Milestone 3: English Migration Complete
 

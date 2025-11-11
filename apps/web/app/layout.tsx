@@ -8,7 +8,7 @@ import { cookies } from 'next/headers'
 import { createServerClient } from '@supabase/ssr'
 import { PostHogAnalyticsProvider } from "@/lib/analytics";
 import { Analytics } from '@vercel/analytics/react';
-import { getTranslations, getMessages } from 'next-intl/server';
+import { getTranslations } from 'next-intl/server';
 import { NextIntlClientProvider } from 'next-intl';
 
 // Import Sentry configurations
@@ -60,13 +60,15 @@ export default async function RootLayout({
   )
   const { data: { session } } = await supabase.auth.getSession()
   const isAuthenticated = !!session?.user
-  const tFooter = await getTranslations('footer')
-  const messages = await getMessages()
+  const raw = cookieStore.get('locale')?.value || 'en'
+  const locale = (['en','kn'] as const).includes(raw as any) ? (raw as 'en'|'kn') : 'en'
+  const tFooter = await getTranslations({ locale, namespace: 'footer' })
+  const messages = (await import(`@/messages/${locale}.json`)).default
   
   return (
-    <html lang="en" className="scroll-smooth">
+    <html lang={locale} className="scroll-smooth">
       <body className={`${inter.className} ${notoKannada.className}`}>
-        <NextIntlClientProvider messages={messages} locale="en">
+        <NextIntlClientProvider messages={messages} locale={locale}>
           {!isDevelopment && <PostHogAnalyticsProvider>
           {/* Skip link for accessibility */}
           <a href="#main-content" className="skip-link">

@@ -3,6 +3,7 @@
 import { cn } from "@/lib/utils";
 import { HTMLAttributes, ReactNode } from "react";
 import { Button } from "./Button";
+import { useTranslations } from "next-intl";
 
 export interface StepProps extends HTMLAttributes<HTMLDivElement> {
   title: string;
@@ -91,6 +92,7 @@ export function StepForm({
   isSubmitting = false,
   className 
 }: StepFormProps) {
+  const t = useTranslations('onboard.nav');
   const total = steps.length;
   const progress = Math.min(100, Math.max(0, Math.round(((currentStep + 1) / Math.max(1, total)) * 100)));
   return (
@@ -98,7 +100,7 @@ export function StepForm({
       {/* Progress header */}
       <div className="mb-6">
         <div className="flex items-center justify-between mb-2">
-          <span className="text-sm text-slate-600">Step {currentStep + 1} of {total}</span>
+          <span className="text-sm text-slate-600">{t('stepOf', { current: currentStep + 1, total })}</span>
           <span className="text-xs text-slate-500">{progress}%</span>
         </div>
         <div className="h-2 rounded-full bg-sandstone/20 overflow-hidden">
@@ -131,7 +133,7 @@ export function StepForm({
           disabled={currentStep === 0}
           className={currentStep === 0 ? "opacity-0 cursor-default" : ""}
         >
-          Back
+          {t('back')}
         </Button>
         {isLastStep ? (
           <Button
@@ -140,7 +142,7 @@ export function StepForm({
             className="ml-auto"
             aria-busy={isSubmitting}
           >
-            {isSubmitting ? "Submitting..." : "Submit Profile"}
+            {isSubmitting ? t('submitting') : t('submit')}
           </Button>
         ) : (
           <Button
@@ -148,7 +150,7 @@ export function StepForm({
             onClick={onNext}
             className="ml-auto"
           >
-            Next
+            {t('next')}
           </Button>
         )}
       </div>
