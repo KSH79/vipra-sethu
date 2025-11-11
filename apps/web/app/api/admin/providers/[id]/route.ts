@@ -1,9 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabaseServer'
+import { getLocaleFromRequest } from '@/lib/i18n/locale-server'
+import { getTranslation } from '@/lib/translations/db-helpers'
 
-export async function GET(_req: NextRequest, { params }: { params: { id: string } }) {
+export async function GET(req: NextRequest, { params }: { params: { id: string } }) {
   const supabase = await createClient()
   const id = params.id
+  const locale = getLocaleFromRequest(req)
 
   const { data: provider, error } = await supabase
     .from('providers')
@@ -27,7 +30,9 @@ export async function GET(_req: NextRequest, { params }: { params: { id: string 
       travel_notes,
       expectations,
       response_time_hours,
-      rejection_reason
+      rejection_reason,
+      categories:categories(code,name,name_translations),
+      sampradayas:sampradayas(code,name,name_translations)
     `)
     .eq('id', id)
     .single()
@@ -80,7 +85,23 @@ export async function GET(_req: NextRequest, { params }: { params: { id: string 
 
   return NextResponse.json({ 
     provider: { 
-      ...provider, 
+      ...provider,
+      category: (() => {
+        const cat = (provider as any)?.categories
+        if (!cat) return null
+        return {
+          code: cat?.code,
+          name: getTranslation(cat?.name_translations as any, locale) || cat?.name || '',
+        }
+      })(),
+      sampradaya: (() => {
+        const samp = (provider as any)?.sampradayas
+        if (!samp) return null
+        return {
+          code: samp?.code,
+          name: getTranslation(samp?.name_translations as any, locale) || samp?.name || '',
+        }
+      })(),
       profile_photo_signed_url, 
       photo_signed_url 
     }, 

@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 import { getSignedPhotoUrl } from '@/lib/storage'
+import { getLocaleFromRequest } from '@/lib/i18n/locale-server'
+import { getTranslation } from '@/lib/translations/db-helpers'
 
 function getAdmin() {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL!
@@ -15,14 +17,15 @@ export async function GET(req: NextRequest) {
     const category_code = searchParams.get('category_code') || undefined
     const limit = Math.min(parseInt(searchParams.get('limit') || '50', 10), 100)
     const offset = Math.max(parseInt(searchParams.get('offset') || '0', 10), 0)
+    const locale = getLocaleFromRequest(req)
 
     const sb = getAdmin()
     let query = sb
       .from('providers')
       .select(`
         *,
-        categories:categories(code,name),
-        sampradayas:sampradayas(code,name)
+        categories:categories(code,name,name_translations),
+        sampradayas:sampradayas(code,name,name_translations)
       `, { count: 'exact' })
       .eq('status', 'approved')
 
@@ -73,10 +76,18 @@ export async function GET(req: NextRequest) {
           signedOrig = await getSignedPhotoUrl(orig)
         }
       } catch {}
+      const category = p.categories ? {
+        code: p.categories.code,
+        name: getTranslation(p.categories?.name_translations as any, locale) || p.categories?.name || '',
+      } : null
+      const sampradaya = p.sampradayas ? {
+        code: p.sampradayas.code,
+        name: getTranslation(p.sampradayas?.name_translations as any, locale) || p.sampradayas?.name || '',
+      } : null
       return {
         ...p,
-        category: p.categories,
-        sampradaya: p.sampradayas,
+        category,
+        sampradaya,
         photo_thumbnail_url: signedThumb || null,
         photo_original_url: signedOrig || null,
         photo_url: signedThumb || signedUrl || null,

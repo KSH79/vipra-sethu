@@ -178,12 +178,13 @@ export class TaxonomyService {
   /**
    * Search providers with clean taxonomy filters
    */
-  async searchProviders(filters: ProviderFilters): Promise<SearchResult<ProviderWithTaxonomy>> {
+  async searchProviders(filters: ProviderFilters, locale: SupportedLanguage = 'en'): Promise<SearchResult<ProviderWithTaxonomy>> {
     const params = new URLSearchParams()
     if (filters.text) params.set('text', filters.text)
     if (filters.category_code) params.set('category_code', filters.category_code)
     if (filters.limit != null) params.set('limit', String(filters.limit))
     if (filters.offset != null) params.set('offset', String(filters.offset))
+    if (locale) params.set('locale', locale)
     // Note: location/language filters can be added later on server side
 
     const res = await fetch(`/api/providers/search?${params.toString()}`)
@@ -201,8 +202,10 @@ export class TaxonomyService {
   /**
    * Get provider details with taxonomy names
    */
-  async getProviderDetails(providerId: string): Promise<ProviderWithTaxonomy | null> {
-    const res = await fetch(`/api/providers/${providerId}`)
+  async getProviderDetails(providerId: string, locale: SupportedLanguage = 'en'): Promise<ProviderWithTaxonomy | null> {
+    const qs = new URLSearchParams()
+    if (locale) qs.set('locale', locale)
+    const res = await fetch(`/api/providers/${providerId}?${qs.toString()}`)
     if (res.status === 404) return null
     if (!res.ok) throw new Error('Failed to fetch provider details')
     const json = await res.json()
@@ -272,6 +275,6 @@ export const getLanguages = () => taxonomyService.getLanguages();
 export const getServiceRadiusOptions = () => taxonomyService.getServiceRadiusOptions();
 export const getExperienceLevels = () => taxonomyService.getExperienceLevels();
 export const getTerms = taxonomyService.getTerms.bind(taxonomyService);
-export const searchProviders = (filters: ProviderFilters) => taxonomyService.searchProviders(filters);
-export const getProviderDetails = (id: string) => taxonomyService.getProviderDetails(id);
+export const searchProviders = (filters: ProviderFilters, locale: SupportedLanguage = 'en') => taxonomyService.searchProviders(filters, locale);
+export const getProviderDetails = (id: string, locale: SupportedLanguage = 'en') => taxonomyService.getProviderDetails(id, locale);
 export const getProviderStats = () => taxonomyService.getProviderStats();
