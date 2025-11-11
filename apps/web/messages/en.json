@@ -456,6 +456,11 @@
         "title": "Looking for more providers?",
         "subtitle": "Explore our directory of verified professionals",
         "button": "Browse All Providers"
+      },
+      "chips": {
+        "traditionalCeremonies": "Traditional Ceremonies",
+        "pujaServices": "Puja Services",
+        "customRituals": "Custom Rituals"
       }
     }
   },
@@ -491,6 +496,7 @@
     }
   },
   "nav": {
+    "brand": "Vipra Sethu",
     "providers": "Providers",
     "about": "About",
     "admin": "Admin",
@@ -548,5 +554,94 @@
     "privacy": "Privacy",
     "contact": "Contact",
     "copyright": "© 2025 Vipra Sethu. Building community through trust and tradition."
+  }
+  ,
+  "onboard": {
+    "title": "Join Our Community",
+    "subtitle": "Become a verified service provider and connect with your community",
+    "submitted": {
+      "title": "Submitted for Review",
+      "subtitle": "Thank you for your submission! Our team will review your profile within 24-48 hours. You'll receive a confirmation once your profile is approved.",
+      "nextTitle": "What happens next:",
+      "nextItems": {
+        "verify": "Our team verifies your information",
+        "bgCheck": "Background check is completed",
+        "approved": "Profile is approved and listed",
+        "whatsapp": "You'll receive WhatsApp confirmation"
+      },
+      "backToHome": "Back to Home"
+    },
+    "steps": {
+      "identity": { "title": "Identity & Contact", "desc": "Your basic information" },
+      "role": { "title": "Role & Rituals", "desc": "Your services and expertise" },
+      "photo": { "title": "Photo & Terms", "desc": "Complete your profile" }
+    },
+    "fields": {
+      "name": { "label": "Full Name *", "placeholder": "Enter your full name" },
+      "phone": { "label": "Phone Number *", "placeholder": "+91 98765 43210" },
+      "whatsapp": { "label": "WhatsApp Number (optional)", "note": "Leave empty to use phone number" },
+      "category": { "label": "Service Category *", "placeholder": "Select a category" },
+      "languages": { "label": "Languages * (select all that apply)" },
+      "sampradaya": { "label": "Sampradaya/Tradition (optional)", "placeholder": "Select tradition" },
+      "serviceRadius": { "label": "Service Radius (optional)", "placeholder": "Select service area", "options": {
+        "w5": "Within 5 km",
+        "w10": "Within 10 km",
+        "w25": "Within 25 km",
+        "w50": "Within 50 km",
+        "city": "Within city",
+        "any": "Willing to travel anywhere"
+      }}
+    },
+    "upload": {
+      "photoLabel": "Profile Photo (optional)",
+      "cta": "Click to upload or drag and drop",
+      "help": "PNG, JPG up to 5MB",
+      "chooseFile": "Choose File",
+      "previewAlt": "Selected preview"
+    },
+    "terms": {
+      "label": "I agree to the {conduct}, {privacy}, and {terms}. I understand that my information will be verified before listing.",
+      "conduct": "Code of Conduct",
+      "privacy": "Privacy Policy",
+      "termsOfService": "Terms of Service"
+    },
+    "actions": {
+      "next": "Next",
+      "prev": "Back",
+      "submit": "Submit"
+    },
+    "errors": {
+      "submitGeneric": "Something went wrong while submitting. Please try again.",
+      "serverPrefix": "Submission failed"
+    },
+    "options": {
+      "categories": {
+        "purohit": "Vedic Purohit",
+        "cook": "Cook",
+        "essentials": "Essentials",
+        "seniorCare": "Senior Care",
+        "pilgrimage": "Pilgrimage Guide",
+        "other": "Other"
+      },
+      "languages": {
+        "kannada": "Kannada",
+        "tamil": "Tamil",
+        "telugu": "Telugu",
+        "sanskrit": "Sanskrit",
+        "hindi": "Hindi",
+        "english": "English",
+        "tulu": "Tulu",
+        "konkani": "Konkani",
+        "malayalam": "Malayalam",
+        "marathi": "Marathi"
+      },
+      "sampradayas": {
+        "madhwa": "Madhwa",
+        "smarta": "Smarta",
+        "vaishnava": "Vaishnava",
+        "shaivite": "Shaivite",
+        "other": "Other"
+      }
+    }
   }
 }

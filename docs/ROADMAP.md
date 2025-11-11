@@ -6,6 +6,115 @@
 
 ---
 
+## Milestone 3: English Migration Complete
+
+Goal: Migrate all UI to use translation keys (next-intl) while still rendering English only. No functionality or visual changes; replace hardcoded strings with translation keys across public and admin. Sets up for Kannada in Milestone 4.
+
+### Phase 3A: UI Migration - Public Pages
+**Branch:** `feature/i18n-public-pages`
+
+**Analysis Summary:**
+- Pages (public):
+  - app/page.tsx (Home)
+  - app/about/page.tsx (About)
+  - app/providers/page.tsx (Providers listing)
+  - app/providers/[id]/page.tsx (Provider detail)
+  - app/onboard/page.tsx (Onboarding form)
+  - app/login/page.tsx (Login — already migrated, verify leftovers)
+  - app/test-analytics/page.tsx, app/test-sentry/page.tsx (test/demo pages)
+- Shared components used by public pages:
+  - components/navigation/TopNav.tsx (nav, CTA, mobile menu)
+  - app/layout.tsx (footer — mostly i18n already; verify alt/aria/meta)
+  - Search/filter UI inside providers pages
+  - Provider card rendering inside providers pages
+  - Loading/empty/error states
+
+**High-Level Tasks:**
+- [ ] Audit public pages/components for hardcoded strings; inventory keys needed
+- [ ] Populate messages/en.json with missing public strings (grouped by namespace)
+- [ ] Migrate Home (hero, quick chips, CTA, sections)
+- [ ] Migrate About (headings, FAQs, values, policies)
+- [ ] Migrate Providers listing (headers, filters, sort, empty/loading/errors)
+- [ ] Migrate Provider detail (sections, labels, actions, errors)
+- [ ] Migrate Onboard form (labels, help, validation, placeholders)
+- [ ] Migrate TopNav (nav links, buttons, aria)
+- [ ] Footer: verify remaining strings/alt/aria/meta
+- [ ] Ensure DB-backed labels use translation helpers (e.g., categories)
+- [ ] Add/adjust unit/integration tests; ensure no missing-key warnings
+
+**Files to Modify:**
+- app/page.tsx, app/about/page.tsx
+- app/providers/page.tsx, app/providers/[id]/page.tsx
+- app/onboard/page.tsx, app/login/page.tsx (verify)
+- components/navigation/TopNav.tsx
+- app/layout.tsx (footer text, alt/aria/meta where applicable)
+- messages/en.json (nav, home, providers.listing, providers.details, onboard, common, errors)
+
+**Testing Strategy:**
+- Visual diff: no UI changes; compare before/after
+- Functional smoke: navigation, search/filter, provider detail actions, onboarding submission
+- Check console: no missing translation warnings
+- Use next-intl formatter for dates/numbers where relevant
+- Update/add unit/integration tests; e2e for providers flow
+
+---
+
+### Phase 3B: UI Migration - Admin Pages
+**Branch:** `feature/i18n-admin-pages`
+
+**Analysis Summary:**
+- Pages (admin):
+  - app/admin/page.tsx (Dashboard: metrics, tabs, list, drawer)
+  - app/admin/master-data/page.tsx (landing tiles)
+  - app/admin/master-data/languages/page.tsx
+  - app/admin/master-data/service-radius/page.tsx
+  - app/admin/master-data/experience-levels/page.tsx
+  - app/admin/master-data/categories/page.tsx
+  - app/admin/master-data/sampradayas/page.tsx
+  - app/admin/master-data/mapping/page.tsx
+  - app/admin/master-data/terms/page.tsx
+  - app/admin/mfa-setup/page.tsx, app/admin/mfa-verify/page.tsx
+- Admin components/patterns:
+  - Tables (headers, empty/loading, actions)
+  - Forms (labels, placeholders, validation, confirmations)
+  - Buttons/menus, badges, status chips
+  - Drawer/detail panel labels and actions
+
+**High-Level Tasks:**
+- [ ] Audit admin pages/components for leftover hardcoded strings
+- [ ] Populate messages/en.json with missing admin strings (dashboard, actions, messages, pagination)
+- [ ] Dashboard: metrics labels, tabs, filters, list empty/error states, actions
+- [ ] Provider detail drawer: labels, sections, actions, errors
+- [ ] Master Data managers: verify and complete any remaining strings
+- [ ] MFA setup/verify: verify all messages and errors
+- [ ] Add/adjust unit/integration tests; ensure no missing-key warnings
+
+**Files to Modify:**
+- app/admin/page.tsx (and actions toast messages if any)
+- app/admin/master-data/*/page.tsx (verify completeness)
+- app/admin/mfa-setup/page.tsx, app/admin/mfa-verify/page.tsx
+- messages/en.json (admin.dashboard, admin.actions, admin.messages, admin.pagination, admin.masterDataPages)
+
+**Testing Strategy:**
+- Visual + functional: tabs, filters, pagination, approve/reject flows
+- Detail drawer behavior and messages
+- Master data CRUD flows (create/edit/delete/toggle)
+- Console clean: no missing translation warnings
+- Unit/integration updates; e2e for dashboard approval flow
+
+---
+
+### Milestone 3 Completion Criteria:
+- [ ] No hardcoded user-facing strings in public or admin
+- [ ] messages/en.json complete and organized; no unused keys
+- [ ] UI unchanged visually and functionally
+- [ ] No missing-key warnings; console clean
+- [ ] Dates/numbers via next-intl formatters where applicable
+- [ ] Master data labels resolved via DB translations/fallbacks
+- [ ] Tests passing (>80% coverage maintained); updated where needed
+- [ ] Documentation updated: i18n usage, patterns, naming conventions
+- [ ] Branches merged in sequence to target branch without conflicts
+
 ## How to Use This Roadmap
 
 **This is a living document** - Update it regularly as work progresses.
