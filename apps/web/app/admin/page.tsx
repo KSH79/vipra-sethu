@@ -281,13 +281,13 @@ export default function Admin() {
                     onChange={(e)=>{setSearch(e.target.value); setPage(1);}}
                     placeholder={tCommon("searchPlaceholder")}
                     className="h-10 w-56 rounded-xl border border-sandstone/30 px-3 focus:outline-none focus:ring-2 focus:ring-saffron/40"
-                    aria-label="Search submissions"
+                    aria-label={tDash("aria.searchSubmissions")}
                   />
                   <select
                     value={category}
                     onChange={(e)=>{setCategory(e.target.value); setPage(1);}}
                     className="h-10 rounded-xl border border-sandstone/30 px-3 text-sm focus:outline-none focus:ring-2 focus:ring-saffron/40"
-                    aria-label="Filter by category"
+                    aria-label={tDash("aria.filterByCategory")}
                   >
                     <option value="">{tCommon("allCategories")}</option>
                     {categories.map(c => (
@@ -328,7 +328,7 @@ export default function Admin() {
                       
                       <div className="flex items-center gap-2 mt-2 text-xs text-slate-500">
                         <Clock className="h-3 w-3" />
-                        Submitted {formatDate(provider.submittedAt)}
+                        {tDash("submittedOn", { date: formatDate(provider.submittedAt) })}
                       </div>
                     </div>
 
@@ -407,9 +407,9 @@ export default function Admin() {
                     || detail?.profile_photo_url
                     || detail?.photo_url;
                   return url ? (
-                    <img src={url} alt="Provider photo" className="h-full w-full object-contain" />
+                    <img src={url} alt={tDash("alt.providerPhoto")} className="h-full w-full object-contain" />
                   ) : (
-                    <span className="text-xs text-slate-500">No Photo</span>
+                    <span className="text-xs text-slate-500">{tDash("labels.noPhoto")}</span>
                   );
                 })()}
               </div>

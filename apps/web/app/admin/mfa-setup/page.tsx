@@ -80,7 +80,7 @@ function MFASetupContent() {
       router.push('/admin');
     } catch (err) {
       console.error('Error after MFA setup:', err);
-      setError('MFA setup completed, but failed to redirect. Please try refreshing the page.');
+      setError(t('setup.redirectError'));
     }
   };
 

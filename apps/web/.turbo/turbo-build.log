@@ -64,23 +64,23 @@ Import trace for requested module:
 
    Linting and checking validity of types ...
    Collecting page data ...
-(node:32034) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(node:32602) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
 (Use `node --trace-deprecation ...` to show where the warning was created)
-(node:32038) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(node:32596) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
 (Use `node --trace-deprecation ...` to show where the warning was created)
-(node:32041) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(node:32600) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
 (Use `node --trace-deprecation ...` to show where the warning was created)
-(node:32036) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(node:32601) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
 (Use `node --trace-deprecation ...` to show where the warning was created)
-(node:32039) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(node:32598) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
 (Use `node --trace-deprecation ...` to show where the warning was created)
-(node:32042) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(node:32599) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
 (Use `node --trace-deprecation ...` to show where the warning was created)
-(node:32037) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(node:32597) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
 (Use `node --trace-deprecation ...` to show where the warning was created)
-(node:32035) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(node:32604) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
 (Use `node --trace-deprecation ...` to show where the warning was created)
-(node:32040) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(node:32603) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
 (Use `node --trace-deprecation ...` to show where the warning was created)
    Generating static pages (0/40) ...
    Generating static pages (10/40) 
@@ -108,7 +108,7 @@ Route (app)                                        Size     First Load JS
 ┌ ƒ /                                              5.79 kB         174 kB
 ├ ƒ /_not-found                                    872 B            88 kB
 ├ ƒ /about                                         7.88 kB         123 kB
-├ ƒ /admin                                         8.01 kB         123 kB
+├ ƒ /admin                                         8.02 kB         123 kB
 ├ ƒ /admin/master-data                             943 B           109 kB
 ├ ƒ /admin/master-data/categories                  2.34 kB         104 kB
 ├ ƒ /admin/master-data/experience-levels           2.49 kB         104 kB
@@ -117,7 +117,7 @@ Route (app)                                        Size     First Load JS
 ├ ƒ /admin/master-data/sampradayas                 2.34 kB         104 kB
 ├ ƒ /admin/master-data/service-radius              2.4 kB          104 kB
 ├ ƒ /admin/master-data/terms                       2.11 kB         104 kB
-├ ƒ /admin/mfa-setup                               2.44 kB         205 kB
+├ ƒ /admin/mfa-setup                               2.41 kB         205 kB
 ├ ƒ /admin/mfa-verify                              2.07 kB         205 kB
 ├ ƒ /api/admin/categories                          0 B                0 B
 ├ ƒ /api/admin/master-data/categories              0 B                0 B
