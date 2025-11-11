@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 import { getSignedPhotoUrl } from '@/lib/storage'
+import { getLocaleFromRequest } from '@/lib/i18n/locale-server'
+import { getTranslation } from '@/lib/translations/db-helpers'
 
 function getAdmin() {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL!
@@ -8,9 +10,10 @@ function getAdmin() {
   return createClient(url, key, { auth: { persistSession: false } })
 }
 
-export async function GET(_req: NextRequest, { params }: { params: { id: string } }) {
+export async function GET(req: NextRequest, { params }: { params: { id: string } }) {
   try {
     const id = params.id
+    const locale = getLocaleFromRequest(req)
     const sb = getAdmin()
 
     // Prefer RPC if available; otherwise fallback to select by id
@@ -26,8 +29,8 @@ export async function GET(_req: NextRequest, { params }: { params: { id: string 
         .from('providers')
         .select(`
           *,
-          categories:categories(code,name),
-          sampradayas:sampradayas(code,name)
+          categories:categories(code,name,name_translations),
+          sampradayas:sampradayas(code,name,name_translations)
         `)
         .eq('id', id)
         .maybeSingle()
@@ -49,8 +52,14 @@ export async function GET(_req: NextRequest, { params }: { params: { id: string 
 
     const normalized = {
       ...provider,
-      category: provider.categories,
-      sampradaya: provider.sampradayas,
+      category: provider.categories ? {
+        code: provider.categories.code,
+        name: getTranslation(provider.categories?.name_translations as any, locale) || provider.categories?.name || '',
+      } : null,
+      sampradaya: provider.sampradayas ? {
+        code: provider.sampradayas.code,
+        name: getTranslation(provider.sampradayas?.name_translations as any, locale) || provider.sampradayas?.name || '',
+      } : null,
       photo_url: signedUrl || null,
     }
 

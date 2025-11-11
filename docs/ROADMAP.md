@@ -6,6 +6,101 @@
 
 ---
 
+## Milestone 4: Kannada Backend Ready
+
+Goal: Backend returns translated data and Kannada content is populated. App remains English by default (language switching comes in Milestone 5).
+
+### Phase 4A: Backend Translation Integration
+**Branch:** `feature/i18n-backend-integration`
+
+**Analysis Summary:**
+- API structure (Next.js App Router):
+  - Admin master data APIs under `apps/web/app/api/admin/master-data/*` (languages, service-radius, experience-levels, categories, sampradayas, mapping, terms)
+  - Admin dashboard/helper APIs under `apps/web/app/api/admin/*` (categories, providers, providers/[id], metrics)
+  - Public provider APIs under `apps/web/app/api/providers/*` (search, [id])
+- Data fetching patterns:
+  - Client pages call App Router APIs via `fetch` (e.g., providers listing, admin dashboard)
+  - Some pages use service functions in `apps/web/lib/services/taxonomy.ts` for consolidated provider search/details
+- Master data queries used by:
+  - Providers listing and detail (category_name, sampradaya_name, etc.)
+  - Admin dashboard filters and list badges
+  - Admin master data CRUD pages
+- Translation helpers (Milestone 2):
+  - `apps/web/lib/translations/db-helpers.ts` (getTranslation, buildTranslation, updateTranslation, coverage helpers)
+  - JSONB columns added for all master data tables; English backfilled under `en`
+
+**Current State:**
+- API endpoints (relevant):
+  - Public: `/api/providers/search`, `/api/providers/[id]`
+  - Admin: `/api/admin/providers`, `/api/admin/providers/[id]`, `/api/admin/categories`, `/api/admin/metrics`
+  - Master data: `/api/admin/master-data/{languages,service-radius,experience-levels,categories,sampradayas,terms}`, mapping endpoints
+- Data fetching patterns:
+  - Client pages use `fetch` (Admin dashboard, Master Data managers)
+  - Public pages use `lib/services/taxonomy.ts`
+- Master data queries:
+  - Category and sampradaya names displayed in Providers, Admin dashboard; terms pages retrieve content
+
+**High-Level Tasks:**
+- [x] Design locale flow end-to-end (request -> API -> query -> transformation -> response)
+- [x] Add locale acceptance/validation to all master data APIs
+- [x] Update master data CRUD APIs to read/write JSONB translations (use buildTranslation/updateTranslation)
+- [x] Update public provider APIs to return translated category/sampradaya fields
+- [x] Update admin provider APIs to return translated fields for badges/filters
+- [x] Update `lib/services/taxonomy.ts` to accept `locale` and map translated fields with fallbacks
+- [x] Create helper(s) for extracting/validating locale from Request (cookies/header/query), defaulting to `en`
+- [x] Ensure English fallback when translation missing
+- [ ] Add unit/integration tests for translation mapping and locale handling
+
+**Files to Modify:**
+- APIs: `apps/web/app/api/admin/master-data/**/*`, `apps/web/app/api/admin/{providers,providers/[id],categories,metrics}/route.ts`, `apps/web/app/api/providers/{search,[id]}/route.ts`
+- Services: `apps/web/lib/services/taxonomy.ts`
+- Helpers: `apps/web/lib/translations/db-helpers.ts` (if needed), `apps/web/lib/i18n/{config,request,constants}.ts` (locale utils)
+
+**Testing Strategy:**
+- Unit: translation helpers, locale extraction/validation, services mapping
+- Integration: API endpoints with `?locale=en|kn`, invalid locale falls back to `en`
+- E2E: providers listing/detail show translated master data; admin dashboard badges/filters translated
+- Performance: verify JSONB lookups and joins remain fast (indexes from M2)
+
+---
+
+### Phase 4B: Kannada Translations - Content
+**Branch:** `feature/kannada-translations`
+**Note:** Can run in parallel with Phase 4A
+
+**Analysis Summary:**
+- UI strings: mirror `apps/web/messages/en.json` into `apps/web/messages/kn.json`
+- Master data: ensure Kannada values for categories, sampradayas, experience levels, service radius, languages; terms content as available
+
+**High-Level Tasks:**
+- [ ] Prepare export of `en.json` for translators; create `kn.json` skeleton
+- [ ] Populate `kn.json` (professional translation recommended) and review with native speakers
+- [ ] Populate DB JSONB Kannada fields via Admin UI or migration script
+- [ ] Load Kannada font (Noto Sans Kannada) and verify rendering/spacing
+- [ ] Create scripts: translation coverage (UI + DB), missing key finder, export/import helpers
+- [ ] QA pass with native speakers; iterate
+
+**Translation Requirements:**
+- UI strings to translate: mirror count of `en.json` (current size in repo)
+- Master data records: categories, sampradayas, languages, service radius, experience levels, terms (counts from DB)
+
+**Testing Strategy:**
+- Visual: temporarily force `kn` to validate rendering and layout
+- Functional: search/filters/forms with Kannada values
+- Coverage: report % translated in UI and DB; ensure fallbacks when missing
+
+---
+
+### Milestone 4 Completion Criteria:
+- [ ] All relevant APIs accept locale and return translated data with English fallback
+- [ ] Service functions accept locale and map translated fields consistently
+- [ ] Provider list/detail and Admin dashboard show translated master data when `locale=kn`
+- [ ] `apps/web/messages/kn.json` complete and validated by native speakers
+- [ ] DB master data has Kannada translations populated (coverage report >95%)
+- [ ] Noto Sans Kannada loaded; Kannada renders correctly with no layout issues
+- [ ] Unit/integration/E2E tests passing; performance acceptable
+- [ ] Documentation updated (backend translation patterns, translation process/tools)
+
 ## Milestone 3: English Migration Complete
 
 Goal: Migrate all UI to use translation keys (next-intl) while still rendering English only. No functionality or visual changes; replace hardcoded strings with translation keys across public and admin. Sets up for Kannada in Milestone 4.

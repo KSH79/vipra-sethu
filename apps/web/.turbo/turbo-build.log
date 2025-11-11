@@ -1,12 +1,13 @@
 
+
 > @app/web@0.1.0 build /Users/koni/Documents/vipra-sethu/apps/web
 > next build
 
-  ▲ Next.js 14.2.5
+  [1m[38;2;173;127;168m▲ Next.js 14.2.5[39m[22m
   - Environments: .env.local
 
-   Creating an optimized production build ...
- ⚠ Compiled with warnings
+ [37m[1m [22m[39m Creating an optimized production build ...
+ [33m[1m⚠[22m[39m Compiled with warnings
 
 ../../node_modules/.pnpm/@opentelemetry+instrumentation@0.204.0_@opentelemetry+api@1.9.0/node_modules/@opentelemetry/instrumentation/build/esm/platform/node/instrumentation.js
 Critical dependency: the request of a dependency is an expression
@@ -62,32 +63,30 @@ Import trace for requested module:
 ../../node_modules/.pnpm/@sentry+nextjs@10.22.0_@opentelemetry+context-async-hooks@2.2.0_@opentelemetry+api@1.9.0__@op_msebhpteyzw5kolgu4thekeypm/node_modules/@sentry/nextjs/build/cjs/index.server.js
 ./app/api/test-sentry-error/route.ts
 
-   Linting and checking validity of types ...
-   Collecting page data ...
-(node:32602) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+[?25l [37m[1m [22m[39m Linting and checking validity of types  [36m.[39m[2K[1G [37m[1m [22m[39m Linting and checking validity of types  [36m..[39m[2K[1G [37m[1m [22m[39m Linting and checking validity of types  [36m...[39m[2K[1G [37m[1m [22m[39m Linting and checking validity of types  [36m.[39m[2K[1G [37m[1m [22m[39m Linting and checking validity of types  [36m..[39m[2K[1G [37m[1m [22m[39m Linting and checking validity of types  [36m...[39m[2K[1G [37m[1m [22m[39m Linting and checking validity of types  [36m.[39m[2K[1G [37m[1m [22m[39m Linting and checking validity of types  [36m..[39m[2K[1G [37m[1m [22m[39m Linting and checking validity of types  [36m...[39m[2K[1G [37m[1m [22m[39m Linting and checking validity of types  [36m.[39m[2K[1G [37m[1m [22m[39m Linting and checking validity of types  [36m..[39m[2K[1G [37m[1m [22m[39m Linting and checking validity of types  [36m...[39m[2K[1G [37m[1m [22m[39m Linting and checking validity of types  [36m.[39m[2K[1G [37m[1m [22m[39m Linting and checking validity of types  [36m..[39m[2K[1G [37m[1m [22m[39m Linting and checking validity of types  [36m...[39m[2K[1G [37m[1m [22m[39m Linting and checking validity of types  [36m.[39m[2K[1G [37m[1m [22m[39m Linting and checking validity of types  [36m..[39m[2K[1G [37m[1m [22m[39m Linting and checking validity of types  [36m...[39m[2K[1G [37m[1m [22m[39m Linting and checking validity of types  [36m.[39m[2K[1G [37m[1m [22m[39m Linting and checking validity of types  [36m..[39m[2K[1G [37m[1m [22m[39m Linting and checking validity of types  [36m...[39m[2K[1G[?25h [37m[1m [22m[39m Linting and checking validity of types     [32m[1m✓[22m[39m Linting and checking validity of types 
+[?25l [37m[1m [22m[39m Collecting page data  [36m.[39m[2K[1G [37m[1m [22m[39m Collecting page data  [36m..[39m(node:33753) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
 (Use `node --trace-deprecation ...` to show where the warning was created)
-(node:32596) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(node:33762) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
 (Use `node --trace-deprecation ...` to show where the warning was created)
-(node:32600) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(node:33758) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
 (Use `node --trace-deprecation ...` to show where the warning was created)
-(node:32601) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(node:33756) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
 (Use `node --trace-deprecation ...` to show where the warning was created)
-(node:32598) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(node:33761) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
 (Use `node --trace-deprecation ...` to show where the warning was created)
-(node:32599) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(node:33757) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
 (Use `node --trace-deprecation ...` to show where the warning was created)
-(node:32597) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(node:33755) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
 (Use `node --trace-deprecation ...` to show where the warning was created)
-(node:32604) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(node:33760) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
 (Use `node --trace-deprecation ...` to show where the warning was created)
-(node:32603) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(node:33759) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
 (Use `node --trace-deprecation ...` to show where the warning was created)
-   Generating static pages (0/40) ...
-   Generating static pages (10/40) 
-API /providers/search error: q [Error]: Dynamic server usage: Route /api/providers/search couldn't be rendered statically because it used `request.url`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
+[2K[1G [37m[1m [22m[39m Collecting page data  [36m...[39m[2K[1G[?25h [37m[1m [22m[39m Collecting page data     [32m[1m✓[22m[39m Collecting page data 
+[?25l [37m[1m [22m[39m Generating static pages (0/40)  [36m[    ][39m[2K[1G [37m[1m [22m[39m Generating static pages (1/40)  [36m[=   ][39mAPI /providers/search error: q [Error]: Dynamic server usage: Route /api/providers/search couldn't be rendered statically because it used `request.url`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
     at W (/Users/koni/Documents/vipra-sethu/node_modules/.pnpm/next@14.2.5_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._mu7p5g73d3ddrcspm6sp2zyruu/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:21106)
     at Object.get (/Users/koni/Documents/vipra-sethu/node_modules/.pnpm/next@14.2.5_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._mu7p5g73d3ddrcspm6sp2zyruu/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:28459)
-    at c (/Users/koni/Documents/vipra-sethu/apps/web/.next/server/app/api/providers/search/route.js:1:1129)
+    at h (/Users/koni/Documents/vipra-sethu/apps/web/.next/server/app/api/providers/search/route.js:1:1638)
     at /Users/koni/Documents/vipra-sethu/node_modules/.pnpm/next@14.2.5_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._mu7p5g73d3ddrcspm6sp2zyruu/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:36264
     at /Users/koni/Documents/vipra-sethu/node_modules/.pnpm/next@14.2.5_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._mu7p5g73d3ddrcspm6sp2zyruu/node_modules/next/dist/server/lib/trace/tracer.js:140:36
     at NoopContextManager.with (/Users/koni/Documents/vipra-sethu/node_modules/.pnpm/@opentelemetry+api@1.9.0/node_modules/@opentelemetry/api/build/src/context/NoopContextManager.js:25:19)
@@ -98,68 +97,67 @@ API /providers/search error: q [Error]: Dynamic server usage: Route /api/provide
   description: "Route /api/providers/search couldn't be rendered statically because it used `request.url`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
   digest: 'DYNAMIC_SERVER_USAGE'
 }
-   Generating static pages (20/40) 
-   Generating static pages (30/40) 
- ✓ Generating static pages (40/40)
-   Finalizing page optimization ...
-   Collecting build traces ...
+[2K[1G [37m[1m [22m[39m Generating static pages (18/40)  [36m[==  ][39m[2K[1G[?25h [32m[1m✓[22m[39m Generating static pages (40/40)
+[?25l [37m[1m [22m[39m Finalizing page optimization  [36m.[39m[?25l [37m[1m [22m[39m Collecting build traces  [36m.[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m..[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m..[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m...[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m...[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m.[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m.[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m..[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m..[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m...[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m...[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m.[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m.[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m..[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m..[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m...[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m...[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m.[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m.[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m..[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m..[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m...[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m...[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m.[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m.[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m..[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m..[39m[2K[1G[?25h [37m[1m [22m[39m Collecting build traces     [32m[1m✓[22m[39m Collecting build traces 
+[2K[1G[?25h [37m[1m [22m[39m Finalizing page optimization     [32m[1m✓[22m[39m Finalizing page optimization 
 
-Route (app)                                        Size     First Load JS
-┌ ƒ /                                              5.79 kB         174 kB
-├ ƒ /_not-found                                    872 B            88 kB
-├ ƒ /about                                         7.88 kB         123 kB
-├ ƒ /admin                                         8.02 kB         123 kB
-├ ƒ /admin/master-data                             943 B           109 kB
-├ ƒ /admin/master-data/categories                  2.34 kB         104 kB
-├ ƒ /admin/master-data/experience-levels           2.49 kB         104 kB
-├ ƒ /admin/master-data/languages                   2.4 kB          104 kB
-├ ƒ /admin/master-data/mapping                     2.35 kB         104 kB
-├ ƒ /admin/master-data/sampradayas                 2.34 kB         104 kB
-├ ƒ /admin/master-data/service-radius              2.4 kB          104 kB
-├ ƒ /admin/master-data/terms                       2.11 kB         104 kB
-├ ƒ /admin/mfa-setup                               2.41 kB         205 kB
-├ ƒ /admin/mfa-verify                              2.07 kB         205 kB
-├ ƒ /api/admin/categories                          0 B                0 B
-├ ƒ /api/admin/master-data/categories              0 B                0 B
-├ ƒ /api/admin/master-data/categories/[code]       0 B                0 B
-├ ƒ /api/admin/master-data/experience-levels       0 B                0 B
-├ ƒ /api/admin/master-data/experience-levels/[id]  0 B                0 B
-├ ƒ /api/admin/master-data/languages               0 B                0 B
-├ ƒ /api/admin/master-data/languages/[code]        0 B                0 B
-├ ƒ /api/admin/master-data/sampradaya-categories   0 B                0 B
-├ ƒ /api/admin/master-data/sampradayas             0 B                0 B
-├ ƒ /api/admin/master-data/sampradayas/[code]      0 B                0 B
-├ ƒ /api/admin/master-data/service-radius          0 B                0 B
-├ ƒ /api/admin/master-data/service-radius/[id]     0 B                0 B
-├ ƒ /api/admin/master-data/terms                   0 B                0 B
-├ ƒ /api/admin/master-data/terms/[id]              0 B                0 B
-├ ○ /api/admin/metrics                             0 B                0 B
-├ ƒ /api/admin/providers                           0 B                0 B
-├ ƒ /api/admin/providers/[id]                      0 B                0 B
-├ ƒ /api/master-data/experience-levels             0 B                0 B
-├ ƒ /api/master-data/languages                     0 B                0 B
-├ ƒ /api/master-data/service-radius                0 B                0 B
-├ ƒ /api/onboard                                   0 B                0 B
-├ ƒ /api/providers/[id]                            0 B                0 B
-├ ƒ /api/providers/search                          0 B                0 B
-├ ƒ /api/test-sentry-error                         0 B                0 B
-├ ƒ /auth/callback                                 0 B                0 B
-├ ƒ /auth/logout                                   0 B                0 B
-├ ƒ /login                                         4.54 kB         150 kB
-├ ƒ /onboard                                       29.6 kB         191 kB
-├ ƒ /providers                                     5.7 kB          152 kB
-├ ƒ /providers/[id]                                13 kB           166 kB
-├ ƒ /providers/debug                               2.31 kB         127 kB
-├ ƒ /test-analytics                                4.19 kB         151 kB
-└ ƒ /test-sentry                                   6.64 kB         101 kB
-+ First Load JS shared by all                      87.1 kB
+[4mRoute (app)[24m                                        [4mSize[24m     [4mFirst Load JS[24m
+┌ ƒ /                                              5.79 kB         [37m[1m174 kB[22m[39m
+├ ƒ /_not-found                                    872 B            [37m[1m88 kB[22m[39m
+├ ƒ /about                                         7.88 kB         [37m[1m123 kB[22m[39m
+├ ƒ /admin                                         8.02 kB         [37m[1m123 kB[22m[39m
+├ ƒ /admin/master-data                             943 B           [37m[1m109 kB[22m[39m
+├ ƒ /admin/master-data/categories                  2.34 kB         [37m[1m104 kB[22m[39m
+├ ƒ /admin/master-data/experience-levels           2.49 kB         [37m[1m104 kB[22m[39m
+├ ƒ /admin/master-data/languages                   2.4 kB          [37m[1m104 kB[22m[39m
+├ ƒ /admin/master-data/mapping                     2.35 kB         [37m[1m104 kB[22m[39m
+├ ƒ /admin/master-data/sampradayas                 2.34 kB         [37m[1m104 kB[22m[39m
+├ ƒ /admin/master-data/service-radius              2.4 kB          [37m[1m104 kB[22m[39m
+├ ƒ /admin/master-data/terms                       2.11 kB         [37m[1m104 kB[22m[39m
+├ ƒ /admin/mfa-setup                               2.41 kB         [37m[1m205 kB[22m[39m
+├ ƒ /admin/mfa-verify                              2.07 kB         [37m[1m205 kB[22m[39m
+├ ƒ /api/admin/categories                          0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/admin/master-data/categories              0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/admin/master-data/categories/[code]       0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/admin/master-data/experience-levels       0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/admin/master-data/experience-levels/[id]  0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/admin/master-data/languages               0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/admin/master-data/languages/[code]        0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/admin/master-data/sampradaya-categories   0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/admin/master-data/sampradayas             0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/admin/master-data/sampradayas/[code]      0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/admin/master-data/service-radius          0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/admin/master-data/service-radius/[id]     0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/admin/master-data/terms                   0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/admin/master-data/terms/[id]              0 B                [37m[1m0 B[22m[39m
+├ ○ /api/admin/metrics                             0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/admin/providers                           0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/admin/providers/[id]                      0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/master-data/experience-levels             0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/master-data/languages                     0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/master-data/service-radius                0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/onboard                                   0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/providers/[id]                            0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/providers/search                          0 B                [37m[1m0 B[22m[39m
+├ ƒ /api/test-sentry-error                         0 B                [37m[1m0 B[22m[39m
+├ ƒ /auth/callback                                 0 B                [37m[1m0 B[22m[39m
+├ ƒ /auth/logout                                   0 B                [37m[1m0 B[22m[39m
+├ ƒ /login                                         4.54 kB         [37m[1m150 kB[22m[39m
+├ ƒ /onboard                                       29.6 kB         [37m[1m191 kB[22m[39m
+├ ƒ /providers                                     5.75 kB         [37m[1m152 kB[22m[39m
+├ ƒ /providers/[id]                                13 kB           [37m[1m166 kB[22m[39m
+├ ƒ /providers/debug                               2.36 kB         [37m[1m127 kB[22m[39m
+├ ƒ /test-analytics                                4.19 kB         [37m[1m151 kB[22m[39m
+└ ƒ /test-sentry                                   6.64 kB         [37m[1m101 kB[22m[39m
++ First Load JS shared by all                      [37m[1m87.1 kB[22m[39m
   ├ chunks/178-2b0087109cc91d34.js                 31.5 kB
   ├ chunks/7d37ea12-282692a144eb93cd.js            53.6 kB
   └ other shared chunks (total)                    1.99 kB
 
 
-ƒ Middleware                                       56.2 kB
+ƒ Middleware                                       [37m[1m56.2 kB[22m[39m
 
 ○  (Static)   prerendered as static content
 ƒ  (Dynamic)  server-rendered on demand
 
+[?25h

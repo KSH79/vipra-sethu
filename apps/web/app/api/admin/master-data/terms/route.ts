@@ -1,11 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabaseServer'
+import { getLocaleFromRequest } from '@/lib/i18n/locale-server'
+import { getTranslation } from '@/lib/translations/db-helpers'
 
 const TABLE = 'terms'
 
 export async function GET(req: NextRequest) {
   try {
     const supabase = await createClient()
+    const locale = getLocaleFromRequest(req)
     const type = req.nextUrl.searchParams.get('type') || undefined
     const includeDeleted = req.nextUrl.searchParams.get('includeDeleted') === 'true'
     const includeInactive = req.nextUrl.searchParams.get('includeInactive') === 'true'
@@ -19,7 +22,13 @@ export async function GET(req: NextRequest) {
 
     const { data, error } = await query
     if (error) throw error
-    return NextResponse.json({ ok: true, data })
+    const rows = (data as any[]) || []
+    const mapped = rows.map((row) => ({
+      ...row,
+      translated_content: getTranslation(row?.content_translations as any, locale) || row?.content,
+      translated_description: getTranslation(row?.description_translations as any, locale) || row?.description,
+    }))
+    return NextResponse.json({ ok: true, data: mapped })
   } catch (e: any) {
     return NextResponse.json({ ok: false, error: e?.message || 'Failed to fetch terms' }, { status: 400 })
   }
