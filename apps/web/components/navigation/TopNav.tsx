@@ -31,6 +31,7 @@ export function TopNav({ isAuthenticated = false }: { isAuthenticated?: boolean 
 
   const navLinks = [
     { href: "/providers", label: tNav("providers") },
+    { href: "/community", label: "Community" },
     { href: "/about", label: tNav("about") },
     { href: "/admin", label: tNav("admin") },
   ];

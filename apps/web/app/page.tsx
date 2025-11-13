@@ -9,13 +9,15 @@ import { CommunityHighlights } from '@/components/landing/CommunityHighlights'
 import { Footer } from '@/components/landing/Footer'
 import { getLandingConfig } from '@/lib/actions/landing-config'
 import { getDailyShloka } from '@/lib/actions/daily-shloka'
+import { getPublishedPostsServer } from '@/lib/posts-server'
 
 export const revalidate = 86400
 
 export default async function LandingPage() {
-  const [config, shloka] = await Promise.all([
+  const [config, shloka, latestPosts] = await Promise.all([
     getLandingConfig(),
-    getDailyShloka()
+    getDailyShloka(),
+    getPublishedPostsServer(undefined, 3)
   ])
 
   return (
@@ -28,7 +30,7 @@ export default async function LandingPage() {
       <WhyVipraSethu />
       <HowItWorks />
       <OurValues />
-      <CommunityHighlights posts={[]} />
+      <CommunityHighlights posts={latestPosts.map(p => ({ id: p.id, title: p.title, type: p.type as any, created_at: p.created_at }))} />
       <Footer />
     </main>
   )
