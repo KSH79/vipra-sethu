@@ -1,7 +1,7 @@
 'use client';
 
 import { DailyShloka as ShlokaType } from '@/lib/types/daily-shloka';
-import { useLocale } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 
 interface DailyShlokaProps {
   shloka: ShlokaType;
@@ -9,6 +9,7 @@ interface DailyShlokaProps {
 
 export function DailyShloka({ shloka }: DailyShlokaProps) {
   const locale = useLocale();
+  const t = useTranslations('landing');
   const translation = (shloka.translations as any)?.[locale] || shloka.translations.en;
 
   const handleShare = () => {
@@ -23,7 +24,7 @@ export function DailyShloka({ shloka }: DailyShlokaProps) {
         <div className="text-center space-y-3 animate-fade-in">
           <h2 className="text-xl md:text-2xl font-semibold text-orange-800 flex items-center justify-center gap-2">
             <span>💫</span>
-            <span>Daily Inspiration</span>
+            <span>{t('dailyInspirationTitle')}</span>
           </h2>
 
           <p className="text-xl md:text-2xl font-semibold text-gray-800" lang="sa">
@@ -40,16 +41,14 @@ export function DailyShloka({ shloka }: DailyShlokaProps) {
             "{translation}"
           </p>
 
-          <p className="text-sm text-gray-600 italic">
-            — {shloka.source}
-          </p>
+          <p className="text-sm text-gray-600 italic">— {shloka.source}</p>
 
           <button
             onClick={handleShare}
             aria-label="Share this wisdom"
             className="mt-4 text-orange-600 hover:text-orange-700 underline text-sm"
           >
-            Share this wisdom →
+            {t('share')}
           </button>
         </div>
       </div>

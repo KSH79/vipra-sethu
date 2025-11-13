@@ -36,44 +36,51 @@ export async function middleware(req: NextRequest) {
     data: { session },
   } = await supabase.auth.getSession()
 
-  // Protect admin routes
-  if (req.nextUrl.pathname.startsWith('/admin')) {
-    if (!session) {
-      // No authenticated user, redirect to login with a RELATIVE redirectTo
-      const loginUrl = new URL('/login', req.url)
-      const relativeNext = req.nextUrl.pathname + req.nextUrl.search
-      loginUrl.searchParams.set('redirectTo', relativeNext || '/')
-      return NextResponse.redirect(loginUrl)
-    }
+  // Route protection
+  const protectedRoutes = ['/home', '/providers', '/admin', '/onboard', '/profile', '/settings']
+  const isProtectedRoute = protectedRoutes.some((p) => req.nextUrl.pathname.startsWith(p))
 
-    // Check if user is an admin
-    const { data: adminData, error } = await supabase
+  if (isProtectedRoute && !session) {
+    const url = new URL('/login', req.url)
+    url.searchParams.set('redirectTo', '/home')
+    return NextResponse.redirect(url)
+  }
+
+  // If logged-in and accessing admin, verify admin role
+  if (req.nextUrl.pathname.startsWith('/admin') && session) {
+    const { data: adminData } = await supabase
       .from('admins')
       .select('user_email')
       .eq('user_email', session.user.email)
       .single()
-
-    if (error || !adminData) {
-      // User is not an admin, redirect to home
-      return NextResponse.redirect(new URL('/', req.url))
+    if (!adminData) {
+      return NextResponse.redirect(new URL('/home', req.url))
     }
-
-    // Check MFA status for admin users
     try {
       const { data: mfaData, error: mfaError } = await supabase.auth.mfa.getAuthenticatorAssuranceLevel()
-      
-      if (!mfaError && mfaData) {
-        // User has MFA enrolled but not verified
-        if (mfaData.currentLevel === 'aal1' && mfaData.nextLevel === 'aal2') {
-          // Redirect to MFA verification page
-          const mfaUrl = new URL('/admin/mfa-verify', req.url)
-          mfaUrl.searchParams.set('redirectTo', req.url)
-          return NextResponse.redirect(mfaUrl)
-        }
+      if (!mfaError && mfaData && mfaData.currentLevel === 'aal1' && mfaData.nextLevel === 'aal2') {
+        const mfaUrl = new URL('/admin/mfa-verify', req.url)
+        mfaUrl.searchParams.set('redirectTo', req.url)
+        return NextResponse.redirect(mfaUrl)
       }
     } catch (err) {
       console.error('Error checking MFA status:', err)
-      // If we can't check MFA status, allow access but log the error
+    }
+  }
+
+  // Onboarding gate: if user logged-in but not completed onboarding, redirect
+  if (session) {
+    const { data: prof } = await supabase
+      .from('profiles')
+      .select('onboarding_completed')
+      .eq('id', session.user.id)
+      .single()
+    const isComplete = prof?.onboarding_completed
+    console.log('[middleware] path=', req.nextUrl.pathname, 'user=', session.user.id, 'onboarding_completed=', isComplete)
+    const isCompletionPage = req.nextUrl.pathname.startsWith('/complete-profile')
+    // Only block when explicitly false; allow when true or unknown
+    if (isComplete === false && !isCompletionPage) {
+      return NextResponse.redirect(new URL('/complete-profile', req.url))
     }
   }
 
@@ -89,6 +96,6 @@ export const config = {
      * - favicon.ico (favicon file)
      * Feel free to modify this pattern to include more paths.
      */
-    '/((?!_next/static|_next/image|favicon.ico).*)',
+    '/((?!_next/static|_next/image|favicon.ico|images|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
   ],
 }

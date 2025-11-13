@@ -26,6 +26,7 @@
     "na": "N/A",
     "toggleMenu": "Toggle menu"
   },
+  
   "auth": {
     "login": {
       "title": "Welcome Back",
@@ -62,6 +63,47 @@
         "returnToLogin": "Return to Login",
         "redirectError": "Verification completed, but failed to redirect. Please try refreshing the page."
       }
+    },
+    "modal": {
+      "close": "Close",
+      "successTitle": "Check your email!",
+      "successDesc": "If the address is registered, you'll receive a magic link shortly.",
+      "successNoteGeneric": "Follow the link in your email to continue.",
+      "gotIt": "Got it!",
+      "createAccount": "Create your account",
+      "welcomeBack": "Welcome back!",
+      "signupHint": "Enter your email and we'll send you a magic link to create your account.",
+      "signinHint": "Enter your email and we'll send you a magic link to sign in.",
+      "emailLabel": "Email address",
+      "emailPlaceholder": "you@example.com",
+      "sending": "Sending...",
+      "send": "Send magic link",
+      "accountExists": "An account already exists with this email. Please sign in.",
+      "signupCheckFailed": "We couldn't verify your email right now. Please try again or use Sign in if you already have an account.",
+      "haveAccount": "Already have an account?",
+      "signIn": "Sign in",
+      "newHere": "New to Vipra Sethu?",
+      "createAccountCta": "Create an account",
+      "errors": { "generic": "Something went wrong" }
+    },
+    "profile": {
+      "welcome": "Welcome to Vipra Sethu! 🙏",
+      "letsComplete": "Let's complete your profile to get started",
+      "firstName": "First Name",
+      "lastName": "Last Name",
+      "city": "City",
+      "phone": "Phone Number",
+      "optional": "optional",
+      "required": "required",
+      "placeholders": {
+        "firstName": "Enter your first name",
+        "lastName": "Enter your last name",
+        "city": "e.g., Bangalore",
+        "phone": "+91 9876543210"
+      },
+      "completeProfile": "Complete Profile",
+      "doLater": "I'll do this later →",
+      "note": "You can always update your profile from Settings"
     }
   },
   "admin": {
@@ -569,6 +611,14 @@
     "copyright": "© 2025 Vipra Sethu. Building community through trust and tradition."
   }
   ,
+  "landing": {
+    "dailyInspirationTitle": "Daily Inspiration",
+    "learnMore": "Learn More",
+    "share": "Share this wisdom →",
+    "pronounced": "Pronounced: \"{value}\"",
+    "meaning": "Meaning: Bridge for the Learned (Vipra = Learned/Brahmin, Sethu = Bridge)"
+  },
+  
   "onboard": {
     "title": "Join Our Community",
     "subtitle": "Become a verified service provider and connect with your community",
