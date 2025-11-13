@@ -125,14 +125,28 @@ do $$ begin
   ) then
     create policy "Users can update own profile" on public.profiles for update using (auth.uid() = id);
   end if;
-  if not exists (
-    select 1 from pg_policies where schemaname='public' and tablename='profiles' and policyname='Admins can read all profiles'
-  ) then
-    create policy "Admins can read all profiles" on public.profiles for select using (
-      exists (select 1 from public.profiles where id = auth.uid() and role = 'admin')
-    );
-  end if;
+  -- Admins read all policy will be recreated below using helper to avoid recursion
 end $$;
+
+-- Helper to evaluate admin role without recursive RLS
+create or replace function public.is_admin(p_uid uuid)
+returns boolean
+language sql
+stable
+security definer
+set search_path = public
+as $$
+  select exists (
+    select 1 from public.profiles pr where pr.id = p_uid and pr.role = 'admin'
+  );
+$$;
+grant execute on function public.is_admin(uuid) to anon, authenticated;
+
+-- Recreate admin read-all policy using helper (avoids recursive self-select)
+drop policy if exists "Admins can read all profiles" on public.profiles;
+create policy "Admins can read all profiles" on public.profiles for select using (
+  public.is_admin(auth.uid())
+);
 
 alter table public.user_preferences enable row level security;
 -- users can manage own preferences

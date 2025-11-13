@@ -1,7 +1,15 @@
+"use client"
 import { useTranslations } from 'next-intl'
+import { useLocale } from 'next-intl'
 
 export function WhyVipraSethu() {
   const t = useTranslations('home')
+  const locale = useLocale()
+  // Debug i18n: remove after verification
+  console.log('[i18n] WhyVipraSethu locale=', locale, {
+    whyTitle: t('why.title'),
+    pillarVerified: t('pillars.verified.title'),
+  })
   const items = [
     { title: t('pillars.verified.title'), desc: t('pillars.verified.desc'), icon: '🔒' },
     { title: t('pillars.community.title'), desc: t('pillars.community.desc'), icon: '🕉️' },
