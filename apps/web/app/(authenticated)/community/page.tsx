@@ -4,6 +4,9 @@ import { EmptyState } from '@/components/ui/EmptyState'
 import { getPublishedPostsServer } from '@/lib/posts-server'
 import type { PostType } from '@/lib/posts'
 import { getTranslations } from 'next-intl/server'
+import dynamic from 'next/dynamic'
+const CreatePostButton = dynamic(() => import('@/components/community/CreatePostButton'), { ssr: false })
+const MyPostsLink = dynamic(() => import('@/components/community/MyPostsLink'), { ssr: false })
 
 export default async function CommunityPage({ searchParams }: { searchParams: { type?: string } }) {
   const t = await getTranslations('community')
@@ -40,9 +43,15 @@ export default async function CommunityPage({ searchParams }: { searchParams: { 
   return (
     <div className="min-h-screen bg-gradient-to-b from-orange-50 to-white">
       <div className="max-w-6xl mx-auto px-4 py-8">
-        <div className="mb-8">
-          <h1 className="text-4xl font-bold text-gray-900 mb-2">{t('title')}</h1>
-          <p className="text-lg text-gray-600">{t('subtitle')}</p>
+        <div className="mb-8 flex items-start justify-between gap-4">
+          <div>
+            <h1 className="text-4xl font-bold text-gray-900 mb-2">{t('title')}</h1>
+            <p className="text-lg text-gray-600">{t('subtitle')}</p>
+          </div>
+          <div className="flex items-center gap-2">
+            <MyPostsLink />
+            <CreatePostButton />
+          </div>
         </div>
 
         <PostTypeChips

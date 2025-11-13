@@ -256,11 +256,18 @@ export default function Admin() {
                 <h1 className="title-large mb-2">{tDash("title")}</h1>
                 <p className="subtitle">{tDash("subtitle")}</p>
               </div>
-              <Link href="/admin/master-data">
-                <Button variant="secondary" size="sm">
-                  {t("masterData.title")}
-                </Button>
-              </Link>
+              <div className="flex items-center gap-2">
+                <Link href="/admin/posts">
+                  <Button size="sm">
+                    Posts
+                  </Button>
+                </Link>
+                <Link href="/admin/master-data">
+                  <Button variant="secondary" size="sm">
+                    {t("masterData.title")}
+                  </Button>
+                </Link>
+              </div>
             </div>
 
             {/* KPI cards */}

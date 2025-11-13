@@ -38,9 +38,85 @@
     "empty": {
       "title": "No posts yet",
       "descAll": "Be the first to share something with the community!",
-      "descType": "No {type} have been posted yet."
+      "descType": "No {type} have been posted yet.",
+      "noPendingPosts": "No pending posts"
     },
-    "error": "Failed to load community posts. Please try again."
+    "error": "Failed to load community posts. Please try again.",
+    "createPost": "Create Post",
+    "myPosts": "My Posts",
+    "postTypes": {
+      "event": "Event",
+      "announcement": "Announcement",
+      "obituary": "Obituary",
+      "resource": "Resource",
+      "request": "Request",
+      "temple": "Temple"
+    },
+    "selectType": "Select Post Type",
+    "cancel": "Cancel",
+    "next": "Next",
+    "saveDraft": "Save Draft",
+    "submitForReview": "Submit for Review",
+    "preview": "Preview",
+    "publish": "Publish",
+    "edit": "Edit",
+    "delete": "Delete",
+    "approve": "Approve",
+    "reject": "Reject",
+    "form": {
+      "title": "Title",
+      "titlePlaceholder": "Enter post title",
+      "body": "Description",
+      "bodyPlaceholder": "Enter detailed description",
+      "selectPlaceholder": "Select...",
+      "tags": "Tags (comma separated)",
+      "tagsPlaceholder": "e.g., puja, temple, event",
+      "languages": "Languages",
+      "location": "Location",
+      "locationPlaceholder": "e.g., Koteshwara, Karnataka",
+      "event": {
+        "venue": "Venue",
+        "venuePlaceholder": "Event location",
+        "startDate": "Start Date & Time",
+        "endDate": "End Date & Time",
+        "organizerName": "Organizer Name",
+        "organizerPhone": "Organizer Phone",
+        "rsvpMethod": "RSVP Method",
+        "ritualContext": "Ritual Context"
+      },
+      "announcement": {
+        "announcementType": "Announcement Type",
+        "contact": "Contact (optional)"
+      },
+      "obituary": {
+        "fullName": "Full Name",
+        "gotra": "Gotra (optional)",
+        "age": "Age (optional)",
+        "dateOfPassing": "Date of Passing",
+        "ritesSchedule": "Rites Schedule",
+        "familyContact": "Family Contact",
+        "consentCheckbox": "I confirm that the family has given consent to post this obituary",
+        "consentRequired": "Family consent is required for obituary posts"
+      }
+    },
+    "status": {
+      "draft": "Draft",
+      "pending": "Pending Review",
+      "approved": "Approved",
+      "published": "Published",
+      "rejected": "Rejected"
+    },
+    "messages": {
+      "draftSaved": "Draft saved successfully",
+      "submittedForReview": "Post submitted for admin review",
+      "published": "Post published successfully",
+      "approved": "Post approved",
+      "rejected": "Post rejected",
+      "deleted": "Post deleted",
+      "noPermission": "You don't have permission to perform this action",
+      "cannotEditApproved": "Cannot edit approved/published posts",
+      "confirmDelete": "Are you sure you want to delete this post?"
+    }
   },
   
   "auth": {
