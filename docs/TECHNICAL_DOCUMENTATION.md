@@ -66,6 +66,19 @@ Note: /api/providers/search uses request.url and is dynamic during build (Next.j
   - It supports an optional `redirectTo` parameter for server-side navigation; the client additionally forces a full page reload to `/home` as a fallback.
   - Middleware logs onboarding gate decisions for troubleshooting.
 
+### Community Posts
+- Schema file: `infra/supabase/26_posts.sql`
+  - Table `public.posts` with fields: `type`, `title`, `body`, arrays `tags`, `languages`, optional `location`, temporal `starts_at/ends_at`, `links`, `media` (jsonb), `meta` (jsonb), workflow fields (`created_by`, `status`, `rejection_reason`, `approved_by`, `approved_at`), timestamps.
+  - Indexes: type/status/created_by/created_at, partial and GIN as applicable.
+  - Trigger updates `updated_at` on UPDATE.
+  - RLS policies use `public.profiles.role` in {'editor','admin'} for insert, and 'admin' for global read/update/delete. Public can `SELECT` only `status='published'`. Authors can `SELECT` own and `UPDATE` own when status in {'draft','pending'}. Authors can `DELETE` own when `status='draft'`.
+  - Seed inserts: event, announcement, obituary.
+
+- Helpers: `apps/web/lib/posts.ts`
+  - `getPublishedPosts(type?, limit=10, offset=0)`
+  - `getPostById(id)`
+  - `getMyPosts(userId)`
+
 ---
 
 ## 1. Database Schema (Supabase)
