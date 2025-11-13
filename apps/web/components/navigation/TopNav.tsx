@@ -31,7 +31,7 @@ export function TopNav({ isAuthenticated = false }: { isAuthenticated?: boolean 
 
   const navLinks = [
     { href: "/providers", label: tNav("providers") },
-    { href: "/community", label: "Community" },
+    { href: "/community", label: tNav("community") },
     { href: "/about", label: tNav("about") },
     { href: "/admin", label: tNav("admin") },
   ];
@@ -107,10 +107,10 @@ export function TopNav({ isAuthenticated = false }: { isAuthenticated?: boolean 
             ) : (
               <div className="flex items-center gap-2">
                 <button onClick={() => { setAuthMode('signin'); setAuthOpen(true); }} className="text-sm text-slate-700 hover:text-saffron">
-                  Sign In
+                  {tNav('signIn')}
                 </button>
                 <button onClick={() => { setAuthMode('signup'); setAuthOpen(true); }} className="text-sm rounded-full bg-saffron text-white px-3 py-1.5 hover:opacity-90">
-                  Sign Up
+                  {tNav('signUp')}
                 </button>
               </div>
             )}

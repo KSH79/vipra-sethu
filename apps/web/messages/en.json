@@ -26,6 +26,22 @@
     "na": "N/A",
     "toggleMenu": "Toggle menu"
   },
+  "community": {
+    "title": "Community",
+    "subtitle": "Stay connected with events, announcements, and updates from our community",
+    "chips": {
+      "all": "All",
+      "event": "Events",
+      "announcement": "Announcements",
+      "obituary": "Obituaries"
+    },
+    "empty": {
+      "title": "No posts yet",
+      "descAll": "Be the first to share something with the community!",
+      "descType": "No {type} have been posted yet."
+    },
+    "error": "Failed to load community posts. Please try again."
+  },
   
   "auth": {
     "login": {
@@ -553,10 +569,13 @@
   "nav": {
     "brand": "Vipra Sethu",
     "providers": "Providers",
+    "community": "Community",
     "about": "About",
     "admin": "Admin",
     "addListing": "Add Listing",
-    "logout": "Logout"
+    "logout": "Logout",
+    "signIn": "Sign In",
+    "signUp": "Sign Up"
   },
   "about": {
     "title": "About Vipra Sethu",
@@ -616,7 +635,29 @@
     "learnMore": "Learn More",
     "share": "Share this wisdom →",
     "pronounced": "Pronounced: \"{value}\"",
-    "meaning": "Meaning: Bridge for the Learned (Vipra = Learned/Brahmin, Sethu = Bridge)"
+    "meaning": "Meaning: Bridge for the Learned (Vipra = Learned/Brahmin, Sethu = Bridge)",
+    "how": {
+      "title": "How It Works",
+      "steps": {
+        "browse": "Browse verified providers",
+        "connect": "Connect via WhatsApp/Call",
+        "book": "Book your ritual or event"
+      }
+    },
+    "values": {
+      "title": "Our Values",
+      "list": [
+        "Trust through verification",
+        "Respect for tradition",
+        "Community first"
+      ]
+    },
+    "communityPreview": {
+      "title": "What's Happening in Our Community",
+      "subtitle": "Stay connected with the latest events and announcements",
+      "empty": "Community content coming soon!",
+      "readMore": "Read More →"
+    }
   },
   
   "onboard": {

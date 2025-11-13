@@ -68,6 +68,36 @@ create trigger update_posts_updated_at
 
 -- Profiles table uses a single role column: 'reader' | 'editor' | 'admin'
 
+-- Helper functions (SECURITY DEFINER) to evaluate roles without triggering recursive RLS
+create or replace function public.is_admin(p_uid uuid)
+returns boolean
+language sql
+stable
+security definer
+set search_path = public
+as $$
+  select exists (
+    select 1 from public.profiles pr
+    where pr.id = p_uid and pr.role = 'admin'
+  );
+$$;
+
+create or replace function public.is_editor_or_admin(p_uid uuid)
+returns boolean
+language sql
+stable
+security definer
+set search_path = public
+as $$
+  select exists (
+    select 1 from public.profiles pr
+    where pr.id = p_uid and pr.role in ('editor','admin')
+  );
+$$;
+
+grant execute on function public.is_admin(uuid) to anon, authenticated;
+grant execute on function public.is_editor_or_admin(uuid) to anon, authenticated;
+
 -- RLS
 alter table posts enable row level security;
 
@@ -88,12 +118,7 @@ drop policy if exists "Editors can create posts" on posts;
 create policy "Editors can create posts"
   on posts for insert
   with check (
-    auth.uid() = created_by and
-    exists (
-      select 1 from public.profiles p
-      where p.id = auth.uid()
-        and p.role in ('editor','admin')
-    )
+    auth.uid() = created_by and public.is_editor_or_admin(auth.uid())
   );
 
 -- Authors can update own drafts/pending
@@ -119,11 +144,7 @@ drop policy if exists "Admins can view all posts" on posts;
 create policy "Admins can view all posts"
   on posts for select
   using (
-    exists (
-      select 1 from public.profiles p
-      where p.id = auth.uid()
-        and p.role = 'admin'
-    )
+    public.is_admin(auth.uid())
   );
 
 -- Admins can update all
@@ -131,11 +152,7 @@ drop policy if exists "Admins can update all posts" on posts;
 create policy "Admins can update all posts"
   on posts for update
   using (
-    exists (
-      select 1 from public.profiles p
-      where p.id = auth.uid()
-        and p.role = 'admin'
-    )
+    public.is_admin(auth.uid())
   );
 
 -- Admins can delete any
@@ -143,11 +160,7 @@ drop policy if exists "Admins can delete any post" on posts;
 create policy "Admins can delete any post"
   on posts for delete
   using (
-    exists (
-      select 1 from public.profiles p
-      where p.id = auth.uid()
-        and p.role = 'admin'
-    )
+    public.is_admin(auth.uid())
   );
 
 -- Seed sample posts (safe guards to avoid duplicate titles on repeated runs)

@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import { Post } from '@/lib/posts'
+import { useTranslations } from 'next-intl'
 
 interface PostCardProps {
   post: Post
@@ -34,8 +35,12 @@ function timeAgo(dateStr: string) {
 }
 
 export default function PostCard({ post }: PostCardProps) {
+  const tc = useTranslations('community')
   const typeColor = TYPE_COLORS[post.type] || 'bg-gray-100 text-gray-800'
   const typeIcon = TYPE_ICONS[post.type] || '📝'
+  const typeLabel = (() => {
+    try { return tc(`chips.${post.type}`) } catch { return post.type.charAt(0).toUpperCase() + post.type.slice(1) }
+  })()
 
   const eventDate = post.starts_at
     ? new Date(post.starts_at).toLocaleDateString('en-IN', {
@@ -52,7 +57,7 @@ export default function PostCard({ post }: PostCardProps) {
       <div className="bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow p-6 cursor-pointer h-full flex flex-col">
         <div className="flex items-center justify-between mb-3">
           <span className={`px-3 py-1 rounded-full text-sm font-medium border ${typeColor}`}>
-            {typeIcon} {post.type.charAt(0).toUpperCase() + post.type.slice(1)}
+            {typeIcon} {typeLabel}
           </span>
           {eventDate && (
             <span className="text-sm font-semibold text-blue-600">{eventDate}</span>

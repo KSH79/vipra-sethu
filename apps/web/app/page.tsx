@@ -11,7 +11,7 @@ import { getLandingConfig } from '@/lib/actions/landing-config'
 import { getDailyShloka } from '@/lib/actions/daily-shloka'
 import { getPublishedPostsServer } from '@/lib/posts-server'
 
-export const revalidate = 86400
+export const dynamic = 'force-dynamic'
 
 export default async function LandingPage() {
   const [config, shloka, latestPosts] = await Promise.all([
