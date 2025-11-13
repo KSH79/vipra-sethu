@@ -16,6 +16,7 @@ export default function CreateObituaryPage() {
   const [saving, setSaving] = useState(false)
   const [consentGiven, setConsentGiven] = useState(false)
   const [allowed, setAllowed] = useState(false)
+  const [consentModal, setConsentModal] = useState(false)
 
   useEffect(() => {
     let mounted = true
@@ -38,8 +39,8 @@ export default function CreateObituaryPage() {
 
   async function handleSubmit(data: any, status: 'draft' | 'pending') {
     if (!consentGiven && status === 'pending') {
-      alert(t('form.obituary.consentRequired'))
-      return
+      setConsentModal(true)
+      return { ok: false, status }
     }
 
     setSaving(true)
@@ -70,12 +71,10 @@ export default function CreateObituaryPage() {
 
       if (error) throw error
 
-      const message = status === 'draft' ? t('messages.draftSaved') : t('messages.submittedForReview')
-      alert(message)
-      router.push('/community/my-posts')
+      return { ok: true, status }
     } catch (e) {
       console.error('Error saving post:', e)
-      alert('Failed to save post')
+      return { ok: false, status }
     } finally {
       setSaving(false)
     }
@@ -97,6 +96,7 @@ export default function CreateObituaryPage() {
   if (!allowed) return null
 
   return (
+    <>
     <div className="min-h-screen bg-gradient-to-b from-orange-50 to-white">
       <div className="max-w-4xl mx-auto px-4 py-8">
         <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-6">
@@ -120,5 +120,14 @@ export default function CreateObituaryPage() {
         />
       </div>
     </div>
+    {consentModal && (
+      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
+        <div className="bg-white rounded-xl shadow-xl p-6 max-w-sm w-full text-center">
+          <p className="text-slate-800 mb-6">{t('form.obituary.consentRequired')}</p>
+          <button onClick={() => setConsentModal(false)} className="px-6 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700">OK</button>
+        </div>
+      </div>
+    )}
+    </>
   )
 }

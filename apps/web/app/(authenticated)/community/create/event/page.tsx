@@ -62,13 +62,10 @@ export default function CreateEventPage() {
       })
 
       if (error) throw error
-
-      const message = status === 'draft' ? t('messages.draftSaved') : t('messages.submittedForReview')
-      alert(message)
-      router.push('/community/my-posts')
+      return { ok: true, status }
     } catch (e) {
       console.error('Error saving post:', e)
-      alert('Failed to save post')
+      return { ok: false, status }
     } finally {
       setSaving(false)
     }

@@ -171,9 +171,8 @@ export default function AdminPostsPage() {
   )
 }
 
-// Modals UI
-// Placed after default export to keep file structure simple
-export function AdminPostsModals({
+// Modals UI (internal component)
+function AdminPostsModals({
   modal,
   onClose,
   reject,

@@ -14,9 +14,10 @@ interface FieldDef {
   options?: FieldOption[]
 }
 
+interface SubmitResult { ok: boolean; status: 'draft' | 'pending' }
 interface PostFormProps {
   fields: FieldDef[]
-  onSubmit: (data: any, status: 'draft' | 'pending') => Promise<void>
+  onSubmit: (data: any, status: 'draft' | 'pending') => Promise<SubmitResult>
   saving: boolean
   initialData?: any
   extraContent?: React.ReactNode
@@ -27,17 +28,20 @@ export default function PostForm({ fields, onSubmit, saving, initialData = {}, e
   const router = useRouter()
   const [formData, setFormData] = useState<any>(initialData)
   const [showPreview, setShowPreview] = useState(false)
+  const [modal, setModal] = useState<{ open: boolean; message: string; status: 'draft'|'pending' } | null>(null)
 
   function handleChange(name: string, value: any) {
     setFormData((prev: any) => ({ ...prev, [name]: value }))
   }
 
   async function handleSaveDraft() {
-    await onSubmit(formData, 'draft')
+    const res = await onSubmit(formData, 'draft')
+    if (res?.ok) setModal({ open: true, message: t('messages.draftSaved'), status: 'draft' })
   }
 
   async function handleSubmit() {
-    await onSubmit(formData, 'pending')
+    const res = await onSubmit(formData, 'pending')
+    if (res?.ok) setModal({ open: true, message: t('messages.submittedForReview'), status: 'pending' })
   }
 
   return (
@@ -122,6 +126,23 @@ export default function PostForm({ fields, onSubmit, saving, initialData = {}, e
             </button>
           </div>
         </>
+      )}
+
+      {modal?.open && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
+          <div className="bg-white rounded-xl shadow-xl p-6 max-w-sm w-full text-center">
+            <p className="text-slate-800 mb-6">{modal.message}</p>
+            <button
+              onClick={() => {
+                setModal(null)
+                router.push('/community/my-posts')
+              }}
+              className="px-6 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700"
+            >
+              OK
+            </button>
+          </div>
+        </div>
       )}
     </div>
   )

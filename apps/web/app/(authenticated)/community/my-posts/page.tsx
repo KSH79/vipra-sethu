@@ -24,10 +24,13 @@ export default function MyPostsPage() {
   const [loading, setLoading] = useState(true)
   const [isAdmin, setIsAdmin] = useState(false)
   const [activeTab, setActiveTab] = useState<'all'|'draft'|'pending'|'approved'|'published'|'rejected'>('all')
+  const [page, setPage] = useState(1)
+  const pageSize = 10
+  const [total, setTotal] = useState(0)
 
   useEffect(() => {
     load()
-  }, [])
+  }, [activeTab, page])
 
   async function load() {
     try {
@@ -41,13 +44,20 @@ export default function MyPostsPage() {
         .single()
       setIsAdmin((profile?.role || '').toLowerCase() === 'admin')
 
-      const { data, error } = await supabase
+      let query = supabase
         .from('posts')
-        .select('*')
+        .select('*', { count: 'exact' })
         .eq('created_by', user.id)
         .order('created_at', { ascending: false })
+      if (activeTab !== 'all') {
+        query = query.eq('status', activeTab)
+      }
+      const from = (page - 1) * pageSize
+      const to = from + pageSize - 1
+      const { data, error, count } = await query.range(from, to)
       if (error) throw error
       setPosts(data as any || [])
+      setTotal(count || 0)
     } catch (e) {
       console.error(e)
     } finally {
@@ -82,7 +92,7 @@ export default function MyPostsPage() {
 
   if (loading) return <div className="p-8">Loading…</div>
 
-  const filtered = activeTab==='all' ? posts : posts.filter(p=>p.status===activeTab)
+  const totalPages = Math.max(1, Math.ceil(total / pageSize))
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-orange-50 to-white">
@@ -90,6 +100,19 @@ export default function MyPostsPage() {
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-3xl font-bold">{t('myPosts')}</h1>
           <Link href="/community/create" className="px-6 py-3 bg-orange-600 text-white rounded-lg hover:bg-orange-700">+ {t('createPost')}</Link>
+        </div>
+
+        {/* Tabs */}
+        <div className="mb-4 flex flex-wrap gap-2">
+          {(['all','draft','pending','approved','published','rejected'] as const).map(tab => (
+            <button
+              key={tab}
+              onClick={() => { setActiveTab(tab); setPage(1) }}
+              className={`px-3 py-1.5 text-sm rounded-lg ${activeTab===tab ? 'bg-orange-600 text-white' : 'bg-white border border-gray-200 text-gray-700 hover:bg-gray-50'}`}
+            >
+              {tab==='all' ? t('all') : t(`status.${tab}`)}
+            </button>
+          ))}
         </div>
 
         {posts.length === 0 ? (
@@ -128,6 +151,15 @@ export default function MyPostsPage() {
                 </div>
               </div>
             ))}
+
+            {/* Pagination */}
+            <div className="flex items-center justify-between pt-2">
+              <span className="text-sm text-slate-600">Page {page} of {totalPages}</span>
+              <div className="flex gap-2">
+                <button className="px-3 py-1.5 border rounded-lg disabled:opacity-50" disabled={page<=1} onClick={()=>setPage(p=>Math.max(1,p-1))}>Prev</button>
+                <button className="px-3 py-1.5 border rounded-lg disabled:opacity-50" disabled={page>=totalPages} onClick={()=>setPage(p=>Math.min(totalPages,p+1))}>Next</button>
+              </div>
+            </div>
           </div>
         )}
       </div>

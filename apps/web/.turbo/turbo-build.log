@@ -63,27 +63,27 @@ Import trace for requested module:
 ../../node_modules/.pnpm/@sentry+nextjs@10.22.0_@opentelemetry+context-async-hooks@2.2.0_@opentelemetry+api@1.9.0__@op_msebhpteyzw5kolgu4thekeypm/node_modules/@sentry/nextjs/build/cjs/index.server.js
 ./app/api/test-sentry-error/route.ts
 
-[?25l [37m[1m [22m[39m Linting and checking validity of types  [36m.[39m[2K[1G [37m[1m [22m[39m Linting and checking validity of types  [36m..[39m[2K[1G [37m[1m [22m[39m Linting and checking validity of types  [36m...[39m[2K[1G [37m[1m [22m[39m Linting and checking validity of types  [36m.[39m[2K[1G [37m[1m [22m[39m Linting and checking validity of types  [36m..[39m[2K[1G [37m[1m [22m[39m Linting and checking validity of types  [36m...[39m[2K[1G [37m[1m [22m[39m Linting and checking validity of types  [36m.[39m[2K[1G [37m[1m [22m[39m Linting and checking validity of types  [36m..[39m[2K[1G [37m[1m [22m[39m Linting and checking validity of types  [36m...[39m[2K[1G [37m[1m [22m[39m Linting and checking validity of types  [36m.[39m[2K[1G [37m[1m [22m[39m Linting and checking validity of types  [36m..[39m[2K[1G [37m[1m [22m[39m Linting and checking validity of types  [36m...[39m[2K[1G [37m[1m [22m[39m Linting and checking validity of types  [36m.[39m[2K[1G [37m[1m [22m[39m Linting and checking validity of types  [36m..[39m[2K[1G [37m[1m [22m[39m Linting and checking validity of types  [36m...[39m[2K[1G [37m[1m [22m[39m Linting and checking validity of types  [36m.[39m[2K[1G [37m[1m [22m[39m Linting and checking validity of types  [36m..[39m[2K[1G [37m[1m [22m[39m Linting and checking validity of types  [36m...[39m[2K[1G [37m[1m [22m[39m Linting and checking validity of types  [36m.[39m[2K[1G [37m[1m [22m[39m Linting and checking validity of types  [36m..[39m[2K[1G [37m[1m [22m[39m Linting and checking validity of types  [36m...[39m[2K[1G [37m[1m [22m[39m Linting and checking validity of types  [36m.[39m[2K[1G [37m[1m [22m[39m Linting and checking validity of types  [36m..[39m[2K[1G[?25h [37m[1m [22m[39m Linting and checking validity of types     [32m[1m✓[22m[39m Linting and checking validity of types 
-[?25l [37m[1m [22m[39m Collecting page data  [36m.[39m[2K[1G [37m[1m [22m[39m Collecting page data  [36m..[39m[2K[1G [37m[1m [22m[39m Collecting page data  [36m...[39m(node:82988) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+[?25l [37m[1m [22m[39m Linting and checking validity of types  [36m.[39m[2K[1G [37m[1m [22m[39m Linting and checking validity of types  [36m..[39m[2K[1G [37m[1m [22m[39m Linting and checking validity of types  [36m...[39m[2K[1G [37m[1m [22m[39m Linting and checking validity of types  [36m.[39m[2K[1G [37m[1m [22m[39m Linting and checking validity of types  [36m..[39m[2K[1G [37m[1m [22m[39m Linting and checking validity of types  [36m...[39m[2K[1G [37m[1m [22m[39m Linting and checking validity of types  [36m.[39m[2K[1G [37m[1m [22m[39m Linting and checking validity of types  [36m..[39m[2K[1G [37m[1m [22m[39m Linting and checking validity of types  [36m...[39m[2K[1G [37m[1m [22m[39m Linting and checking validity of types  [36m.[39m[2K[1G [37m[1m [22m[39m Linting and checking validity of types  [36m..[39m[2K[1G [37m[1m [22m[39m Linting and checking validity of types  [36m...[39m[2K[1G [37m[1m [22m[39m Linting and checking validity of types  [36m.[39m[2K[1G [37m[1m [22m[39m Linting and checking validity of types  [36m..[39m[2K[1G [37m[1m [22m[39m Linting and checking validity of types  [36m...[39m[2K[1G [37m[1m [22m[39m Linting and checking validity of types  [36m.[39m[2K[1G [37m[1m [22m[39m Linting and checking validity of types  [36m..[39m[2K[1G [37m[1m [22m[39m Linting and checking validity of types  [36m...[39m[2K[1G [37m[1m [22m[39m Linting and checking validity of types  [36m.[39m[2K[1G [37m[1m [22m[39m Linting and checking validity of types  [36m..[39m[2K[1G [37m[1m [22m[39m Linting and checking validity of types  [36m...[39m[2K[1G [37m[1m [22m[39m Linting and checking validity of types  [36m.[39m[2K[1G[?25h [37m[1m [22m[39m Linting and checking validity of types     [32m[1m✓[22m[39m Linting and checking validity of types 
+[?25l [37m[1m [22m[39m Collecting page data  [36m.[39m[2K[1G [37m[1m [22m[39m Collecting page data  [36m..[39m(node:92392) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
 (Use `node --trace-deprecation ...` to show where the warning was created)
-(node:82990) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(node:92390) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
 (Use `node --trace-deprecation ...` to show where the warning was created)
-(node:82987) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(node:92391) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
 (Use `node --trace-deprecation ...` to show where the warning was created)
-(node:82991) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(node:92393) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
 (Use `node --trace-deprecation ...` to show where the warning was created)
-(node:82989) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(node:92398) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
 (Use `node --trace-deprecation ...` to show where the warning was created)
-(node:82986) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(node:92395) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
 (Use `node --trace-deprecation ...` to show where the warning was created)
-(node:82985) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(node:92394) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
 (Use `node --trace-deprecation ...` to show where the warning was created)
-(node:82992) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(node:92399) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
 (Use `node --trace-deprecation ...` to show where the warning was created)
-(node:82993) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(node:92397) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
 (Use `node --trace-deprecation ...` to show where the warning was created)
-[2K[1G[?25h [37m[1m [22m[39m Collecting page data     [32m[1m✓[22m[39m Collecting page data 
-[?25l [37m[1m [22m[39m Generating static pages (0/50)  [36m[    ][39m[2K[1G [37m[1m [22m[39m Generating static pages (11/50)  [36m[=   ][39mAPI /providers/search error: q [Error]: Dynamic server usage: Route /api/providers/search couldn't be rendered statically because it used `request.url`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
+[2K[1G [37m[1m [22m[39m Collecting page data  [36m...[39m[2K[1G[?25h [37m[1m [22m[39m Collecting page data     [32m[1m✓[22m[39m Collecting page data 
+[?25l [37m[1m [22m[39m Generating static pages (0/50)  [36m[    ][39m[2K[1G [37m[1m [22m[39m Generating static pages (0/50)  [36m[=   ][39mAPI /providers/search error: q [Error]: Dynamic server usage: Route /api/providers/search couldn't be rendered statically because it used `request.url`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
     at W (/Users/koni/Documents/vipra-sethu/node_modules/.pnpm/next@14.2.5_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._mu7p5g73d3ddrcspm6sp2zyruu/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:21106)
     at Object.get (/Users/koni/Documents/vipra-sethu/node_modules/.pnpm/next@14.2.5_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._mu7p5g73d3ddrcspm6sp2zyruu/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:28459)
     at h (/Users/koni/Documents/vipra-sethu/apps/web/.next/server/app/api/providers/search/route.js:1:1638)
@@ -97,15 +97,15 @@ Import trace for requested module:
   description: "Route /api/providers/search couldn't be rendered statically because it used `request.url`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
   digest: 'DYNAMIC_SERVER_USAGE'
 }
-[2K[1G [37m[1m [22m[39m Generating static pages (20/50)  [36m[==  ][39m[2K[1G [37m[1m [22m[39m Generating static pages (47/50)  [36m[=== ][39m[2K[1G [37m[1m [22m[39m Generating static pages (47/50)  [36m[ ===][39m[2K[1G[?25h [32m[1m✓[22m[39m Generating static pages (50/50)
-[?25l [37m[1m [22m[39m Finalizing page optimization  [36m.[39m[?25l [37m[1m [22m[39m Collecting build traces  [36m.[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m..[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m..[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m...[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m...[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m.[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m.[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m..[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m..[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m...[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m...[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m.[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m.[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m..[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m..[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m...[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m...[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m.[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m.[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m..[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m..[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m...[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m...[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m.[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m.[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m..[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m..[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m...[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m...[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m.[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m.[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m..[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m..[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m...[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m...[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m.[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m.[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m..[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m..[39m[2K[1G[?25h [37m[1m [22m[39m Collecting build traces     [32m[1m✓[22m[39m Collecting build traces 
+[2K[1G [37m[1m [22m[39m Generating static pages (20/50)  [36m[==  ][39m[2K[1G [37m[1m [22m[39m Generating static pages (38/50)  [36m[=== ][39m[2K[1G [37m[1m [22m[39m Generating static pages (49/50)  [36m[ ===][39m[2K[1G[?25h [32m[1m✓[22m[39m Generating static pages (50/50)
+[?25l [37m[1m [22m[39m Finalizing page optimization  [36m.[39m[?25l [37m[1m [22m[39m Collecting build traces  [36m.[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m..[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m..[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m...[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m...[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m.[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m.[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m..[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m..[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m...[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m...[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m.[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m.[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m..[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m..[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m...[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m...[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m.[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m.[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m..[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m..[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m...[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m...[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m.[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m.[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m..[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m..[39m[2K[1G[?25h [37m[1m [22m[39m Collecting build traces     [32m[1m✓[22m[39m Collecting build traces 
 [2K[1G[?25h [37m[1m [22m[39m Finalizing page optimization     [32m[1m✓[22m[39m Finalizing page optimization 
 
 [4mRoute (app)[24m                                        [4mSize[24m     [4mFirst Load JS[24m
-┌ ƒ /                                              3.94 kB         [37m[1m156 kB[22m[39m
+┌ ƒ /                                              3.94 kB         [37m[1m155 kB[22m[39m
 ├ ƒ /_not-found                                    876 B            [37m[1m88 kB[22m[39m
 ├ ƒ /about                                         7.92 kB         [37m[1m123 kB[22m[39m
-├ ƒ /admin                                         8.5 kB          [37m[1m124 kB[22m[39m
+├ ƒ /admin                                         8.52 kB         [37m[1m124 kB[22m[39m
 ├ ƒ /admin/master-data                             969 B           [37m[1m109 kB[22m[39m
 ├ ƒ /admin/master-data/categories                  2.35 kB         [37m[1m104 kB[22m[39m
 ├ ƒ /admin/master-data/experience-levels           2.5 kB          [37m[1m104 kB[22m[39m
@@ -114,9 +114,9 @@ Import trace for requested module:
 ├ ƒ /admin/master-data/sampradayas                 2.35 kB         [37m[1m104 kB[22m[39m
 ├ ƒ /admin/master-data/service-radius              2.4 kB          [37m[1m104 kB[22m[39m
 ├ ƒ /admin/master-data/terms                       2.11 kB         [37m[1m104 kB[22m[39m
-├ ƒ /admin/mfa-setup                               2.43 kB         [37m[1m206 kB[22m[39m
-├ ƒ /admin/mfa-verify                              2.08 kB         [37m[1m205 kB[22m[39m
-├ ƒ /admin/posts                                   1.28 kB         [37m[1m142 kB[22m[39m
+├ ƒ /admin/mfa-setup                               2.42 kB         [37m[1m205 kB[22m[39m
+├ ƒ /admin/mfa-verify                              2.07 kB         [37m[1m205 kB[22m[39m
+├ ƒ /admin/posts                                   2.1 kB          [37m[1m141 kB[22m[39m
 ├ ƒ /api/admin/categories                          0 B                [37m[1m0 B[22m[39m
 ├ ƒ /api/admin/master-data/categories              0 B                [37m[1m0 B[22m[39m
 ├ ƒ /api/admin/master-data/categories/[code]       0 B                [37m[1m0 B[22m[39m
@@ -144,20 +144,20 @@ Import trace for requested module:
 ├ ƒ /api/test-sentry-error                         0 B                [37m[1m0 B[22m[39m
 ├ ƒ /auth/callback                                 0 B                [37m[1m0 B[22m[39m
 ├ ƒ /auth/logout                                   0 B                [37m[1m0 B[22m[39m
-├ ƒ /community                                     2.04 kB         [37m[1m149 kB[22m[39m
+├ ƒ /community                                     2.51 kB         [37m[1m148 kB[22m[39m
 ├ ƒ /community/[id]                                179 B          [37m[1m94.1 kB[22m[39m
-├ ƒ /community/create                              1.33 kB         [37m[1m142 kB[22m[39m
-├ ƒ /community/create/announcement                 2.11 kB         [37m[1m143 kB[22m[39m
-├ ƒ /community/create/event                        2.14 kB         [37m[1m143 kB[22m[39m
-├ ƒ /community/create/obituary                     2.42 kB         [37m[1m143 kB[22m[39m
-├ ƒ /community/my-posts                            1.5 kB          [37m[1m149 kB[22m[39m
+├ ƒ /community/create                              1.66 kB         [37m[1m141 kB[22m[39m
+├ ƒ /community/create/announcement                 2.48 kB         [37m[1m142 kB[22m[39m
+├ ƒ /community/create/event                        2.61 kB         [37m[1m142 kB[22m[39m
+├ ƒ /community/create/obituary                     2.92 kB         [37m[1m142 kB[22m[39m
+├ ƒ /community/my-posts                            2.08 kB         [37m[1m148 kB[22m[39m
 ├ ƒ /complete-profile                              1.63 kB         [37m[1m103 kB[22m[39m
 ├ ƒ /home                                          5.82 kB         [37m[1m174 kB[22m[39m
-├ ƒ /login                                         4.55 kB         [37m[1m151 kB[22m[39m
+├ ƒ /login                                         4.54 kB         [37m[1m150 kB[22m[39m
 ├ ƒ /onboard                                       29.6 kB         [37m[1m191 kB[22m[39m
-├ ƒ /providers                                     5.79 kB         [37m[1m152 kB[22m[39m
+├ ƒ /providers                                     5.78 kB         [37m[1m152 kB[22m[39m
 ├ ƒ /providers/[id]                                7.86 kB         [37m[1m166 kB[22m[39m
-├ ƒ /providers/debug                               2.37 kB         [37m[1m128 kB[22m[39m
+├ ƒ /providers/debug                               2.36 kB         [37m[1m127 kB[22m[39m
 ├ ƒ /test-analytics                                4.19 kB         [37m[1m151 kB[22m[39m
 └ ƒ /test-sentry                                   6.64 kB         [37m[1m101 kB[22m[39m
 + First Load JS shared by all                      [37m[1m87.1 kB[22m[39m
