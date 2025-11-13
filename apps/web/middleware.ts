@@ -68,19 +68,23 @@ export async function middleware(req: NextRequest) {
     }
   }
 
-  // Onboarding gate: if user logged-in but not completed onboarding, redirect
+  // Onboarding gate and landing redirect for authenticated users
   if (session) {
     const { data: prof } = await supabase
       .from('profiles')
       .select('onboarding_completed')
       .eq('id', session.user.id)
       .single()
-    const isComplete = prof?.onboarding_completed
+    const isComplete = prof?.onboarding_completed as boolean | undefined
     console.log('[middleware] path=', req.nextUrl.pathname, 'user=', session.user.id, 'onboarding_completed=', isComplete)
     const isCompletionPage = req.nextUrl.pathname.startsWith('/complete-profile')
     // Only block when explicitly false; allow when true or unknown
     if (isComplete === false && !isCompletionPage) {
       return NextResponse.redirect(new URL('/complete-profile', req.url))
+    }
+    // If authenticated and on public landing, send to /home (unless onboarding incomplete)
+    if (req.nextUrl.pathname === '/' && isComplete !== false) {
+      return NextResponse.redirect(new URL('/home', req.url))
     }
   }
 

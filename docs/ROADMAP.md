@@ -2,7 +2,7 @@
 
 ## Vipra Sethu development plan and task tracking
 
-**Last Updated:** 10-Nov-2025 (Admin Dashboard + Onboarding i18n fixes)
+**Last Updated:** 13-Nov-2025 (Community posts workflow UI + Admin posts tabs)
 
 ---
 
@@ -431,7 +431,7 @@ Next: Phase 2 — next-intl setup, project structure, language selector, and str
 
 - [ ] **Complete authentication integration** - Critical foundation that blocks all protected features and admin functionality
 - [x] **Implement photo upload with signed URLs** - Essential for provider profiles, builds trust and enables visual verification
-- [ ] **Build admin approval/rejection workflow** - Core business process needed for quality control and platform safety
+- [x] **Build admin approval/rejection workflow** - Core business process needed for quality control and platform safety
 - [ ] **Deploy to Vercel production** - Required for real user testing and feedback collection before launch
 - [x] **Add comprehensive error states and loading spinners** - Dramatically improves user experience during authentication and file uploads
 - [ ] **Implement admin audit logging** - Essential for security, compliance, and tracking all provider approval decisions
@@ -948,6 +948,13 @@ This builds trust and helps others choose better providers.
 
 ### 12-Nov-2025
 - Public landing implemented at `/` with above-the-fold (Hero, Daily Inspiration, Pronunciation, Why).
+### 13-Nov-2025
+- Community posts workflow UI implemented: create flow (event/announcement/obituary), role guards, i18n
+- My Posts page added with status filters and Create link; Community header shows My Posts and + Post (role-gated)
+- Admin posts page: split Approve vs Publish; added tabs (Pending/Approved/Published/Rejected) with modal confirmations
+- Middleware: redirect authenticated users from `/` to `/home`; cookie compatibility fixes (createBrowserClient)
+
+Recommended next task: Add pagination to My Posts and Admin Posts lists for scale, and replace remaining alert prompts in create forms with in-app modals. This improves UX consistency and performance as content grows.
 - Auth & Onboarding fixes:
   - Fixed profile submit 500 caused by RLS policy recursion by switching to Supabase Admin `upsert` on `profiles`.
   - After save, revalidate `/`, `/home`, `/complete-profile` to prevent stale UI.
