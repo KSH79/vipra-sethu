@@ -7,6 +7,7 @@ import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
 import { useTranslations } from "next-intl";
 import { LanguageSelector } from "@/components/LanguageSelector";
+import { AuthModal } from "@/components/auth/AuthModal";
 
 /**
  * Top navigation bar with logo, search, and links
@@ -15,6 +16,8 @@ export function TopNav({ isAuthenticated = false }: { isAuthenticated?: boolean 
   const pathname = usePathname();
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [authOpen, setAuthOpen] = useState(false);
+  const [authMode, setAuthMode] = useState<'signup' | 'signin'>('signin');
   const tNav = useTranslations("nav");
   const tCommon = useTranslations("common");
 
@@ -91,7 +94,7 @@ export function TopNav({ isAuthenticated = false }: { isAuthenticated?: boolean 
             >
               {tNav("addListing")}
             </Link>
-            {isAuthenticated && (
+            {isAuthenticated ? (
               <form action="/auth/logout" method="post">
                 <button
                   type="submit"
@@ -100,6 +103,15 @@ export function TopNav({ isAuthenticated = false }: { isAuthenticated?: boolean 
                   {tNav("logout")}
                 </button>
               </form>
+            ) : (
+              <div className="flex items-center gap-2">
+                <button onClick={() => { setAuthMode('signin'); setAuthOpen(true); }} className="text-sm text-slate-700 hover:text-saffron">
+                  Sign In
+                </button>
+                <button onClick={() => { setAuthMode('signup'); setAuthOpen(true); }} className="text-sm rounded-full bg-saffron text-white px-3 py-1.5 hover:opacity-90">
+                  Sign Up
+                </button>
+              </div>
             )}
             <LanguageSelector />
           </nav>
@@ -140,7 +152,7 @@ export function TopNav({ isAuthenticated = false }: { isAuthenticated?: boolean 
               >
                 {tNav("addListing")}
               </Link>
-              {isAuthenticated && (
+              {isAuthenticated ? (
                 <form action="/auth/logout" method="post">
                   <button
                     type="submit"
@@ -150,11 +162,21 @@ export function TopNav({ isAuthenticated = false }: { isAuthenticated?: boolean 
                     {tNav("logout")}
                   </button>
                 </form>
+              ) : (
+                <div className="flex gap-3">
+                  <button className="px-3 py-2 rounded-md text-sm font-medium text-slate-600 hover:bg-sandstone/10" onClick={() => { setAuthMode('signin'); setAuthOpen(true); setMobileMenuOpen(false); }}>
+                    Sign In
+                  </button>
+                  <button className="px-3 py-2 rounded-md text-sm font-medium bg-saffron text-white" onClick={() => { setAuthMode('signup'); setAuthOpen(true); setMobileMenuOpen(false); }}>
+                    Sign Up
+                  </button>
+                </div>
               )}
             </nav>
           </div>
         )}
       </div>
+      <AuthModal isOpen={authOpen} onClose={() => setAuthOpen(false)} mode={authMode} redirectTo={pathname || '/home'} variant="panelRight" />
     </header>
   );
 }

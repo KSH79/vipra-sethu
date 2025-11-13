@@ -1,13 +1,16 @@
+import { useTranslations } from 'next-intl'
+
 export function WhyVipraSethu() {
+  const t = useTranslations('home')
   const items = [
-    { title: 'Verified', desc: 'Background-checked providers', icon: '🔒' },
-    { title: 'Community-Aligned', desc: 'Values match traditions', icon: '🕉️' },
-    { title: 'Quality-Focused', desc: 'Experienced professionals', icon: '⭐' },
+    { title: t('pillars.verified.title'), desc: t('pillars.verified.desc'), icon: '🔒' },
+    { title: t('pillars.community.title'), desc: t('pillars.community.desc'), icon: '🕉️' },
+    { title: t('pillars.quality.title'), desc: t('pillars.quality.desc'), icon: '⭐' },
   ]
   return (
     <section className="py-8">
       <div className="container mx-auto px-4">
-        <h2 className="text-xl md:text-2xl font-bold text-center mb-6">Why Vipra Sethu</h2>
+        <h2 className="text-xl md:text-2xl font-bold text-center mb-6">{t('why.title')}</h2>
         <div className="grid md:grid-cols-3 gap-4">
           {items.map((i) => (
             <div key={i.title} className="rounded-xl border bg-white p-4 text-center shadow-sm">

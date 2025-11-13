@@ -1,8 +1,12 @@
+"use client"
 import Image from 'next/image'
 import Link from 'next/link'
+import { useState } from 'react'
 import { LandingConfig } from '@/lib/types/landing'
+import { AuthModal } from '@/components/auth/AuthModal'
 
 export function Hero({ config }: { config: LandingConfig }) {
+  const [authOpen, setAuthOpen] = useState(false)
   return (
     <section className="relative min-h-[55vh] md:min-h-[65vh] flex items-center justify-center overflow-hidden">
       <div className="absolute inset-0">
@@ -26,12 +30,13 @@ export function Hero({ config }: { config: LandingConfig }) {
           <Link href="/providers" className="px-6 py-3 rounded-md bg-[#FF9933] hover:bg-[#e9892d] text-white font-semibold">
             {config.cta_primary_text}
           </Link>
-          <Link href="/signup" className="px-6 py-3 rounded-md border border-white/70 text-white hover:bg-white/10 font-semibold">
+          <button onClick={() => setAuthOpen(true)} className="px-6 py-3 rounded-md border border-white/70 text-white hover:bg-white/10 font-semibold">
             {config.cta_secondary_text}
-          </Link>
+          </button>
           <a href="#daily-shloka" className="text-white/90 underline hover:text-white">Learn More</a>
         </div>
       </div>
+      <AuthModal isOpen={authOpen} onClose={() => setAuthOpen(false)} mode="signup" redirectTo="/home" variant="panelRight" />
     </section>
   )
 }

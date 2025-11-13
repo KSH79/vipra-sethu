@@ -941,3 +941,21 @@ This builds trust and helps others choose better providers.
 ---
 
 **Remember:** This roadmap is a guide, not a contract. Priorities shift based on user feedback and real-world needs. Update regularly and communicate changes to the team.
+
+---
+
+## Changelog
+
+### 12-Nov-2025
+- Public landing implemented at `/` with above-the-fold (Hero, Daily Inspiration, Pronunciation, Why).
+- Auth & Onboarding fixes:
+  - Fixed profile submit 500 caused by RLS policy recursion by switching to Supabase Admin `upsert` on `profiles`.
+  - After save, revalidate `/`, `/home`, `/complete-profile` to prevent stale UI.
+  - Ensured navigation to `/home` after completion via server-side redirect support and client full reload fallback.
+  - Middleware onboarding gate adjusted to redirect only when `onboarding_completed === false` (avoid loops when value is unknown) and added diagnostics logging.
+- Fixed landing i18n key resolution in DailyShloka by switching to `landing` namespace; added Kannada `landing` keys.
+- Implemented distinct Sign Up vs Sign In flows in AuthModal using Supabase magic links with non-enumerating messaging.
+- Previous landing content moved to authenticated `/home` under `app/(authenticated)`.
+- Daily Shloka feature added: `daily_shlokas` table + `get_daily_shloka` RPC.
+- `landing_config` table added for DB-configurable hero and CTAs.
+- All new SQL managed under `infra/supabase` (22_landing_config.sql, 23_daily_shlokas.sql, 24_landing_config_updates.sql).

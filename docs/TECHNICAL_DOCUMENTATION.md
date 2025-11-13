@@ -1,6 +1,6 @@
 # Vipra Sethu — Technical Documentation
 
-Last updated: 2025-11-11
+Last updated: 2025-11-12
 
 ## 0. Pages (relative to Home "/")
 - **/** — Home
@@ -27,6 +27,7 @@ Last updated: 2025-11-11
 - **/admin/mfa-verify** — Admin MFA verify
 - **/auth/callback** — Auth callback handler
 - **/auth/logout** — Logout handler
+- **/api/auth/check-email** — Server-side check if a user exists by email (uses Supabase service role; returns { exists })
 - **/test-analytics** — Analytics test page
 - **/test-sentry** — Sentry test page
 - **/_not-found** — 404 page
@@ -43,6 +44,27 @@ API routes (App Router):
 - **/api/test-sentry-error** — Sentry error test
 
 Note: /api/providers/search uses request.url and is dynamic during build (Next.js warns during SSG), but functions as on-demand server-rendered route at runtime.
+
+---
+
+## 3.1 Update (2025-11-12)
+
+- DailyShloka i18n
+  - Switched component to use `landing` namespace for keys like `dailyInspirationTitle` and `share`.
+  - Added missing Kannada `landing` keys so localized strings render correctly.
+
+- Auth modal flows (Supabase email)
+  - Single component supports two distinct journeys:
+    - Signup: uses `auth.signInWithOtp` with `shouldCreateUser = true`.
+    - Signin: uses `auth.signInWithOtp` with `shouldCreateUser = false`.
+  - Non-enumerating UX: success screen and copy do not reveal whether an email is registered.
+  - Panel variant retained (`variant="panelRight"`).
+
+- Profile completion flow
+  - Server action `updateProfile` now uses a Supabase Admin client to `upsert` into `profiles` with `onConflict: 'id'` to avoid RLS policy recursion.
+  - After saving, it calls `revalidatePath('/')`, `/home`, and `/complete-profile` to prevent stale UI.
+  - It supports an optional `redirectTo` parameter for server-side navigation; the client additionally forces a full page reload to `/home` as a fallback.
+  - Middleware logs onboarding gate decisions for troubleshooting.
 
 ---
 
@@ -224,6 +246,10 @@ Key directories under apps/web:
 - **Authentication flow**
   - Supabase Auth (magic link). Login page constructs emailRedirectTo using window.location.origin. Auth callback validates same-origin redirect and finalizes session.
   - Middleware guards admin routes; redirects via new URL('/login', req.url) etc. (origin-safe).
+  - Signup UX: Before sending magic link, client calls `/api/auth/check-email`.
+    - If exists → show `accountExists` message and do not send email.
+    - If not exists → send magic link with `shouldCreateUser = true`.
+  - Signin UX: Always uses `shouldCreateUser = false` and neutral success copy (non-enumerating).
 
 - **API route structure**
   - Admin APIs: /api/admin/providers, /api/admin/providers/[id], /api/admin/categories, /api/admin/metrics
